@@ -31,5 +31,14 @@ public class User  {
 	public void addNewMessage(String message) {
 		messages.addFirst(message);
 	}
+	public void ChangeToGuesser() {
+		status = Role.Guesser;
+	}
+	public void ChangeToPainter() {
+		status = Role.Painter;
+	}
+	public void ChangeToWinner() {
+		status = Role.Winner;
+	}
 }
 
