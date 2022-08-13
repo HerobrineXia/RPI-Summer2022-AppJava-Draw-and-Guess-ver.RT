@@ -1,1 +1,6 @@
+# Config File
 Config.cfg
+
+# Build File
+/bin/
+/docs/
