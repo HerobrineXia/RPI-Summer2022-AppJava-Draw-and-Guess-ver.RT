@@ -1,4 +1,4 @@
-package main.java;
+package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess;
 
 // import main.java.control.GameControl;
 
