@@ -1,0 +1,2 @@
+INDEX VERSION 1.131+C:\Users\JAM_0\OneDrive - Rensselaer Polytechnic Institute\Lecture Related\CSCI 4963\6. project\RPI-Summer2022-AppJava-Project\.metadata\.plugins\org.eclipse.jdt.core
+1865797976.index
