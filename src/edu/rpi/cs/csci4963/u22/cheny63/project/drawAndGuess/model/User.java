@@ -1,6 +1,9 @@
-package main.java.model;
+package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model;
 
-import java.util.*;
+import java.util.LinkedList;
+
+
+
 
 
 public class User  {
@@ -41,4 +44,3 @@ public class User  {
 		status = Role.Winner;
 	}
 }
-
