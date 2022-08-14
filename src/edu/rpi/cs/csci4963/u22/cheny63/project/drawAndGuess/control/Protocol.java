@@ -43,7 +43,7 @@ public class Protocol {
 		StringBuilder response = new StringBuilder("%s%s%s%s%d".formatted("EVENT",SEPARATOR,"LEFT",SEPARATOR,id));
 		return response.toString();
 	}
-	public String userJoinServerEvent(int id, String name) {
+	public String userJoinServerEvent(String name) {
 		StringBuilder response = new StringBuilder("%s%s%s%s%s"
 				+ "+".formatted("EVENT",SEPARATOR,"JOIN_SERVER",SEPARATOR,name));
 		return response.toString();
