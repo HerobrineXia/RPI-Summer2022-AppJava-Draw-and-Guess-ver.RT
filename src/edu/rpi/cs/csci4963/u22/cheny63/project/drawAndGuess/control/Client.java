@@ -27,6 +27,7 @@ public class Client implements Runnable{
 	private OutputStream outStream;
 	private BufferedReader in;
 	private PrintWriter out;
+	private Protocol protocol;
 
 	// Logger
 	private Logger log;	
@@ -37,10 +38,11 @@ public class Client implements Runnable{
 	 * @param port the port
 	 * @param log the logger
 	 */
-    public Client(String address, int port, Logger log){
+    public Client(String address, int port, Logger log, Protocol protocol){
 		this.address = address;
 		this.port = port;
 		this.log = log;
+		this.protocol = protocol;
     }
 
 	public String getAddress(){
@@ -136,19 +138,7 @@ public class Client implements Runnable{
 			// Receive the message
             message = receive();
 			if(message != null){
-				// Receive the respond and remove the command from list
-				if(message.startsWith("respond")){
-					// for(int i = 0; i < commandList.size(); ++i){
-					// 	if(message.endsWith(commandList.get(i))){
-					// 		commandList.remove(i);
-					// 		i = commandList.size();
-					// 	}
-					// }
-				// Try to process the command and send the respond
-				}else{
-					// respond = protocol.process(message);
-					// send(respond);
-				}
+				protocol.process(message);
 			}else{
 				break;
             }

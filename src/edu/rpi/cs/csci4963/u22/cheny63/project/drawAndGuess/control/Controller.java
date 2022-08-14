@@ -124,6 +124,10 @@ public class Controller{
         return config.getName();
     }
 
+    public Protocol getProtocol(){
+        return protocol;
+    }
+
     public boolean isServer(){
         return isServer;
     }
@@ -148,7 +152,7 @@ public class Controller{
 
     private void startClient(String address, int port){
         model = new ClientModel(log);
-        client = new Client(address, port, log);
+        client = new Client(address, port, log, protocol);
         network = new Thread(client);
         isServer = false;
         network.start();

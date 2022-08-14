@@ -140,7 +140,7 @@ public class Server implements Runnable{
                     socketList.put(currentId, accept);
                     ++currentId;
                 }
-                Thread thread = new Thread(new ServerThread(accept, log, this));
+                Thread thread = new Thread(new ServerThread(accept, log, this, controller.getProtocol()));
                 threadList.add(thread);
                 thread.start();
             }catch(IOException e){
