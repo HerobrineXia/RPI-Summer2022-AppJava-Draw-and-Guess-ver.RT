@@ -1,6 +1,7 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -10,6 +11,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -20,6 +22,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -51,8 +54,6 @@ class startGameBackground extends JPanel {
 public class StartGameFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
 	// param for setting maximum size
-	private GraphicsEnvironment graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
-	private GraphicsDevice device = graphics.getDefaultScreenDevice();
 	private Action actionExit;
 	private Action actionHost;
 	private Action actionClient;
@@ -62,8 +63,9 @@ public class StartGameFrame extends JFrame{
 		this.actionExit = new AbstractAction("Exit") {
 			private static final long serialVersionUID = 1L;
 			public void actionPerformed(ActionEvent e) {
-				// controller.onClosing();
-                System.exit(0);
+				if (JOptionPane.showConfirmDialog(StartGameFrame.this, "Do you want to quit?", 
+				    "Are you sure", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) 
+					System.exit(0);
 			}
 		};
 		this.actionHost = new AbstractAction("Host") {
@@ -80,17 +82,31 @@ public class StartGameFrame extends JFrame{
 		};
 			
 	}
+	
+	private void initCursorStrategy() {
+		java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
+		Image image = ImageUtility.resizeIcon(toolkit.getImage("./res/gui/cursor/normal.png"), new Dimension(10, 10));
+		Cursor newCursor = toolkit.createCustomCursor(image , new Point(this.getX(),this.getY()), "");
+		this.setCursor (newCursor);
+	}
+	
+	
 	/**
 	 * main GUI generation function
 	 * @throws IOException 
 	 * @throws FontFormatException 
 	 */
 	private void generateGUI() throws FontFormatException, IOException {
+		// set full screen
+		GraphicsEnvironment graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice device = graphics.getDefaultScreenDevice();
+        
 		// get current window size and basic background
 		this.getContentPane().add(new startGameBackground("./res/gui/startGameScreen/bg.png", 
 				                  Toolkit.getDefaultToolkit().getScreenSize()));
 		
 		initAction();
+		initCursorStrategy();
 		// start arrange
 		this.setBackground(new Color(32, 130, 147));
 		JPanel operations = new JPanel();
@@ -113,13 +129,14 @@ public class StartGameFrame extends JFrame{
 		
 		this.add(operations);
         //Display the window.       
-		device.setFullScreenWindow(this);
+		// device.setFullScreenWindow(this);
 		this.setLocationRelativeTo(null); // set window centre
-		this.setResizable(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setVisible(true);
+		this.setUndecorated(true);
+	    this.setResizable(false);
+	    device.setFullScreenWindow(this);
+	    this.setVisible(true);
 	}
-	
 	
 	/**
 	 * constructor: will generate a init setting panel
@@ -134,6 +151,7 @@ public class StartGameFrame extends JFrame{
 			JOptionPane.showMessageDialog(this, 
 			"Fail to load game resource: please check resource", 
 			"Oops...", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 		}
 	}
 }

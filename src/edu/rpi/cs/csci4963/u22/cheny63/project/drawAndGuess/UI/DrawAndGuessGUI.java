@@ -1,7 +1,9 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI;
 
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import com.formdev.flatlaf.FlatDarkLaf;
 
 /** 
  *  OVERVIEW: 
@@ -16,19 +18,10 @@ public class DrawAndGuessGUI {
 	 * the main for generating the window
 	 * @param args no args is needed
 	 */
-    public static void main(String args[ ]){	 	
-    	try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (InstantiationException|
-       		 UnsupportedLookAndFeelException|
-       		 ClassNotFoundException|
-       		 IllegalAccessException exceptionFromStyle) {
-       	    exceptionFromStyle.printStackTrace();
-        }
+    public static void main(String args[ ]){	
+    	FlatDarkLaf.setup();
     	
     	// window
-    	// new StudioChessboardFrame();
     	new StartGameFrame();
-    	//new holdConnection();
     } 
 }
