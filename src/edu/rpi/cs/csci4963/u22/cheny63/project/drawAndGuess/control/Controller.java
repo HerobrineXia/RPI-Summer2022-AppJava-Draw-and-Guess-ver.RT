@@ -5,13 +5,13 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
 
-import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.Room;
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.GameModel;
 
 public class Controller{
     // Game Object
     private Config config;
     private Protocol protocol;
-    private Room model;
+    private GameModel model;
     // Logger
     private Logger log;
 
@@ -31,7 +31,7 @@ public class Controller{
 
         // Create game object
         config = new Config(log);
-        model = new Room();
+        model = new GameModel(log);
         protocol = new Protocol();
         window = new GameWindow(this, log);
     }

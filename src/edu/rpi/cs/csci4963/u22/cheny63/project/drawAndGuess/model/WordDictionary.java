@@ -1,21 +1,18 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
-import java.lang.*;
-import java.io.*;
 
-public class WordDictionary {
+public class WordDictionary{
     HashMap<String, String> wordDictionary;
     LinkedList<String> remainWord;
 
-    public WordDictionary(String filename){
-        try {
-			readWord(filename);
-		} catch (IOException e) {
-
-		}
+    public WordDictionary(String filename) throws IOException{
+        readWord(filename);
         resetWordList();
     }
 
@@ -63,8 +60,7 @@ public class WordDictionary {
             	wordDictionary.put(nodes[1], nodes[0]);
             }
 		}
-
-        // TODO: Read CSV
+        reader.close();
         // Format:
         // Category; Word1; Word2; ...;
         // wordDictionary.put("Word", "Category")
