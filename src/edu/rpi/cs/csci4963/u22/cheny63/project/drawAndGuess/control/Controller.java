@@ -48,21 +48,14 @@ public class Controller{
         // window = new GameWindow(this, log);
     }
 
-    public void startServer(int port){
-        server = new Server(port, log);
-        network = new Thread(server);
-        isServer = true;
-        network.start();
-        model = new ServerModel(log);
-        currentId = 0;
+    public void onStartServer(String name, int port){
+        startServer(port);
+        onPlayerJoin(name);
     }
 
-    public void startClient(String address, int port){
-        model = new ClientModel(log);
-        client = new Client(address, port, log);
-        network = new Thread(client);
-        isServer = false;
-        network.start();
+    public void onClientStart(String name, String address, int port){
+        startClient(address, port);
+        onPlayerJoin(name);
     }
 
     public void onPlayerJoin(String name){
@@ -93,5 +86,26 @@ public class Controller{
         }catch(InterruptedException e){
             log.warning("Failed to interrupt network thread");
         }
+    }
+
+    public String getNameConfig(){
+        return config.getName();
+    }
+
+    private void startServer(int port){
+        server = new Server(port, log);
+        network = new Thread(server);
+        isServer = true;
+        network.start();
+        model = new ServerModel(log);
+        currentId = 0;
+    }
+
+    private void startClient(String address, int port){
+        model = new ClientModel(log);
+        client = new Client(address, port, log);
+        network = new Thread(client);
+        isServer = false;
+        network.start();
     }
 }
