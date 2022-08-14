@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.ImageUtility;
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.SystemCheck;
 
 
 class startGameBackground extends JPanel {
@@ -83,7 +84,7 @@ public class StartGameFrame extends JFrame{
 	private void initCursorStrategy() {
 		java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 		Image image = ImageUtility.resizeIcon(toolkit.getImage("./res/gui/cursor/normal.png"), new Dimension(10, 10));
-		Cursor newCursor = toolkit.createCustomCursor(image , new Point(this.getX(),this.getY()), "");
+		Cursor newCursor = toolkit.createCustomCursor(image , new Point(0, 0), "");
 		this.setCursor (newCursor);
 	}
 	
@@ -130,9 +131,18 @@ public class StartGameFrame extends JFrame{
 		this.setLocationRelativeTo(null); // set window centre
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setUndecorated(true);
+		this.setPreferredSize(new Dimension(600, 600));
 	    this.setResizable(false);
-	    device.setFullScreenWindow(this);
+	    // full size setting
+	    if (!SystemCheck.isWindows()) {
+	    	device.setFullScreenWindow(this);
+	    }else {
+	    	this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+	    }
+	    
 	    this.setVisible(true);
+	    	
+	    
 	}
 	
 	/**
