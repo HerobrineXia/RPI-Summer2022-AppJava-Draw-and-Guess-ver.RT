@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
 
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI.DrawAndGuessGUI;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.ClientModel;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.ServerModel;
 
@@ -13,6 +14,7 @@ public class Controller{
     private Config config;
     private Protocol protocol;
     private ClientModel model;
+    private DrawAndGuessGUI window;
     
     // Game Network
     private Thread network;
@@ -42,10 +44,7 @@ public class Controller{
         // Create game object
         config = new Config(log);
         protocol = new Protocol(this);
-    	// DrawAndGuessGUI.main(new String[0]);
-
-        // model = new ClientModel(log);
-        // window = new GameWindow(this, log);
+        window = new DrawAndGuessGUI(this);
     }
 
     public void onStartServer(String name, int port){
