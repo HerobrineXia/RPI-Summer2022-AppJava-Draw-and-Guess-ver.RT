@@ -6,11 +6,12 @@ public class Room {
 	//grid
 	public Room(String[] names) {
 		users = new LinkedList<User>();
-		for(int i = 0; i<names.length;i++) {
-			users.addLast(new User(names[i],0));
-		}
 		// grid
 		
 	}
+	public void addNewUser(String n) {
+		users.addFirst(new User(n));
+	}
+	
 	
 }

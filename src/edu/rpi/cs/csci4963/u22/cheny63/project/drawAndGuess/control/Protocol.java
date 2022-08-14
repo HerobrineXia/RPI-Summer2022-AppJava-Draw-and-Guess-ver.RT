@@ -13,12 +13,10 @@ public class Protocol {
 	public static enum GameCommand {PAINT,SEND_MESSAGE,GET_MESSAGE,WIN,END,SWITCH_PAINTER,READY, ERROR, OK};
 	public static final String SEPARATOR = "#";
 	private LinkedList<String> messages;
-	private User self;
 	
 	
-	public Protocol(User u) {
+	public Protocol() {
 		messages = new LinkedList<String>();
-		self = u;
 	}
 	private String[] parseCommand(String command) {
         return command.split(SEPARATOR);
@@ -30,7 +28,7 @@ public class Protocol {
 	public static boolean isOK (String s) {
         return s.equals(GameCommand.OK.toString());
     }
-	public String process(String command) {
+	public String process(User self, String command) {
 		if (isOK(command)) {
 			return null;
 		} 
