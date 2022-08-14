@@ -37,6 +37,7 @@ import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control.Controller;
 
 public class BeforeGameReadyFrame extends JDialog {
 	private static final long serialVersionUID = 1L;
+	private boolean isHost;
 	
 	// IP info
     private JPanel IPInfo;
@@ -201,8 +202,9 @@ public class BeforeGameReadyFrame extends JDialog {
 		this.gameInfo.add(dictionaryPanel);
 	}
 	
-	public BeforeGameReadyFrame(JFrame parent, Controller controller) {
-		super(parent, "Input some necessary info as a host...");
+	public BeforeGameReadyFrame(JFrame parent, Controller controller, boolean isHost) {
+		super(parent, String.format("Input some necessary info as a %s...", (isHost? "host" : "client")));
+		this.isHost = isHost;
 		this.IPInfo = new JPanel();    // store IP Info
 		this.gameInfo = new JPanel();  // store Game Info
 		JPanel allContent = new JPanel();
