@@ -1,9 +1,9 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model;
 
 import java.util.LinkedList;
-public class User  {
-	public static enum Role {Painter,Winner,Guesser};
-	private Role status;
+public class User implements Status {
+	
+	public Role status;
 	private String username;
 	private int score;
 	/**
@@ -11,14 +11,11 @@ public class User  {
 	 * @param name username
 	 * @param s represent role
 	 */
-	public User(String name, int s) {
+	public User(String name) {
 		username = name;
-		if(s == 0) {
-			status = Role.Guesser;
-		}
-		else if(s==1) {
-			status = Role.Painter;
-		}
+
+		status = Role.Guesser;
+
 		score = 0;
 		
 	}
