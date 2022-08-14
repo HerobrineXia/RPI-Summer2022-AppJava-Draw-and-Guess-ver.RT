@@ -49,11 +49,13 @@ public class Controller{
     }
 
     public void onStartServer(String name, int port){
+        config.setName(name);
         startServer(port);
         onPlayerJoin(name);
     }
 
     public void onClientStart(String name, String address, int port){
+        config.setName(name);
         startClient(address, port);
         onPlayerJoin(name);
     }
@@ -79,6 +81,10 @@ public class Controller{
         ((ServerModel)model).startGame();
     }
 
+    public String getNameConfig(){
+        return config.getName();
+    }
+
     public void onClose(){
         network.interrupt();
         try{
@@ -86,10 +92,7 @@ public class Controller{
         }catch(InterruptedException e){
             log.warning("Failed to interrupt network thread");
         }
-    }
-
-    public String getNameConfig(){
-        return config.getName();
+        config.save();
     }
 
     private void startServer(int port){
