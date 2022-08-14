@@ -69,7 +69,9 @@ public class StartGameFrame extends JFrame{
 		this.actionHost = new AbstractAction("Host") {
 			private static final long serialVersionUID = 1L;
 			public void actionPerformed(ActionEvent e) {
-				// StartGameFrame.this.dispose();
+				StartGameFrame.this.setEnabled(false);
+				new BeforeGameReadyFrame(StartGameFrame.this);
+				StartGameFrame.this.setEnabled(true);
 	    	}
 		};
     	this.actionClient = new AbstractAction("Client") {
@@ -134,11 +136,10 @@ public class StartGameFrame extends JFrame{
 		this.setPreferredSize(new Dimension(600, 600));
 	    this.setResizable(false);
 	    // full size setting
-	    if (!SystemCheck.isWindows()) {
+	    if (SystemCheck.isWindows())
 	    	device.setFullScreenWindow(this);
-	    }else {
+	    else
 	    	this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-	    }
 	    
 	    this.setVisible(true);
 	    	
