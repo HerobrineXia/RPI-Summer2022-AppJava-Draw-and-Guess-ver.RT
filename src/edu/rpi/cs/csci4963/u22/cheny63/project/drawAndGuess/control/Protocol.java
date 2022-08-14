@@ -26,16 +26,16 @@ public class Protocol {
 		return message;
 		
 	}
-	public StringBuilder messagePack(int u,String message) {
-		StringBuilder response = new StringBuilder("%s#%s#%s#%s".formatted("DATA","MESSAGE",u,message));
-		return response;
+	public String messagePack(int u,String message) {
+		StringBuilder response = new StringBuilder("%s%s%s%s%s%s%s".formatted("DATA",SEPARATOR,"MESSAGE",SEPARATOR,u,SEPARATOR,message));
+		return response.toString();
 	}
-	public StringBuilder userDataPack(LinkedList<User> users,int num ) {
-		StringBuilder response = new StringBuilder("%s#%s#%s".formatted("DATA","MODEL",num));
+	public String userDataPack(LinkedList<User> users,int num ) {
+		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("DATA",SEPARATOR,"MODEL",SEPARATOR,num));
 		for(int i = 0; i<num;i++) {
-			response.append(new StringBuilder("#%s#%s#%s".formatted(users.get(i).getScore(),users.get(i).getName(),users.get(i).getId())));
+			response.append(new StringBuilder("%s%s%s%s%s%s".formatted(SEPARATOR,users.get(i).getScore(),SEPARATOR,users.get(i).getName(),SEPARATOR,users.get(i).getId())));
 		}
-		return response;
+		return response.toString();
 	}
 	public String process(UserServer self, String command) {
 		
@@ -53,7 +53,7 @@ public class Protocol {
         		else if(secondary.equals("SENT")) {
         			int index = Integer.parseInt(commands[2]);
         			String message = commands[3];
-        			response = messagePack(index,message);
+        			response = new StringBuilder("%s%s%s%s%s%s%s".formatted("DATA",SEPARATOR,"MESSAGE",SEPARATOR,index,SEPARATOR,message));
         		}
         		else if(secondary.equals( "LEFT")) {
         			int index = Integer.parseInt(commands[2]);
