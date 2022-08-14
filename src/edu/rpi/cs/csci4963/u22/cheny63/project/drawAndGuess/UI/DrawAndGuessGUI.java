@@ -1,8 +1,5 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 import com.formdev.flatlaf.FlatDarkLaf;
 
 /** 
