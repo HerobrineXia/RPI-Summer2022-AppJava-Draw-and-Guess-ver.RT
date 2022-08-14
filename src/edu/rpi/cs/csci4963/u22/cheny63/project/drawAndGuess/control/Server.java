@@ -39,6 +39,7 @@ public class Server implements Runnable{
 		this.port = port;
 		this.log = log;
         socketList = new HashMap<>();
+        threadList = new ArrayList<>();
         currentId = 1;
     }
 
