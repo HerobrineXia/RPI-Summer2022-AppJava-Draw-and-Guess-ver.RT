@@ -53,7 +53,7 @@ public class Protocol {
         			
         		}
         		case END->{
-        			self.ChangeToGuesser();
+        			self.changeToGuesser();
         		}
         		default->throw new RuntimeException("Unhandled WHAT Command %s".formatted(command));
         		}
@@ -71,7 +71,7 @@ public class Protocol {
         			
         		}
         		case SWITCH_PAINTER->{
-        			self.ChangeToPainter();
+        			self.changeToPainter();
         		}
         		default->throw new RuntimeException("Unhandled WHAT Command %s".formatted(command));
         		}
@@ -92,12 +92,12 @@ public class Protocol {
         			
         		}
         		case SWITCH_PAINTER->{
-        			self.ChangeToPainter();
+        			self.changeToPainter();
         		}
         		case WIN->{
         			int s = Integer.parseInt(commands[1]);
         			self.addscore(s);
-        			self.ChangeToWinner();
+        			self.changeToWinner();
         		}
         		case END->{
         			
