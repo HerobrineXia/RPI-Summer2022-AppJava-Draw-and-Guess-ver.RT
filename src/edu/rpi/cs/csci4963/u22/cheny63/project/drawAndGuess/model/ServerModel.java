@@ -9,8 +9,8 @@ public class ServerModel extends ClientModel{
 	private WordDictionary dictionary;
 
 	// Game Data
+	private boolean gameStart;
 	private String secretWord;
-	private GameStatus gameStatus;
 	private Timer timer;
 	private int remainPoint;
 
@@ -18,10 +18,10 @@ public class ServerModel extends ClientModel{
 	private Logger log;
 
 	public ServerModel(Logger log) {
-		this.log = log;
-		gameStatus = GameStatus.INIT;
+		super(log);
 		timer = new Timer();
 		currentDrawerId = -1;
+		gameStart = false;
 	}
 
 	public void readGraph(String filename) throws IOException{
@@ -30,13 +30,20 @@ public class ServerModel extends ClientModel{
 		}
 	}
 
+	@Override
 	public void addUser(String name, int id){
 		UserServer user = new UserServer(name, id);
 		if(gameStatus == GameStatus.PROCESSING){
 			user.changeStatus(PlayerStatus.Waiter);
 		}
-        super.addUser(user);
+        userList.add(user);
     }
+	
+	public void startGame(){
+		intializeGame();
+		gameStart = true;
+		startRound();
+	}
 
 	public void intializeGame(){
 		if(gameStatus == GameStatus.INIT || gameStatus == GameStatus.END){
