@@ -12,35 +12,36 @@ import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.UserServer;
 
 
 public class Protocol {
+	private Controller controller;
 	public static final String SEPARATOR = "#";
 
-	
-	
-	public Protocol() {
-
+	public Protocol(Controller controller){
+		this.controller = controller;
 	}
-	private String[] parseCommand(String command) {
+
+	private String[] parseCommand(String command){
         return command.split(SEPARATOR);
     }
-	public String transferString(String message) {
+
+	public String transferString(String message){
 		return message;
-		
 	}
-	public String messagePack(int u,String message) {
-		StringBuilder response = new StringBuilder("%s%s%s%s%s%s%s".formatted("DATA",SEPARATOR,"MESSAGE",SEPARATOR,u,SEPARATOR,message));
+
+	public String messagePack(int id, String message){
+		StringBuilder response = new StringBuilder("%s%s%s%s%s%s%s".formatted("DATA",SEPARATOR,"MESSAGE",SEPARATOR,id,SEPARATOR,message));
 		return response.toString();
 	}
-	public String userDataPack(LinkedList<User> users,int num ) {
+
+	public String userDataPack(LinkedList<User> users, int num){
 		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("DATA",SEPARATOR,"MODEL",SEPARATOR,num));
 		for(int i = 0; i<num;i++) {
 			response.append(new StringBuilder("%s%s%s%s%s%s".formatted(SEPARATOR,users.get(i).getScore(),SEPARATOR,users.get(i).getName(),SEPARATOR,users.get(i).getId())));
 		}
 		return response.toString();
 	}
-	public String process(UserServer self, String command) {
-		
+
+	public String process(UserServer self, String command){
         StringBuilder response = new StringBuilder();
-        StringBuilder m;
         command = transferString(command);
         String[] commands = parseCommand(command);
         String keyword = commands[0];
