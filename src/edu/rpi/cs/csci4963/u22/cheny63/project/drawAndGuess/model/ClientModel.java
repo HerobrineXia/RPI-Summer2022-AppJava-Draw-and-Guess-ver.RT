@@ -3,16 +3,18 @@ package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model;
 import java.util.LinkedList;
 
 public class ClientModel {
-    private LinkedList<String> chatHistory;
-    private LinkedList<User> userList;
+    protected LinkedList<String> chatHistory;
+    protected LinkedList<User> userList;
+    protected int currentDrawerId;
     
     public ClientModel(){
         chatHistory = new LinkedList<>();
         userList = new LinkedList<>();
+        currentDrawerId = -1;
     }
 
-    public void addUser(String name, int id){
-        userList.add(new User(name, id));
+    public void addUser(User user){
+        userList.add(user);
     }
 
     public void removeUser(int id){
@@ -26,5 +28,13 @@ public class ClientModel {
 
     public void addChat(String message){
         chatHistory.add(message);
+    }
+
+    public void setDrawerId(int id){
+        currentDrawerId = id;
+    }
+
+    public int getDraerId(){
+        return currentDrawerId;
     }
 }

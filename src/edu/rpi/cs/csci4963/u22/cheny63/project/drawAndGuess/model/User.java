@@ -1,9 +1,9 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model;
 
 public class User {
-    private String name;
-    private int score;
-    private int id;
+    protected String name;
+    protected int score;
+    protected int id;
 
     public User(String name, int id){
         this(name, id, 0);
@@ -23,7 +23,7 @@ public class User {
         return score;
     }
 
-    public void resetScore(){
+    public void initialize(){
         score = 0;
     }
 

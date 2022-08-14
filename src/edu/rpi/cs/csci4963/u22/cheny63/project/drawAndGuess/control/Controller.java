@@ -15,16 +15,15 @@ public class Controller{
     // Logger
     private Logger log;
 
-    public Controller(){
+    public Controller() throws Exception{
         // Create logger
         log = Logger.getLogger("DrawAndGuess");
         StreamHandler handler;
 		try {
 			handler = new FileHandler();
-		}
-		catch (Exception e) {
+		}catch (Exception e) {
 			log.warning(String.format("Unable to create logger file handler: %s", e.getMessage()));
-			throw e;
+            throw e;
 		} 
 		handler.setFormatter(new SimpleFormatter());
 		log.addHandler(handler);
@@ -33,6 +32,6 @@ public class Controller{
         config = new Config(log);
         model = new GameModel(log);
         protocol = new Protocol();
-        window = new GameWindow(this, log);
+        // window = new GameWindow(this, log);
     }
 }

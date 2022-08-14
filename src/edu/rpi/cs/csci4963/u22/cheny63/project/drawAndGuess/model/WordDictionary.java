@@ -8,8 +8,8 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class WordDictionary{
-    HashMap<String, String> wordDictionary;
-    LinkedList<String> remainWord;
+    private HashMap<String, String> wordDictionary;
+    private LinkedList<String> remainWord;
 
     public WordDictionary(String filename) throws IOException{
         readWord(filename);
