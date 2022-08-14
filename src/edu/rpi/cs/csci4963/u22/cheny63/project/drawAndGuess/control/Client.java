@@ -146,13 +146,13 @@ public class Client implements Runnable{
 					// send(respond);
 				}
 			}else{
-                try{
-                    socket.close();
-                }catch(IOException e){
-                    log.info("Failed to close socket...");
-                }
 				break;
             }
+		}
+		try{
+			socket.close();
+		}catch(IOException e){
+			log.info("Failed to close socket...");
 		}
 		log.info("Connection End...");
     }
