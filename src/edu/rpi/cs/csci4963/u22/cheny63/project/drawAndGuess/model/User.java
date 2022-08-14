@@ -1,13 +1,7 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model;
 
 import java.util.LinkedList;
-
-
-
-
 public class User  {
-	
-	
 	public static enum Role {Painter,Winner,Guesser};
 	private Role status;
 	private String username;
@@ -36,14 +30,13 @@ public class User  {
 		return username;
 	}
 	
-	
-	public void ChangeToGuesser() {
+	public void changeToGuesser() {
 		status = Role.Guesser;
 	}
-	public void ChangeToPainter() {
+	public void changeToPainter() {
 		status = Role.Painter;
 	}
-	public void ChangeToWinner() {
+	public void changeToWinner() {
 		status = Role.Winner;
 	}
 	
