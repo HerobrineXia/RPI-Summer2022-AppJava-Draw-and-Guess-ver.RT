@@ -47,13 +47,13 @@ public class StartGameFrame extends JFrame{
 		this.actionHost = new AbstractAction("Host") {
 			private static final long serialVersionUID = 1L;
 			public void actionPerformed(ActionEvent e) {
-				new BeforeGameReadyFrame(StartGameFrame.this, controller);
+				new BeforeGameReadyFrame(StartGameFrame.this, controller, true);
 	    	}
 		};
     	this.actionClient = new AbstractAction("Client") {
 			private static final long serialVersionUID = 1L;
 			public void actionPerformed(ActionEvent e) {
-				// StartGameFrame.this.dispose();
+				new BeforeGameReadyFrame(StartGameFrame.this, controller, false);
 	    	}
 		};
 			
