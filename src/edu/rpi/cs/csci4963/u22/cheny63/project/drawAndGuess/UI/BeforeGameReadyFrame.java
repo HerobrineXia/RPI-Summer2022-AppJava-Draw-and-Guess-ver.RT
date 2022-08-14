@@ -212,8 +212,13 @@ public class BeforeGameReadyFrame extends JDialog {
 		JButton confirm = new JButton("Confirm");
 		confirm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-    			controller.onStartServer(BeforeGameReadyFrame.this.usernameField.getText(), 
-    					                 Integer.parseInt(BeforeGameReadyFrame.this.portAddressInfo.getText()));
+            	if (isHost)
+            		controller.onStartServer(BeforeGameReadyFrame.this.usernameField.getText(), 
+            			                 Integer.parseInt(BeforeGameReadyFrame.this.portAddressInfo.getText()));
+            	else
+            		controller.onClientStart(BeforeGameReadyFrame.this.usernameField.getText(), 
+            				BeforeGameReadyFrame.this.ipAddressInfo.getText(), 
+            				Integer.parseInt(BeforeGameReadyFrame.this.portAddressInfo.getText()));
             }
         });
 		initIPInfo();
