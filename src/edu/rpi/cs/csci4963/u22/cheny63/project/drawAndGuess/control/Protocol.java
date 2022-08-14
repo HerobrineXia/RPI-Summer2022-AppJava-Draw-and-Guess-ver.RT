@@ -1,5 +1,5 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control;
-import java.util.ArrayList;
+
 import java.util.LinkedList;
 
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.User;
