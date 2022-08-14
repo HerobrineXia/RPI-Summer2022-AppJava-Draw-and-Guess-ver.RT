@@ -78,12 +78,14 @@ public class Controller{
 
     public void playerJoinEventServer(String name, String address){
         if(isServer){
+            int id = server.getId(address);
             if(!address.equals("localhost")){
-                server.sendMessage(protocol.userJoinServerReturnEvent(server.getId(address)), address);
+                server.sendMessage(protocol.userJoinServerReturnEvent(id), address);
             }else{
                 myId = 0;
+                id = 0;
             }
-            sendMessageToAll(protocol.userJoinClientEvent(server.getId(address), name));
+            sendMessageToAll(protocol.userJoinClientEvent(id, name));
         }
     }
 
