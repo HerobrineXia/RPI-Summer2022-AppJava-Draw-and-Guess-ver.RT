@@ -2,7 +2,7 @@ package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control;
 
 import java.util.LinkedList;
 
-import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.User;
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.UserServer;
 
 
 
@@ -27,7 +27,7 @@ public class Protocol {
 	public static boolean isOK (String s) {
         return s.equals(GameCommand.OK.toString());
     }
-	public String process(User self, String command) {
+	public String process(UserServer self, String command) {
 		if (isOK(command)) {
 			return null;
 		} 
