@@ -1,5 +1,7 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess;
 
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control.Controller;
+
 // import main.java.control.GameControl;
 
 /**
@@ -13,11 +15,10 @@ public class Launcher {
      * @param args None
      */
     public static void main(String[] args){
-        // try{
-        //     new GameControl();
-        // }catch(Exception e){
-        //     e.printStackTrace();
-        // }
-        System.out.println("Hello World");
+        try{
+            new Controller();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }
