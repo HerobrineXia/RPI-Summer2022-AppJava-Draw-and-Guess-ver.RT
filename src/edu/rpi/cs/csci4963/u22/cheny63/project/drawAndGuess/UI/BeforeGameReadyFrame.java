@@ -58,6 +58,7 @@ public class BeforeGameReadyFrame extends JDialog {
 				 BorderFactory.createTitledBorder("IP info:"),
 				 BorderFactory.createEmptyBorder(10,10,10,10)));
 		this.ipAddressInfo = new JTextField();
+		this.ipAddressInfo.addKeyListener(new AddressInputListener());
 		// global gridbag const for this func
 		GridBagConstraints gridBag = new GridBagConstraints();
 		
@@ -203,7 +204,12 @@ public class BeforeGameReadyFrame extends JDialog {
 		this.gameInfo = new JPanel();  // store Game Info
 		JPanel allContent = new JPanel();
 		allContent.setLayout (new BoxLayout (allContent, BoxLayout.Y_AXIS));    
-		
+		JButton confirm = new JButton("Confirm");
+		confirm.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+    			
+            }
+        });
 		initIPInfo();
 		allContent.add(IPInfo);
 		initGameSetting();

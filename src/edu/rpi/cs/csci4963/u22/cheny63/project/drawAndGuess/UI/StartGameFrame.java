@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FontFormatException;
-import java.awt.Graphics;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
@@ -13,41 +12,19 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.ImageUtility;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.SystemCheck;
 
-
-class startGameBackground extends JPanel {
-	private static final long serialVersionUID = 1L;
-	private Image backgroundImage;
-	private Dimension curWindowSize;
-
-	  public startGameBackground(String fileName, Dimension screenSize) throws IOException {
-		this.curWindowSize = new Dimension((int)screenSize.getWidth(), 
-							 (int)(screenSize.getWidth())/16*9);
-		this.setBackground(new Color(32, 130, 147));
-		backgroundImage = ImageIO.read(new File(fileName));
-	  }
-
-	  public void paintComponent(Graphics g) {
-	    super.paintComponent(g);
-	    // Draw the background image.
-	    g.drawImage(ImageUtility.resizeIcon(backgroundImage, curWindowSize), 0, 0, this);
-	  }
-}
 
 public class StartGameFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -100,16 +77,13 @@ public class StartGameFrame extends JFrame{
 		// set full screen
 		GraphicsEnvironment graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice device = graphics.getDefaultScreenDevice();
-        
-		// get current window size and basic background
-		this.getContentPane().add(new startGameBackground("./res/gui/startGameScreen/bg.png", 
-				                  Toolkit.getDefaultToolkit().getScreenSize()));
 		
 		initAction();
 		initCursorStrategy();
 		// start arrange
 		this.setBackground(new Color(32, 130, 147));
-		JPanel operations = new JPanel();
+		StartGamePanel operations = new StartGamePanel("./res/gui/startGameScreen/bg.png", 
+                					Toolkit.getDefaultToolkit().getScreenSize());
 		operations.setLayout(new GridBagLayout());
 	    GridBagConstraints gridConstant = new GridBagConstraints();
 	    gridConstant.gridy = 0;
@@ -124,8 +98,8 @@ public class StartGameFrame extends JFrame{
 		operations.add(new PixelatedButton("EXIT", this.actionExit), gridConstant);
 		gridConstant.gridy = 4;
 		operations.add(new JSeparator(JSeparator.VERTICAL), gridConstant);
-		operations.setBackground(new Color(32, 130, 147));
-		operations.setOpaque(true);
+//		operations.setBackground(new Color(32, 130, 147));
+//		operations.setOpaque(true);
 		
 		this.add(operations);
         //Display the window.       
@@ -135,12 +109,7 @@ public class StartGameFrame extends JFrame{
 		this.setUndecorated(true);
 		this.setPreferredSize(new Dimension(600, 600));
 	    this.setResizable(false);
-	    // full size setting
-<<<<<<< HEAD
 	    if (SystemCheck.isWindows())
-=======
-	    if (SystemCheck.isWindows()) {
->>>>>>> 05fb4f4461ef681d5be753127192d5f5c67136c5
 	    	device.setFullScreenWindow(this);
 	    else
 	    	this.setExtendedState(JFrame.MAXIMIZED_BOTH);

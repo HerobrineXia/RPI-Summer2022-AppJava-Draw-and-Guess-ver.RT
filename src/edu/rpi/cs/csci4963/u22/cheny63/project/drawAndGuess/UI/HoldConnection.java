@@ -1,7 +1,5 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI;
 
-import java.awt.FlowLayout;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;

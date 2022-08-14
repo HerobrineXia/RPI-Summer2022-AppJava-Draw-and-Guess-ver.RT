@@ -12,19 +12,19 @@ import com.formdev.flatlaf.FlatDarkLaf;
  */
 public class DrawAndGuessGUI {
 	
-	public DrawAndGuessGUI() {
+	public DrawAndGuessGUI(Controller controller) {
 		FlatDarkLaf.setup();
     	// window
     	new StartGameFrame();
 	}
 	
-	/**
-	 * the main for generating the window
-	 * @param args no args is needed
-	 */
-    public static void main(String args[ ]){	
-    	FlatDarkLaf.setup();
-    	// window
-    	new StartGameFrame();
-    } 
+//	/**
+//	 * the main for generating the window
+//	 * @param args no args is needed
+//	 */
+//    public static void main(String args[ ]){	
+//    	FlatDarkLaf.setup();
+//    	// window
+//    	new StartGameFrame();
+//    } 
 }
