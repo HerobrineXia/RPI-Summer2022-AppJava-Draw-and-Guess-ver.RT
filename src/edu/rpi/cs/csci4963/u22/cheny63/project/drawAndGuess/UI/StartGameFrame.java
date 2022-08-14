@@ -134,7 +134,7 @@ public class StartGameFrame extends JFrame{
 		this.setPreferredSize(new Dimension(600, 600));
 	    this.setResizable(false);
 	    // full size setting
-	    if (!SystemCheck.isWindows()) {
+	    if (SystemCheck.isWindows()) {
 	    	device.setFullScreenWindow(this);
 	    }else {
 	    	this.setExtendedState(JFrame.MAXIMIZED_BOTH);
