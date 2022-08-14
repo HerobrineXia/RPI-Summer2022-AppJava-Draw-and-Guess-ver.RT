@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control.Controller;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.ImageUtility;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.SystemCheck;
 
@@ -32,7 +33,7 @@ public class StartGameFrame extends JFrame{
 	private Action actionExit;
 	private Action actionHost;
 	private Action actionClient;
-	
+	private Controller controller;
 	
 	private void initAction() {
 		this.actionExit = new AbstractAction("Exit") {
@@ -46,9 +47,7 @@ public class StartGameFrame extends JFrame{
 		this.actionHost = new AbstractAction("Host") {
 			private static final long serialVersionUID = 1L;
 			public void actionPerformed(ActionEvent e) {
-				StartGameFrame.this.setEnabled(false);
-				new BeforeGameReadyFrame(StartGameFrame.this);
-				StartGameFrame.this.setEnabled(true);
+				new BeforeGameReadyFrame(StartGameFrame.this, controller);
 	    	}
 		};
     	this.actionClient = new AbstractAction("Client") {
@@ -123,9 +122,10 @@ public class StartGameFrame extends JFrame{
 	 * constructor: will generate a init setting panel
 	 *  for users to select modes
 	 */
-	public StartGameFrame() {
+	public StartGameFrame(Controller controller) {
 		super("Start a game - Draw and Guess");
 		try {
+			this.controller = controller;
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			generateGUI();
 		} catch (Exception e) { // case: cannot get resource

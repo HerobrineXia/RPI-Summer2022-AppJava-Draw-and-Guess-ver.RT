@@ -2,6 +2,8 @@ package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI;
 
 import com.formdev.flatlaf.FlatDarkLaf;
 
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control.Controller;
+
 /** 
  *  OVERVIEW: 
  * 	<b>BattleshipGUIMain</b> is an trigger that generate a chessboard panel
@@ -15,7 +17,7 @@ public class DrawAndGuessGUI {
 	public DrawAndGuessGUI(Controller controller) {
 		FlatDarkLaf.setup();
     	// window
-    	new StartGameFrame();
+    	new StartGameFrame(controller);
 	}
 	
 //	/**

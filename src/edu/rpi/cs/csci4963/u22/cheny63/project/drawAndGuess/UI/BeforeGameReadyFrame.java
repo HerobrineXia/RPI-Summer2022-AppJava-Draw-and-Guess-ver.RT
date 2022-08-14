@@ -32,21 +32,24 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.text.NumberFormatter;
 
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control.Controller;
+
 
 public class BeforeGameReadyFrame extends JDialog {
 	private static final long serialVersionUID = 1L;
 	
 	// IP info
-	private String IPAdress;
     private JPanel IPInfo;
 	private JLabel ipAddressLabel;
 	private JTextField ipAddressInfo;
 	private JFormattedTextField portAddressInfo;
 
 	// game info
-	private String inputFilePath;
+	String inputFilePath;
 	private JPanel gameInfo;
 	private JFileChooser dictionaryFilechooser;
+	private JTextField dictLocatioinField;
+	private JTextField usernameField;
 	
 	
 	/**
@@ -75,7 +78,7 @@ public class BeforeGameReadyFrame extends JDialog {
 				if (e.getStateChange()==1) {
 					ipAddressInfo.setEnabled(false);
 					try {
-						BeforeGameReadyFrame.this.IPAdress = InetAddress.getLocalHost().toString().split("/")[1];
+						ipAddressInfo.setText(InetAddress.getLocalHost().toString().split("/")[1]); 
 					} catch (UnknownHostException e1) {
 						JOptionPane.showMessageDialog(BeforeGameReadyFrame.this, "Failed to find localhost info", "Oops...", JOptionPane.ERROR_MESSAGE);
 					}
@@ -172,8 +175,8 @@ public class BeforeGameReadyFrame extends JDialog {
 		JLabel usernameLabel = new JLabel("Username: ");	
 		JLabel dictionaryPathLabel = new JLabel("Dictionary path: ");
 		JButton selectFile = new JButton("Select...");
-		JTextField dictLocatioinField = new JTextField();
-		JTextField usernameField = new JTextField();
+		dictLocatioinField = new JTextField();
+		usernameField = new JTextField();
 		dictLocatioinField.setPreferredSize(new Dimension(320, 30));
 		usernameField.setPreferredSize(new Dimension(380, 30));
 		dictLocatioinField.setEditable(false);
@@ -198,7 +201,7 @@ public class BeforeGameReadyFrame extends JDialog {
 		this.gameInfo.add(dictionaryPanel);
 	}
 	
-	public BeforeGameReadyFrame(JFrame parent) {
+	public BeforeGameReadyFrame(JFrame parent, Controller controller) {
 		super(parent, "Input some necessary info as a host...");
 		this.IPInfo = new JPanel();    // store IP Info
 		this.gameInfo = new JPanel();  // store Game Info
@@ -207,13 +210,15 @@ public class BeforeGameReadyFrame extends JDialog {
 		JButton confirm = new JButton("Confirm");
 		confirm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-    			
+    			controller.onStartServer(BeforeGameReadyFrame.this.usernameField.getText(), 
+    					                 Integer.parseInt(BeforeGameReadyFrame.this.portAddressInfo.getText()));
             }
         });
 		initIPInfo();
 		allContent.add(IPInfo);
 		initGameSetting();
 		allContent.add(gameInfo);
+		allContent.add(confirm);
 		this.add(allContent);
 		//Display the window.       
 		this.setSize(600, 400);
@@ -224,7 +229,7 @@ public class BeforeGameReadyFrame extends JDialog {
 		
 	}
 
-	public static void main(String args[ ]){	
-		 new BeforeGameReadyFrame(null);
-	 } 
+//	public static void main(String args[ ]){	
+//		 new BeforeGameReadyFrame(null);
+//	 } 
 }
