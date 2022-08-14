@@ -129,6 +129,7 @@ public class Server implements Runnable{
             flag = false;
             log.warning("Failed to create server socket.");
         }
+        log.info("Server started with ip %s:%d".formatted(serverSocket.getLocalSocketAddress(),port));
 		// Manage connection while the connection is not close
 		while(!Thread.currentThread().isInterrupted() && flag){
             try {
