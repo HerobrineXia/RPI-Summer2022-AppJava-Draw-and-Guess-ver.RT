@@ -39,6 +39,25 @@ public class Protocol {
 		}
 		return response.toString();
 	}
+	public String userLeftEvent(int id) {
+		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("EVENT",SEPARATOR,"LEFT",SEPARATOR,id));
+		return response.toString();
+	}
+	public String userJoinEvent(int id) {
+		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("EVENT",SEPARATOR,"Join",SEPARATOR,id));
+		return response.toString();
+	}
+	public String newRound(int id) {
+		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("EVENT",SEPARATOR,"NEW_ROUND",SEPARATOR,id));
+		return response.toString();
+	}
+	public String userScorePack(int score) {
+		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("DATA",SEPARATOR,"SCORE",SEPARATOR,score));
+		return response.toString();
+	}
+
+
+	
 
 	public String process(UserServer self, String command){
         StringBuilder response = new StringBuilder();
@@ -52,16 +71,17 @@ public class Protocol {
         			
         		}
         		else if(secondary.equals("SENT")) {
-        			int index = Integer.parseInt(commands[2]);
+        			int id = Integer.parseInt(commands[2]);
         			String message = commands[3];
-        			response = new StringBuilder("%s%s%s%s%s%s%s".formatted("DATA",SEPARATOR,"MESSAGE",SEPARATOR,index,SEPARATOR,message));
+        			response = new StringBuilder("%s%s%s%s%s%s%s".formatted("DATA",SEPARATOR,"MESSAGE",SEPARATOR,id,SEPARATOR,message));
         		}
         		else if(secondary.equals( "LEFT")) {
-        			int index = Integer.parseInt(commands[2]);
+        			int id = Integer.parseInt(commands[2]);
+        			
         			
         		}
         		else if(secondary.equals("NEW_ROUND")) {
-        			int index = Integer.parseInt(commands[2]);
+        			int startId = Integer.parseInt(commands[2]);
         			//controller
         		}
         		else {
@@ -70,11 +90,11 @@ public class Protocol {
         	}
         	else if( keyword.equals("DATA")) {
         		if(secondary.equals("SCORE")) {
-        			int index = Integer.parseInt(commands[2]);
+        			int id = Integer.parseInt(commands[2]);
         			int score = Integer.parseInt(commands[3]);
         		}
         		else if(secondary.equals("MESSAGE")) {
-        			int index = Integer.parseInt(commands[2]);
+        			int id = Integer.parseInt(commands[2]);
         			String message = commands[3];
         			// controller
         		}
