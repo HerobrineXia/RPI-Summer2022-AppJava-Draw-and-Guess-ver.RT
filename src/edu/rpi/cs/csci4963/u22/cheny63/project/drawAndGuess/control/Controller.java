@@ -20,6 +20,8 @@ public class Controller{
     private Client client;
     private boolean isServer;
     private int currentId;
+    private int myId;
+    private String myName;
 
     // Logger
     private Logger log;
@@ -39,7 +41,7 @@ public class Controller{
 
         // Create game object
         config = new Config(log);
-        protocol = new Protocol();
+        protocol = new Protocol(this);
     	// DrawAndGuessGUI.main(new String[0]);
 
         // model = new ClientModel(log);
@@ -63,23 +65,19 @@ public class Controller{
         network.start();
     }
 
-    // Server
     public void onPlayerJoin(String name){
         addPlayer(name, currentId);
         ++currentId;
     }
 
-    // Server
     public void onPlayerLeave(int id){
         removePlayer(id);
     }
 
-    // Client
     public void removePlayer(int id){
         model.removeUser(id);
     }
 
-    // Client
     public void addPlayer(String name, int id){
         model.addUser(name, id);
     }
