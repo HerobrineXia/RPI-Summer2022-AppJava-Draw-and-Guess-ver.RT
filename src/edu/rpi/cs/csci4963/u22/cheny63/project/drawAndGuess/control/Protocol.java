@@ -43,16 +43,16 @@ public class Protocol {
 		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("EVENT",SEPARATOR,"LEFT",SEPARATOR,id));
 		return response.toString();
 	}
-	public String userJoinEvent(int id) {
-		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("EVENT",SEPARATOR,"Join",SEPARATOR,id));
+	public String userJoinEvent(int id, String name) {
+		StringBuilder response = new StringBuilder("%s%s%s%s%s%s%s".formatted("EVENT",SEPARATOR,"Join",SEPARATOR,id,SEPARATOR,name));
 		return response.toString();
 	}
 	public String newRound(int id) {
 		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("EVENT",SEPARATOR,"NEW_ROUND",SEPARATOR,id));
 		return response.toString();
 	}
-	public String userScorePack(int score) {
-		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("DATA",SEPARATOR,"SCORE",SEPARATOR,score));
+	public String userScorePack(int score,int id) {
+		StringBuilder response = new StringBuilder("%s%s%s%s%s%s%s".formatted("DATA",SEPARATOR,"SCORE",SEPARATOR,id,SEPARATOR,score));
 		return response.toString();
 	}
 
