@@ -16,10 +16,7 @@ public class DrawAndGuessGUI {
 	 * the main for generating the window
 	 * @param args no args is needed
 	 */
-    public static void main(String args[ ]){
-    	// set style same as system
-    	// TO-DO: may be add alternation?
-    	// System.out.println("Working Directory = " + System.getProperty("user.dir"));    	 	
+    public static void main(String args[ ]){	 	
     	try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (InstantiationException|

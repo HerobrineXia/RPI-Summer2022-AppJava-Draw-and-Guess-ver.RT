@@ -2,6 +2,7 @@ package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control;
 
 import java.util.LinkedList;
 
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.PlayerStatus;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.UserServer;
 
 
@@ -39,7 +40,7 @@ public class Protocol {
             throw new RuntimeException("Received ERROR %s".formatted(commands[1]));
         }
         try {
-        	switch (self.getRole()) {
+        	switch (self.getStatus()) {
         	case Painter->{
         		switch(keyword) {
         		case GET_MESSAGE->{
@@ -50,7 +51,7 @@ public class Protocol {
         			
         		}
         		case END->{
-        			self.changeToGuesser();
+        			self.changeStatus(PlayerStatus.Guesser);
         		}
         		default->throw new RuntimeException("Unhandled WHAT Command %s".formatted(command));
         		}
@@ -68,7 +69,7 @@ public class Protocol {
         			
         		}
         		case SWITCH_PAINTER->{
-        			self.changeToPainter();
+        			self.changeStatus(PlayerStatus.Painter);
         		}
         		default->throw new RuntimeException("Unhandled WHAT Command %s".formatted(command));
         		}
@@ -89,12 +90,11 @@ public class Protocol {
         			
         		}
         		case SWITCH_PAINTER->{
-        			self.changeToPainter();
+        			self.changeStatus(PlayerStatus.Painter);
         		}
         		case WIN->{
         			int s = Integer.parseInt(commands[1]);
-        			self.addscore(s);
-        			self.changeToWinner();
+        			self.addScore(s);
         		}
         		case END->{
         			
