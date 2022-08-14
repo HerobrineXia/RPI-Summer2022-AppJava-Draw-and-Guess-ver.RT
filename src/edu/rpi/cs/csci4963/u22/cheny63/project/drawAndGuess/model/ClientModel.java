@@ -39,8 +39,17 @@ public class ClientModel {
         currentDrawerId = id;
     }
 
-    public int getDraerId(){
+    public int getDrawerId(){
         return currentDrawerId;
+    }
+
+    public String getPlayerName(int id){
+        for(User user: userList){
+            if(user.id == id){
+                return user.name;
+            }
+        }
+        return null;
     }
 
     public GameStatus getStatus(){

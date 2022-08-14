@@ -19,9 +19,9 @@ public class Controller{
     private Server server;
     private Client client;
     private boolean isServer;
-    private int currentId;
     private int myId;
     private String myName;
+
 
     // Logger
     private Logger log;
@@ -51,30 +51,68 @@ public class Controller{
     public void onStartServer(String name, int port){
         config.setName(name);
         startServer(port);
-        onPlayerJoin(name);
+        myName = name;
+        afterConnect();
     }
 
     public void onClientStart(String name, String address, int port){
         config.setName(name);
         startClient(address, port);
-        onPlayerJoin(name);
+        myName = name;
+    }
+
+    /**
+     * Intial command to send after the connection is made
+     */
+    public void afterConnect(){
+        // Send the player name to server
+        onPlayerJoin(myName);
     }
 
     public void onPlayerJoin(String name){
-        addPlayer(name, currentId);
-        ++currentId;
+        if(isServer){
+            protocol.process(protocol.userJoinServerEvent("localhost", name));
+        }else{
+            client.send(protocol.userJoinServerEvent(client.getAddress(), name));
+        }
+    }
+
+    public void playerJoinEventServer(String name, String address){
+        if(isServer){
+            if(!address.equals("localhost")){
+                server.sendMessage(protocol.userJoinServerReturnEvent(server.getId(address)), address);
+            }else{
+                myId = 0;
+            }
+            sendMessageToAll(protocol.userJoinClientEvent(server.getId(address), name));
+        }
+    }
+
+    public void playerJoinServerReturn(int id){
+        myId = id;
+    }
+
+    public void playerJoinEventClient(String name, int id){
+        model.addUser(name, id);
+        model.addChat("System: Welcome %s to the game!".formatted(name));
     }
 
     public void onPlayerLeave(int id){
-        removePlayer(id);
+        if(isServer){
+            sendMessageToAll(protocol.userLeftEvent(id));
+        }
     }
 
-    public void removePlayer(int id){
+    public void onPlayerLeaveEvent(int id){
+        model.addChat("System: Player %s left the game!".formatted(model.getPlayerName(id)));
         model.removeUser(id);
     }
 
-    public void addPlayer(String name, int id){
-        model.addUser(name, id);
+    public void sendMessageToAll(String message){
+        if(isServer){
+            server.sendMessageToAll(message);
+            protocol.process(message);
+        }
     }
 
     public void startGame(){
@@ -83,6 +121,10 @@ public class Controller{
 
     public String getNameConfig(){
         return config.getName();
+    }
+
+    public boolean isServer(){
+        return isServer;
     }
 
     public void onClose(){
@@ -96,12 +138,11 @@ public class Controller{
     }
 
     private void startServer(int port){
-        server = new Server(port, log);
+        model = new ServerModel(log);
+        server = new Server(port, log, this);
         network = new Thread(server);
         isServer = true;
         network.start();
-        model = new ServerModel(log);
-        currentId = 0;
     }
 
     private void startClient(String address, int port){

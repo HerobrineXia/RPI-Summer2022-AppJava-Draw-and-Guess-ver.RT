@@ -43,11 +43,15 @@ public class Client implements Runnable{
 		this.log = log;
     }
 
+	public String getAddress(){
+		return socket.getLocalSocketAddress().toString();
+	}
+
     /**
 	 * Send the message
 	 * @param message the message
 	 */
-	private void send(String message){
+	public void send(String message){
 		out.println(message);
 		log.info(String.format("Message \"%s\" sent.\n", message));
 	}

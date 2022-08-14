@@ -1,5 +1,6 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control;
 
+import java.net.Socket;
 import java.util.LinkedList;
 
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.PlayerStatus;
@@ -43,9 +44,14 @@ public class Protocol {
 		StringBuilder response = new StringBuilder("%s%s%s%s%d".formatted("EVENT",SEPARATOR,"LEFT",SEPARATOR,id));
 		return response.toString();
 	}
-	public String userJoinServerEvent(String name) {
-		StringBuilder response = new StringBuilder("%s%s%s%s%s"
-				+ "+".formatted("EVENT",SEPARATOR,"JOIN_SERVER",SEPARATOR,name));
+	public String userJoinServerEvent(String address, String name) {
+		StringBuilder response = new StringBuilder("%s%s%s%s%s%s%s"
+				+ "+".formatted("EVENT",SEPARATOR,"JOIN_SERVER",SEPARATOR,name,SEPARATOR,address));
+		return response.toString();
+	}
+	public String userJoinServerReturnEvent(int id) {
+		StringBuilder response = new StringBuilder("%s%s%s%s%d"
+				+ "+".formatted("EVENT",SEPARATOR,"JOIN_RETURN_ID",SEPARATOR,id));
 		return response.toString();
 	}
 	public String userJoinClientEvent(int id, String name) {
@@ -63,71 +69,73 @@ public class Protocol {
 		return response.toString();
 	}
 
-
-	
-
-	public String process(UserServer self, String command){
+	public String process(String command){
         StringBuilder response = new StringBuilder();
         command = transferString(command);
         String[] commands = parseCommand(command);
         String keyword = commands[0];
         String secondary = commands[1];
 
-        	if(keyword.equals("EVENT")) {
-        		if(secondary.equals("JOIN_SERVER")) {
-        			String name = commands[2];
-        		}
-        		else if(secondary.equals("JOIN_CLIENT")) {
-        			int id  =  Integer.parseInt(commands[2]);
-        			String name = commands[3];
-        		}
-        		else if(secondary.equals("SENT")) {
-        			int id = Integer.parseInt(commands[2]);
-        			String message = commands[3];
-        			response = new StringBuilder("%s%s%s%s%d%s%s".formatted("DATA",SEPARATOR,"MESSAGE",SEPARATOR,id,SEPARATOR,message));
-        		}
-        		else if(secondary.equals( "LEFT")) {
-        			int id = Integer.parseInt(commands[2]);
-        			
-        			
-        		}
-        		else if(secondary.equals("NEW_ROUND")) {
-        			int startId = Integer.parseInt(commands[2]);
-        			//controller
-        		}
-        		else {
-        			//invalid
-        		}
-        	}
-        	else if( keyword.equals("DATA")) {
-        		if(secondary.equals("SCORE")) {
-        			int id = Integer.parseInt(commands[2]);
-        			int score = Integer.parseInt(commands[3]);
-        		}
-        		else if(secondary.equals("MESSAGE")) {
-        			int id = Integer.parseInt(commands[2]);
-        			String message = commands[3];
-        			// controller
-        		}
-        		else if(secondary.equals("MODEL")) {
-        			LinkedList <User> users = new LinkedList <User>(); 
-        			for(int i = 3;i<Integer.parseInt(commands[2]);i+=3) {
-        				users.addLast(new User(commands[i+1],Integer.parseInt(commands[i+2]),Integer.parseInt(commands[i])));
-        			}
-        			//controller
-        		}
-        		else if(secondary.equals("DREW")) {
-        			
-        		}
-        		
-        		else {
-        			//invalid
-        		}
-        	}
-        	else {
-        		//invalid
-        	}
-
+		if(keyword.equals("EVENT")) {
+			if(secondary.equals("JOIN_SERVER")) {
+				String name = commands[2];
+				String address = commands[3];
+				controller.playerJoinEventServer(name, address);
+			}else if(secondary.equals("JOIN_RETURN_ID")){
+				int id = Integer.parseInt(commands[2]);
+				controller.playerJoinServerReturn(id);
+			}
+			else if(secondary.equals("JOIN_CLIENT")) {
+				int id = Integer.parseInt(commands[2]);
+				String name = commands[3];
+				controller.playerJoinEventClient(name, id);
+			}
+			else if(secondary.equals("SENT")) {
+				int id = Integer.parseInt(commands[2]);
+				String message = commands[3];
+				response = new StringBuilder("%s%s%s%s%d%s%s".formatted("DATA",SEPARATOR,"MESSAGE",SEPARATOR,id,SEPARATOR,message));
+			}
+			else if(secondary.equals( "LEFT")) {
+				int id = Integer.parseInt(commands[2]);
+				
+				
+			}
+			else if(secondary.equals("NEW_ROUND")) {
+				int startId = Integer.parseInt(commands[2]);
+				//controller
+			}
+			else {
+				//invalid
+			}
+		}
+		else if( keyword.equals("DATA")) {
+			if(secondary.equals("SCORE")) {
+				int id = Integer.parseInt(commands[2]);
+				int score = Integer.parseInt(commands[3]);
+			}
+			else if(secondary.equals("MESSAGE")) {
+				int id = Integer.parseInt(commands[2]);
+				String message = commands[3];
+				// controller
+			}
+			else if(secondary.equals("MODEL")) {
+				LinkedList <User> users = new LinkedList <User>(); 
+				for(int i = 3;i<Integer.parseInt(commands[2]);i+=3) {
+					users.addLast(new User(commands[i+1],Integer.parseInt(commands[i+2]),Integer.parseInt(commands[i])));
+				}
+				//controller
+			}
+			else if(secondary.equals("DREW")) {
+				
+			}
+			
+			else {
+				//invalid
+			}
+		}
+		else {
+			//invalid
+		}
         return response.toString();
 	}
 }
