@@ -10,7 +10,6 @@ import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.User;
 
 
 public class Protocol {
-	public static enum GameCommand {PAINT,SEND_MESSAGE,GET_MESSAGE,WIN,END,SWITCH_PAINTER,READY, ERROR, OK};
 	public static final String SEPARATOR = "#";
 	private LinkedList<String> messages;
 	

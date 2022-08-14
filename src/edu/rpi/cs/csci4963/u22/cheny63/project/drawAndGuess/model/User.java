@@ -1,9 +1,9 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model;
 
 import java.util.LinkedList;
-public class User implements Status {
+public class User{
 	
-	public Role status;
+	public Status status;
 	private String username;
 	private int score;
 	/**
@@ -14,13 +14,13 @@ public class User implements Status {
 	public User(String name) {
 		username = name;
 
-		status = Role.Guesser;
+		status = Status.Guesser;
 
 		score = 0;
 		
 	}
 	
-	public Role getRole(){
+	public Status getRole(){
 		return status;
 	}
 	public String getUsername() {
@@ -28,13 +28,13 @@ public class User implements Status {
 	}
 	
 	public void changeToGuesser() {
-		status = Role.Guesser;
+		status = Status.Guesser;
 	}
 	public void changeToPainter() {
-		status = Role.Painter;
+		status = Status.Painter;
 	}
 	public void changeToWinner() {
-		status = Role.Winner;
+		status = Status.Winner;
 	}
 	
 	public void addscore(int n) {
