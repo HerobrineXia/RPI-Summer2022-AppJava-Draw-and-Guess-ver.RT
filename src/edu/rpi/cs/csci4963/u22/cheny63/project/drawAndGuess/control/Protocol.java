@@ -3,111 +3,99 @@ package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control;
 import java.util.LinkedList;
 
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.PlayerStatus;
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.User;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.UserServer;
 
 
 
-// format %s#%s#%s type,name,what
+// format %s#%s#... category,item,...
 
 
 public class Protocol {
 	public static final String SEPARATOR = "#";
-	private LinkedList<String> messages;
+
 	
 	
 	public Protocol() {
-		messages = new LinkedList<String>();
+
 	}
 	private String[] parseCommand(String command) {
         return command.split(SEPARATOR);
     }
-	public void addNewMessage(String message) {
-		messages.addFirst(message);
+	public String transferString(String message) {
+		return message;
+		
 	}
-	
-	public static boolean isOK (String s) {
-        return s.equals(GameCommand.OK.toString());
-    }
+	public StringBuilder messagePack(int u,String message) {
+		StringBuilder response = new StringBuilder("%s#%s#%s#%s".formatted("DATA","MESSAGE",u,message));
+		return response;
+	}
+	public StringBuilder userDataPack(LinkedList<User> users,int num ) {
+		StringBuilder response = new StringBuilder("%s#%s#%s".formatted("DATA","MODEL",num));
+		for(int i = 0; i<num;i++) {
+			response.append(new StringBuilder("#%s#%s#%s".formatted(users.get(i).getScore(),users.get(i).getName(),users.get(i).getId())));
+		}
+		return response;
+	}
 	public String process(UserServer self, String command) {
-		if (isOK(command)) {
-			return null;
-		} 
-        StringBuilder response = new StringBuilder("%s".formatted(GameCommand.OK));
+		
+        StringBuilder response = new StringBuilder();
         StringBuilder m;
+        command = transferString(command);
         String[] commands = parseCommand(command);
-        GameCommand keyword = GameCommand.valueOf(commands[0]);
-        if (keyword == GameCommand.ERROR) {
-            throw new RuntimeException("Received ERROR %s".formatted(commands[1]));
-        }
-        try {
-        	switch (self.getStatus()) {
-        	case Painter->{
-        		switch(keyword) {
-        		case GET_MESSAGE->{
-        			m = new StringBuilder("%s: %s".formatted(commands[1],commands[2]));
-        			addNewMessage(m.toString());
-        		}
-        		case PAINT->{
+        String keyword = commands[0];
+        String secondary = commands[1];
+
+        	if(keyword.equals("EVENT")) {
+        		if(secondary.equals("JOIN")) {
         			
         		}
-        		case END->{
-        			self.changeStatus(PlayerStatus.Guesser);
+        		else if(secondary.equals("SENT")) {
+        			int index = Integer.parseInt(commands[2]);
+        			String message = commands[3];
+        			response = messagePack(index,message);
         		}
-        		default->throw new RuntimeException("Unhandled WHAT Command %s".formatted(command));
+        		else if(secondary.equals( "LEFT")) {
+        			int index = Integer.parseInt(commands[2]);
+        			
+        		}
+        		else if(secondary.equals("NEW_ROUND")) {
+        			int index = Integer.parseInt(commands[2]);
+        			//controller
+        		}
+        		else {
+        			//invalid
         		}
         	}
-        	case Winner->{
-        		switch(keyword) {
-        		case GET_MESSAGE->{
-        			m = new StringBuilder("%s: %s".formatted(commands[1],commands[2]));
-        			addNewMessage(m.toString());
+        	else if( keyword.equals("DATA")) {
+        		if(secondary.equals("SCORE")) {
+        			int index = Integer.parseInt(commands[2]);
+        			int score = Integer.parseInt(commands[3]);
         		}
-        		case PAINT->{
+        		else if(secondary.equals("MESSAGE")) {
+        			int index = Integer.parseInt(commands[2]);
+        			String message = commands[3];
+        			// controller
+        		}
+        		else if(secondary.equals("MODEL")) {
+        			LinkedList <User> users = new LinkedList <User>(); 
+        			for(int i = 3;i<Integer.parseInt(commands[2]);i+=3) {
+        				users.addLast(new User(commands[i+1],Integer.parseInt(commands[i+2]),Integer.parseInt(commands[i])));
+        			}
+        			//controller
+        		}
+        		else if(secondary.equals("DREW")) {
         			
-        		}
-        		case END->{
-        			
-        		}
-        		case SWITCH_PAINTER->{
-        			self.changeStatus(PlayerStatus.Painter);
-        		}
-        		default->throw new RuntimeException("Unhandled WHAT Command %s".formatted(command));
         		}
         		
-        	}
-        	case Guesser->{
-        		switch(keyword) {
-        		case GET_MESSAGE->{
-        			m = new StringBuilder("%s: %s".formatted(commands[1],commands[2]));
-        			addNewMessage(m.toString());
-        		}
-        		case SEND_MESSAGE->{
-        			m = new StringBuilder("%s: %s".formatted(commands[1],commands[2]));
-        			addNewMessage(m.toString());
-        			response = new StringBuilder("%s#%s#%s".formatted(GameCommand.GET_MESSAGE,commands[1],commands[2]));
-        		}
-        		case PAINT->{
-        			
-        		}
-        		case SWITCH_PAINTER->{
-        			self.changeStatus(PlayerStatus.Painter);
-        		}
-        		case WIN->{
-        			int s = Integer.parseInt(commands[1]);
-        			self.addScore(s);
-        		}
-        		case END->{
-        			
-        		}
-        		default->throw new RuntimeException("Unhandled WHAT Command %s".formatted(command));
+        		else {
+        			//invalid
         		}
         	}
-        	
+        	else {
+        		//invalid
         	}
-        } catch (Exception e) {
-            e.printStackTrace();
-            response = new StringBuilder("%s#%s".formatted(GameCommand.ERROR, e.getMessage()));
-        }
+
         return response.toString();
 	}
 }

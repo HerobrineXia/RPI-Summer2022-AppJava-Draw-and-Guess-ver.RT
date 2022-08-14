@@ -51,6 +51,8 @@ public class WordDictionary{
 					Sep = " ";
 				}
 			}
+			line = line.replace("\"", "");
+			line = line.replace("\'", "");
 			String[] nodes = line.split(Sep);
 			if (nodes.length > 2) {
                 for (int i = 1; i < nodes.length; i++) {
