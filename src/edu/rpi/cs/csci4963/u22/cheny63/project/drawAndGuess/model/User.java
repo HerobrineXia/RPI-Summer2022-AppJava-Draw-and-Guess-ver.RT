@@ -1,24 +1,32 @@
-package main.java.model;
+package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model;
 
-import java.util.*;
+import java.util.LinkedList;
+
+
 
 
 public class User  {
 	
-	LinkedList<String> messages = new LinkedList<String>();
 	
 	public static enum Role {Painter,Winner,Guesser};
 	private Role status;
 	private String username;
-	
+	private int score;
+	/**
+	 * 
+	 * @param name username
+	 * @param s represent role
+	 */
 	public User(String name, int s) {
 		username = name;
 		if(s == 0) {
 			status = Role.Guesser;
 		}
-		else {
+		else if(s==1) {
 			status = Role.Painter;
 		}
+		score = 0;
+		
 	}
 	
 	public Role getRole(){
@@ -28,9 +36,7 @@ public class User  {
 		return username;
 	}
 	
-	public void addNewMessage(String message) {
-		messages.addFirst(message);
-	}
+	
 	public void ChangeToGuesser() {
 		status = Role.Guesser;
 	}
@@ -40,5 +46,11 @@ public class User  {
 	public void ChangeToWinner() {
 		status = Role.Winner;
 	}
+	
+	public void addscore(int n) {
+		score+=n;
+	}
+	public int getScore() {
+		return score;
+	}
 }
-
