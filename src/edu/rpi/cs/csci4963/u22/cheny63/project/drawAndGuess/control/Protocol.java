@@ -28,31 +28,38 @@ public class Protocol {
 	}
 
 	public String messagePack(int id, String message){
-		StringBuilder response = new StringBuilder("%s%s%s%s%s%s%s".formatted("DATA",SEPARATOR,"MESSAGE",SEPARATOR,id,SEPARATOR,message));
+		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s".formatted("DATA",SEPARATOR,"MESSAGE",SEPARATOR,id,SEPARATOR,message));
 		return response.toString();
 	}
 
 	public String userDataPack(LinkedList<User> users, int num){
 		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("DATA",SEPARATOR,"MODEL",SEPARATOR,num));
 		for(int i = 0; i<num;i++) {
-			response.append(new StringBuilder("%s%s%s%s%s%s".formatted(SEPARATOR,users.get(i).getScore(),SEPARATOR,users.get(i).getName(),SEPARATOR,users.get(i).getId())));
+			response.append(new StringBuilder("%s%d%s%s%s%d".formatted(SEPARATOR,users.get(i).getScore(),SEPARATOR,users.get(i).getName(),SEPARATOR,users.get(i).getId())));
 		}
 		return response.toString();
 	}
 	public String userLeftEvent(int id) {
-		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("EVENT",SEPARATOR,"LEFT",SEPARATOR,id));
+		StringBuilder response = new StringBuilder("%s%s%s%s%d".formatted("EVENT",SEPARATOR,"LEFT",SEPARATOR,id));
 		return response.toString();
 	}
-	public String userJoinEvent(int id, String name) {
-		StringBuilder response = new StringBuilder("%s%s%s%s%s%s%s".formatted("EVENT",SEPARATOR,"Join",SEPARATOR,id,SEPARATOR,name));
+	public String userJoinServerEvent(int id, String name) {
+		StringBuilder response = new StringBuilder("%s%s%s%s%s"
+				+ "+".formatted("EVENT",SEPARATOR,"JOIN_SERVER",SEPARATOR,name));
 		return response.toString();
 	}
+	public String userJoinClientEvent(int id, String name) {
+		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s"
+				+ "+".formatted("EVENT",SEPARATOR,"JOIN_CLIENT",SEPARATOR,id,SEPARATOR,name));
+		return response.toString();
+	}
+	
 	public String newRound(int id) {
-		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("EVENT",SEPARATOR,"NEW_ROUND",SEPARATOR,id));
+		StringBuilder response = new StringBuilder("%s%s%s%s%d".formatted("EVENT",SEPARATOR,"NEW_ROUND",SEPARATOR,id));
 		return response.toString();
 	}
 	public String userScorePack(int score,int id) {
-		StringBuilder response = new StringBuilder("%s%s%s%s%s%s%s".formatted("DATA",SEPARATOR,"SCORE",SEPARATOR,id,SEPARATOR,score));
+		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%d".formatted("DATA",SEPARATOR,"SCORE",SEPARATOR,id,SEPARATOR,score));
 		return response.toString();
 	}
 
@@ -67,13 +74,17 @@ public class Protocol {
         String secondary = commands[1];
 
         	if(keyword.equals("EVENT")) {
-        		if(secondary.equals("JOIN")) {
-        			
+        		if(secondary.equals("JOIN_SERVER")) {
+        			String name = commands[2];
+        		}
+        		else if(secondary.equals("JOIN_CLIENT")) {
+        			int id  =  Integer.parseInt(commands[2]);
+        			String name = commands[3];
         		}
         		else if(secondary.equals("SENT")) {
         			int id = Integer.parseInt(commands[2]);
         			String message = commands[3];
-        			response = new StringBuilder("%s%s%s%s%s%s%s".formatted("DATA",SEPARATOR,"MESSAGE",SEPARATOR,id,SEPARATOR,message));
+        			response = new StringBuilder("%s%s%s%s%d%s%s".formatted("DATA",SEPARATOR,"MESSAGE",SEPARATOR,id,SEPARATOR,message));
         		}
         		else if(secondary.equals( "LEFT")) {
         			int id = Integer.parseInt(commands[2]);
