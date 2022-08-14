@@ -45,18 +45,15 @@ public class Protocol {
 		return response.toString();
 	}
 	public String userJoinServerEvent(String address, String name) {
-		StringBuilder response = new StringBuilder("%s%s%s%s%s%s%s"
-				+ "+".formatted("EVENT",SEPARATOR,"JOIN_SERVER",SEPARATOR,name,SEPARATOR,address));
+		StringBuilder response = new StringBuilder("%s%s%s%s%s%s%s".formatted("EVENT",SEPARATOR,"JOIN_SERVER",SEPARATOR,name,SEPARATOR,address));
 		return response.toString();
 	}
 	public String userJoinServerReturnEvent(int id) {
-		StringBuilder response = new StringBuilder("%s%s%s%s%d"
-				+ "+".formatted("EVENT",SEPARATOR,"JOIN_RETURN_ID",SEPARATOR,id));
+		StringBuilder response = new StringBuilder("%s%s%s%s%d".formatted("EVENT",SEPARATOR,"JOIN_RETURN_ID",SEPARATOR,id));
 		return response.toString();
 	}
 	public String userJoinClientEvent(int id, String name) {
-		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s"
-				+ "+".formatted("EVENT",SEPARATOR,"JOIN_CLIENT",SEPARATOR,id,SEPARATOR,name));
+		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s".formatted("EVENT",SEPARATOR,"JOIN_CLIENT",SEPARATOR,id,SEPARATOR,name));
 		return response.toString();
 	}
 	
@@ -71,6 +68,7 @@ public class Protocol {
 
 	public String process(String command){
         StringBuilder response = new StringBuilder();
+		System.out.println(command);
         command = transferString(command);
         String[] commands = parseCommand(command);
         String keyword = commands[0];
