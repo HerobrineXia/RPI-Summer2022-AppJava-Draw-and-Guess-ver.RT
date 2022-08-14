@@ -2,7 +2,7 @@ package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control;
 
 import java.util.LinkedList;
 
-import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.User;
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.UserServer;
 
 
 
@@ -10,15 +10,12 @@ import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.User;
 
 
 public class Protocol {
-	public static enum GameCommand {PAINT,SEND_MESSAGE,GET_MESSAGE,WIN,END,SWITCH_PAINTER,READY, ERROR, OK};
 	public static final String SEPARATOR = "#";
 	private LinkedList<String> messages;
-	private User self;
 	
 	
-	public Protocol(User u) {
+	public Protocol() {
 		messages = new LinkedList<String>();
-		self = u;
 	}
 	private String[] parseCommand(String command) {
         return command.split(SEPARATOR);
@@ -30,7 +27,7 @@ public class Protocol {
 	public static boolean isOK (String s) {
         return s.equals(GameCommand.OK.toString());
     }
-	public String process(String command) {
+	public String process(UserServer self, String command) {
 		if (isOK(command)) {
 			return null;
 		} 

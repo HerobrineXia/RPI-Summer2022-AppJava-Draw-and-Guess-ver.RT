@@ -1,46 +1,27 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model;
 
-import java.util.LinkedList;
-public class User implements Status {
-	
-	public Role status;
-	private String username;
-	private int score;
-	/**
-	 * 
-	 * @param name username
-	 * @param s represent role
-	 */
-	public User(String name) {
-		username = name;
+public class User {
+    private String name;
+    private int score;
 
-		status = Role.Guesser;
+    public User(String name){
+        this.name = name;
+        score = 0;
+    }
 
-		score = 0;
-		
-	}
-	
-	public Role getRole(){
-		return status;
-	}
-	public String getUsername() {
-		return username;
-	}
-	
-	public void changeToGuesser() {
-		status = Role.Guesser;
-	}
-	public void changeToPainter() {
-		status = Role.Painter;
-	}
-	public void changeToWinner() {
-		status = Role.Winner;
-	}
-	
-	public void addscore(int n) {
-		score+=n;
-	}
-	public int getScore() {
-		return score;
-	}
+    public void addScore(int score){
+        this.score += score;
+    }
+
+    public int getScore(){
+        return score;
+    }
+
+    public void resetScore(){
+        score = 0;
+    }
+
+    public String getName(){
+        return name;
+    }
 }
