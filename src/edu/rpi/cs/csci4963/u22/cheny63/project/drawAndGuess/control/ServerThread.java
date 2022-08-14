@@ -18,14 +18,16 @@ public class ServerThread implements Runnable {
 	private BufferedReader in;
 	private PrintWriter out;
 	private Logger log;
+	private Protocol protocol;
 
 	// Reference
 	private Server server;
 
-    public ServerThread(Socket socket, Logger log, Server server) throws IOException{
+    public ServerThread(Socket socket, Logger log, Server server, Protocol protocol) throws IOException{
         this.socket = socket;
 		this.server = server;
 		this.log = log;
+		this.protocol = protocol;
         // I/O port
 		inStream =  socket.getInputStream();
 		outStream = socket.getOutputStream();
@@ -89,18 +91,7 @@ public class ServerThread implements Runnable {
             message = receive();
 			if(message != null){
 				// Receive the respond and remove the command from list
-				if(message.startsWith("respond")){
-					// for(int i = 0; i < commandList.size(); ++i){
-					// 	if(message.endsWith(commandList.get(i))){
-					// 		commandList.remove(i);
-					// 		i = commandList.size();
-					// 	}
-					// }
-				// Try to process the command and send the respond
-				}else{
-					// respond = protocol.process(message);
-					// send(respond);
-				}
+				protocol.process(message);
 			}else{
 				server.removeSocket(socket);
                 try{
