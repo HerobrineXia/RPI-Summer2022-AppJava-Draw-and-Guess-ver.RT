@@ -27,7 +27,7 @@ public class Client implements Runnable{
 	private OutputStream outStream;
 	private BufferedReader in;
 	private PrintWriter out;
-	private Protocol protocol;
+	private Controller controller;
 
 	// Logger
 	private Logger log;	
@@ -38,11 +38,11 @@ public class Client implements Runnable{
 	 * @param port the port
 	 * @param log the logger
 	 */
-    public Client(String address, int port, Logger log, Protocol protocol){
+    public Client(String address, int port, Logger log, Controller controller){
 		this.address = address;
 		this.port = port;
 		this.log = log;
-		this.protocol = protocol;
+		this.controller = controller;
     }
 
 	public String getAddress(){
@@ -129,7 +129,7 @@ public class Client implements Runnable{
 		// Check if the connection is established
 		if(!isConnectionClosed()){
 			// Run the intialize method
-			// controller.afterConnect();
+			controller.afterConnect();
 		}
 		String message, respond;
 		// Manage the I/O flow while the connection is not close
@@ -138,7 +138,7 @@ public class Client implements Runnable{
 			// Receive the message
             message = receive();
 			if(message != null){
-				protocol.process(message);
+				controller.getProtocol().process(message);
 			}else{
 				break;
             }

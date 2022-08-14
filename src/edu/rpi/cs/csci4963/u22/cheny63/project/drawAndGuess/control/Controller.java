@@ -152,7 +152,7 @@ public class Controller{
 
     private void startClient(String address, int port){
         model = new ClientModel(log);
-        client = new Client(address, port, log, protocol);
+        client = new Client(address, port, log, this);
         network = new Thread(client);
         isServer = false;
         network.start();
