@@ -1,6 +1,5 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control;
 
-import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
@@ -11,7 +10,7 @@ import java.util.logging.Logger;
 * @author Kevin Xia
 * @version 1.0
 */
-public class GameConfig {
+public class Config {
     // Config value
     private Properties configFile;
     private String username;
@@ -20,7 +19,7 @@ public class GameConfig {
     /**
      * Constructor of game config
      */
-    public GameConfig(Logger log){
+    public Config(Logger log){
         this.log = log;
         configFile = new Properties();
         load();

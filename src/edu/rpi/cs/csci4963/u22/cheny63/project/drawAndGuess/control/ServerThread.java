@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
 
-public class GameServerThread implements Runnable {
+public class ServerThread implements Runnable {
     private Socket socket;
     private InputStream inStream;
 	private OutputStream outStream;
@@ -20,9 +20,9 @@ public class GameServerThread implements Runnable {
 	private Logger log;
 
 	// Reference
-	private GameServer server;
+	private Server server;
 
-    public GameServerThread(Socket socket, Logger log, GameServer server) throws IOException{
+    public ServerThread(Socket socket, Logger log, Server server) throws IOException{
         this.socket = socket;
 		this.server = server;
 		this.log = log;

@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 * @author Kevin Xia
 * @version 1.0
 */
-public class GameServer implements Runnable{
+public class Server implements Runnable{
     
     // Connection variable
     private ArrayList<Socket> socketList;
@@ -31,7 +31,7 @@ public class GameServer implements Runnable{
 	 * @param port the port
 	 * @param log the logger
 	 */
-    public GameServer(int port, Logger log){
+    public Server(int port, Logger log){
 		this.port = port;
 		this.log = log;
         socketList = new ArrayList<>();
@@ -100,7 +100,7 @@ public class GameServer implements Runnable{
                 synchronized(socketList){
                     socketList.add(accept);
                 }
-                Thread thread = new Thread(new GameServerThread(accept, log, this));
+                Thread thread = new Thread(new ServerThread(accept, log, this));
                 threadList.add(thread);
                 thread.start();
             }catch(IOException e){

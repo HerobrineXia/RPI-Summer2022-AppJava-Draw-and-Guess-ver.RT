@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 * @author Kevin Xia
 * @version 1.0
 */
-public class GameClient implements Runnable{
+public class Client implements Runnable{
     // Connection variable
     private Socket socket;
 	private String address;
@@ -37,7 +37,7 @@ public class GameClient implements Runnable{
 	 * @param port the port
 	 * @param log the logger
 	 */
-    public GameClient(String address, int port, Logger log){
+    public Client(String address, int port, Logger log){
 		this.address = address;
 		this.port = port;
 		this.log = log;
