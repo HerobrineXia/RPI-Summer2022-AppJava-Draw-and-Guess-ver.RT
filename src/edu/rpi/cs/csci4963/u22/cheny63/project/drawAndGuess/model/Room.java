@@ -9,5 +9,9 @@ public class Room {
 		// grid
 		
 	}
+	public void addNewUser(String n) {
+		users.addFirst(new User(n));
+	}
+	
 	
 }
