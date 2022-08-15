@@ -1,6 +1,7 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FontFormatException;
@@ -34,6 +35,7 @@ public class StartGameFrame extends JFrame{
 	private Action actionHost;
 	private Action actionClient;
 	private Controller controller;
+	private StartGamePanel operations;
 	
 	private void initAction() {
 		this.actionExit = new AbstractAction("Exit") {
@@ -66,6 +68,14 @@ public class StartGameFrame extends JFrame{
 		this.setCursor (newCursor);
 	}
 	
+	public void setAllOperationEnable(boolean enabled) {
+		for (Component component : this.operations.getComponents()) {
+		    if (component instanceof PixelatedButton)
+		    	((PixelatedButton) component).setEnabled(enabled);
+		    	
+		}	
+	}
+	
 	
 	/**
 	 * main GUI generation function
@@ -81,8 +91,8 @@ public class StartGameFrame extends JFrame{
 		initCursorStrategy();
 		// start arrange
 		this.setBackground(new Color(32, 130, 147));
-		StartGamePanel operations = new StartGamePanel("./res/gui/startGameScreen/bg.png", 
-                					Toolkit.getDefaultToolkit().getScreenSize());
+		this.operations = new StartGamePanel(Toolkit.getDefaultToolkit().getScreenSize());
+ 
 		operations.setLayout(new GridBagLayout());
 	    GridBagConstraints gridConstant = new GridBagConstraints();
 	    gridConstant.gridy = 0;
@@ -90,15 +100,13 @@ public class StartGameFrame extends JFrame{
 	    operations.add(new JLabel(new ImageIcon("./res/gui/startGameScreen/logo.png")), gridConstant);
 	    gridConstant.gridy = 1;
 	    gridConstant.weighty = 0.2;
-		operations.add(new PixelatedButton("CREATE a ROOM", this.actionHost), gridConstant);
+		operations.add(new PixelatedButton("CREATE a ROOM", this.actionHost, operations), gridConstant);
 		gridConstant.gridy = 2;
-		operations.add(new PixelatedButton("ENTER a ROOM", this.actionClient), gridConstant);
+		operations.add(new PixelatedButton("ENTER a ROOM", this.actionClient, operations), gridConstant);
 		gridConstant.gridy = 3;
-		operations.add(new PixelatedButton("EXIT", this.actionExit), gridConstant);
+		operations.add(new PixelatedButton("EXIT", this.actionExit, operations), gridConstant);
 		gridConstant.gridy = 4;
 		operations.add(new JSeparator(JSeparator.VERTICAL), gridConstant);
-//		operations.setBackground(new Color(32, 130, 147));
-//		operations.setOpaque(true);
 		
 		this.add(operations);
         //Display the window.       
@@ -135,4 +143,6 @@ public class StartGameFrame extends JFrame{
 			e.printStackTrace();
 		}
 	}
+
+	
 }

@@ -14,7 +14,7 @@ public class PixelatedButton extends JButton{
 	private Font goreRegular = Font.createFont(Font.TRUETYPE_FONT, new File("./res/gui/font/Gore Regular.otf"));
 	private String buttonText;
 	
-    public PixelatedButton(String text, Action actionClicked) throws FontFormatException, IOException {
+    public PixelatedButton(String text, Action actionClicked, StartGamePanel parent) throws FontFormatException, IOException {
     	// set font
     	this.goreRegular  = goreRegular.deriveFont(Font.PLAIN, 70);
     	this.buttonText = text;
@@ -33,8 +33,20 @@ public class PixelatedButton extends JButton{
             }
         });
         
+        this.addMouseMotionListener(new MouseMotionListener() {
+	        @Override
+	        public void mouseMoved(MouseEvent e) {
+	        	parent.cursorTrackerY =  e.getLocationOnScreen().getY();
+	        	parent.cursorTrackerX =  e.getLocationOnScreen().getX();
+	        }
+	        @Override
+	        public void mouseDragged(MouseEvent e) {
+	        }
+	    });
+        
         this.setBorderPainted(false);
-        this.setFocusPainted(false);
+        this.setFocusPainted(true);
+        
         this.setHorizontalTextPosition(SwingConstants.CENTER);
         this.setVerticalTextPosition(SwingConstants.BOTTOM);
 
