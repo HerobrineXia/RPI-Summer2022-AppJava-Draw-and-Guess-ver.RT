@@ -47,8 +47,9 @@ public class Controller{
         window = new DrawAndGuessGUI(this);
     }
 
-    public void onStartServer(String name, int port){
+    public void onStartServer(String name, int port, String filePath){
         config.setName(name);
+        config.setFilePath(filePath);
         startServer(port);
         myName = name;
         afterConnect();
@@ -65,46 +66,23 @@ public class Controller{
      */
     public void afterConnect(){
         // Send the player name to server
-        onPlayerJoin(myName);
-    }
-
-    public void onPlayerJoin(String name){
         if(isServer){
-            protocol.process(protocol.userJoinServerEvent("localhost", name));
+            protocol.process(protocol.userJoinServerEvent("localhost", myName));
         }else{
-            client.send(protocol.userJoinServerEvent(client.getAddress(), name));
+            client.send(protocol.userJoinServerEvent(client.getAddress(), myName));
         }
     }
 
-    public void playerJoinEventServer(String name, String address){
-        if(isServer){
-            int id = server.getId(address);
-            if(!address.equals("localhost")){
-                server.sendMessage(protocol.userJoinServerReturnEvent(id), address);
-            }else{
-                myId = 0;
-                id = 0;
-            }
-            sendMessageToAll(protocol.userJoinClientEvent(id, name));
-        }
-    }
-
-    public void playerJoinServerReturn(int id){
+    public void onPlayerJoinServerReturn(int id){
         myId = id;
     }
 
-    public void playerJoinEventClient(String name, int id){
+    public void playerJoinEvent(String name, int id){
         model.addUser(name, id);
         model.addChat("System: Welcome %s to the game!".formatted(name));
     }
 
-    public void onPlayerLeave(int id){
-        if(isServer){
-            sendMessageToAll(protocol.userLeftEvent(id));
-        }
-    }
-
-    public void onPlayerLeaveEvent(int id){
+    public void playerLeaveEvent(int id){
         model.addChat("System: Player %s left the game!".formatted(model.getPlayerName(id)));
         model.removeUser(id);
     }
@@ -124,6 +102,10 @@ public class Controller{
         return config.getName();
     }
 
+    public String getFileConfig(){
+        return config.getFilePath();
+    }
+
     public Protocol getProtocol(){
         return protocol;
     }
@@ -132,14 +114,40 @@ public class Controller{
         return isServer;
     }
 
-    public void onClose(){
-        network.interrupt();
-        try{
-            network.join();
-        }catch(InterruptedException e){
-            log.warning("Failed to interrupt network thread");
+
+    public void onPlayerJoin(String name, String address){
+        if(isServer){
+            int id = server.getId(address);
+            if(!address.equals("localhost")){
+                server.sendMessage(protocol.userJoinServerReturnEvent(id), address);
+            }else{
+                myId = 0;
+                id = 0;
+            }
+            sendMessageToAll(protocol.userJoinClientEvent(id, name));
         }
+    }
+
+    public void onPlayerLeave(int id){
+        if(isServer){
+            sendMessageToAll(protocol.userLeftEvent(id));
+        }
+    }
+
+    // public void onPlayerJoin
+
+    public void onClose(){
+        log.info("Closing the application...");
         config.save();
+        if(network != null){
+            network.interrupt();
+            try{
+                network.join();
+            }catch(InterruptedException e){
+                log.warning("Failed to interrupt network thread");
+            }
+        }
+        System.exit(0);
     }
 
     private void startServer(int port){

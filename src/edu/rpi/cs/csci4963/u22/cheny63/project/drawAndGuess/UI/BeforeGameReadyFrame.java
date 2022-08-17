@@ -125,9 +125,9 @@ public class BeforeGameReadyFrame extends JDialog {
 	/**
 	 * action function: used when file input action is triggered
 	 */
-	private void getInputFile() {
+	private void getInputFile(Controller controller) {
 		if (dictionaryFilechooser == null) { // open file chooser
-        	dictionaryFilechooser = new JFileChooser();
+        	dictionaryFilechooser = new JFileChooser(controller.getFileConfig());
         	dictionaryFilechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         	dictionaryFilechooser.setAcceptAllFileFilterUsed(false);
         	dictionaryFilechooser.addChoosableFileFilter(new FileFilter() { // only txt is allowed
@@ -156,7 +156,7 @@ public class BeforeGameReadyFrame extends JDialog {
     }
 	
 	
-	private void initGameSetting() {
+	private void initGameSetting(Controller controller) {
 		this.gameInfo.setLayout(new BoxLayout(this.gameInfo, BoxLayout.Y_AXIS));
 		this.gameInfo.setBorder(BorderFactory.createCompoundBorder( // set border
 				 BorderFactory.createTitledBorder("Game info:"),
@@ -168,7 +168,7 @@ public class BeforeGameReadyFrame extends JDialog {
 		JLabel dictionaryPathLabel = new JLabel("Dictionary path:               ");
 		JButton selectFile = new JButton("Select...");
 		dictLocatioinField = new JTextField();
-		usernameField = new JTextField();
+		usernameField = new JTextField(controller.getNameConfig());
 		dictLocatioinField.setPreferredSize(new Dimension(320, 60));
 		usernameField.setPreferredSize(new Dimension(380, 60));
 		dictLocatioinField.setEditable(false);
@@ -177,7 +177,7 @@ public class BeforeGameReadyFrame extends JDialog {
 		
 		selectFile.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-    			getInputFile();
+    			getInputFile(controller);
     			if (inputFilePath != null) 
     				dictLocatioinField.setText(inputFilePath);
             }
@@ -206,8 +206,9 @@ public class BeforeGameReadyFrame extends JDialog {
 		confirm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	if (isHost)
+					// TODO: Check if "inputFilePath" is the right argument to pass
             		controller.onStartServer(BeforeGameReadyFrame.this.usernameField.getText(), 
-            			                 Integer.parseInt(BeforeGameReadyFrame.this.portAddressInfo.getText()));
+            			                 Integer.parseInt(BeforeGameReadyFrame.this.portAddressInfo.getText()), inputFilePath);
             	else
             		controller.onClientStart(BeforeGameReadyFrame.this.usernameField.getText(), 
             				BeforeGameReadyFrame.this.ipAddressInfo.getText(), 
@@ -236,7 +237,7 @@ public class BeforeGameReadyFrame extends JDialog {
 		initIPInfo();
 		this.IPInfo.setPreferredSize(new Dimension(780, 250));
 		allContent.add(IPInfo);
-		initGameSetting();
+		initGameSetting(controller);
 		this.gameInfo.setPreferredSize(new Dimension(780, 250));
 		allContent.add(gameInfo);
 		

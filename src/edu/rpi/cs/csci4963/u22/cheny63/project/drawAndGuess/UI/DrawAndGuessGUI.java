@@ -61,6 +61,6 @@ public class DrawAndGuessGUI {
 		}
     	
     	// window
-    	new GameSessionFrame();
+    	new GameSessionFrame(null);
     } 
 }
