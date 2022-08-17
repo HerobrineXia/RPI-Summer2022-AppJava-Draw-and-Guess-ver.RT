@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import javax.swing.Box;
@@ -26,23 +28,23 @@ public class GameSessionFrame extends JFrame{
 	private Color[][] drawContent = new Color[80][80];
 	// panels
 	private GradientJPanel operations;   // store drawboard operations
+	private GradientJPanel boardPanel;   // store drawboard all component
 	private GradientJPanel chatRoom;     // store chat
 	private GradientJPanel timer;        // store time
+	private java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 	
 	private void initOperations(Controller controller) {
 		java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 		this.operations.setLayout(new BoxLayout(this.operations, BoxLayout.X_AXIS));
 		this.operations.setOpaque(true);
 		DrawBoardButton pencil = new DrawBoardButton(new ImageIcon(ImageUtility.resizeIcon(toolkit.getImage("./res/gui/gameSession/pencil.png"), 
-								 new Dimension(150, 150))), true);
+								 new Dimension(90, 90))), true);
 		DrawBoardButton eraser = new DrawBoardButton(new ImageIcon(ImageUtility.resizeIcon(toolkit.getImage("./res/gui/gameSession/eraser.png"), 
-				 				 new Dimension(150, 150))), true);
+				 				 new Dimension(90, 90))), true);
 		DrawBoardButton restore = new DrawBoardButton(new ImageIcon(ImageUtility.resizeIcon(toolkit.getImage("./res/gui/gameSession/restore.png"), 
-				 				new Dimension(150, 150))), true);
+				 				new Dimension(90, 90))), true);
 		DrawBoardButton exit = new DrawBoardButton(new ImageIcon(ImageUtility.resizeIcon(toolkit.getImage("./res/gui/gameSession/exit.png"), 
- 								new Dimension(150, 198))), true);
-		
-		
+ 								new Dimension(80, 105))), true);
 		exit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -51,7 +53,6 @@ public class GameSessionFrame extends JFrame{
 					controller.onClose();
 			}
         });
-		
 		this.operations.add(pencil);
 		this.operations.add(eraser);
 		this.operations.add(restore);
@@ -68,6 +69,7 @@ public class GameSessionFrame extends JFrame{
         this.operations = new GradientJPanel();   // store drawboard operations
         this.chatRoom = new GradientJPanel();     // store chat
         this.timer = new GradientJPanel();        // store time
+        this.boardPanel = new GradientJPanel();   // store all drawboard
         
         initOperations(controller);
         
@@ -77,9 +79,11 @@ public class GameSessionFrame extends JFrame{
      	allContent.setLayout(new BorderLayout());
      	this.board = new DrawBoard(drawContent, -1);
      	this.board.setOpaque(true);
-     	allContent.add(board, BorderLayout.CENTER);
-     	allContent.add(operations, BorderLayout.NORTH);
      	
+     	this.boardPanel.add(operations);
+     	this.boardPanel.add(board);
+     	allContent.add(boardPanel, BorderLayout.CENTER);
+     	allContent.add(operations, BorderLayout.NORTH);
      	this.add(allContent);
      	
 

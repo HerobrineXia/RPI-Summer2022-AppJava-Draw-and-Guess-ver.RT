@@ -36,7 +36,7 @@ public class StartGameFrame extends JFrame{
 	private Action actionClient;
 	private Controller controller;
 	private StartGamePanel operations;
-	
+	private BeforeGameReadyFrame configFrame;
 	private void initAction() {
 		this.actionExit = new AbstractAction("Exit") {
 			private static final long serialVersionUID = 1L;
@@ -49,13 +49,13 @@ public class StartGameFrame extends JFrame{
 		this.actionHost = new AbstractAction("Host") {
 			private static final long serialVersionUID = 1L;
 			public void actionPerformed(ActionEvent e) {
-				new BeforeGameReadyFrame(StartGameFrame.this, controller, true);
+				configFrame = new BeforeGameReadyFrame(StartGameFrame.this, controller, true);
 	    	}
 		};
     	this.actionClient = new AbstractAction("Client") {
 			private static final long serialVersionUID = 1L;
 			public void actionPerformed(ActionEvent e) {
-				new BeforeGameReadyFrame(StartGameFrame.this, controller, false);
+				configFrame = new BeforeGameReadyFrame(StartGameFrame.this, controller, false);
 	    	}
 		};
 			
@@ -75,6 +75,9 @@ public class StartGameFrame extends JFrame{
 		}	
 	}
 	
+	public void failConnection() {
+		if (this.configFrame != null) this.configFrame.dispose();
+	}
 	
 	/**
 	 * main GUI generation function
@@ -109,7 +112,6 @@ public class StartGameFrame extends JFrame{
 		
 		this.add(operations);
         //Display the window.       
-		// device.setFullScreenWindow(this);
 		this.setLocationRelativeTo(null); // set window centre
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setUndecorated(true);
@@ -140,6 +142,5 @@ public class StartGameFrame extends JFrame{
 			e.printStackTrace();
 		}
 	}
-
 	
 }

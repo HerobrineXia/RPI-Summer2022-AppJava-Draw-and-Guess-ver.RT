@@ -21,10 +21,14 @@ import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control.Controller;
  * @version <b>1.0</b> rev. 0
  */
 public class DrawAndGuessGUI {
+	private StartGameFrame startFrame;
+	private GameSessionFrame gameStartFrame;
+	private Controller controller;
 	
 	public DrawAndGuessGUI(Controller controller) {
 		FlatDarkLaf.setup();
 		// setup default font
+		this.controller = controller;
 		try {	  
 		    Font font = Font.createFont(Font.TRUETYPE_FONT,
 		                                new File("./res/gui/font/windows_command_prompt.ttf"));
@@ -38,29 +42,40 @@ public class DrawAndGuessGUI {
 		}
 		
     	// window
-    	new StartGameFrame(controller);
+    	this.startFrame = new StartGameFrame(controller);
 	}
 	
-//	/**
-//	 * the main for generating the window
-//	 * @param args no args is needed
-//	 */
-//    public static void main(String args[ ]){	
-//    	FlatDarkLaf.setup();
-//    	
-//    	try {	  
-//		    Font font = Font.createFont(Font.TRUETYPE_FONT,
-//		                                new File("./res/gui/font/windows_command_prompt.ttf"));
-//			Font plain = font.deriveFont(Font.PLAIN, 25);
-//			UIManager.getLookAndFeelDefaults().put("defaultFont", plain);
-//		} catch (FontFormatException | IOException e) {
-//			JOptionPane.showMessageDialog(null, 
-//					"Fail to load game resource: please check resource", 
-//					"Oops...", JOptionPane.ERROR_MESSAGE);
-//					e.printStackTrace();
-//		}
-//    	
-//    	// window
-//    	new GameSessionFrame();
-//    } 
+	public void interrupt(String msg, String title) {
+		JOptionPane.showMessageDialog(null, msg, title, JOptionPane.ERROR_MESSAGE);
+		startFrame.failConnection();
+	}
+	
+	public void startGame(String msg, String title) {
+		this.startFrame.dispose();
+		this.gameStartFrame = new GameSessionFrame(this.controller);
+		
+	}
+	
+	/**
+	 * the main for generating the window
+	 * @param args no args is needed
+	 */
+    public static void main(String args[ ]){	
+    	FlatDarkLaf.setup();
+    	
+    	try {	  
+		    Font font = Font.createFont(Font.TRUETYPE_FONT,
+		                                new File("./res/gui/font/windows_command_prompt.ttf"));
+			Font plain = font.deriveFont(Font.PLAIN, 25);
+			UIManager.getLookAndFeelDefaults().put("defaultFont", plain);
+		} catch (FontFormatException | IOException e) {
+			JOptionPane.showMessageDialog(null, 
+					"Fail to load game resource: please check resource", 
+					"Oops...", JOptionPane.ERROR_MESSAGE);
+					e.printStackTrace();
+		}
+    	
+    	// window
+    	new GameSessionFrame(null);
+    } 
 }
