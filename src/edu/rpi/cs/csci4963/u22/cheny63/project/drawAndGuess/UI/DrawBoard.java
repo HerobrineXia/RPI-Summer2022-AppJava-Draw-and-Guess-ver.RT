@@ -73,8 +73,8 @@ public class DrawBoard extends GradientJPanel{
 	}
 	
     public Dimension getPreferredSize(){
-        return new Dimension((int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.80), 
-        		             (int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.80));
+        return new Dimension((int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.85), 
+        		             (int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.85));
     }
     
 	private Dimension findPosition(int x, int y) {

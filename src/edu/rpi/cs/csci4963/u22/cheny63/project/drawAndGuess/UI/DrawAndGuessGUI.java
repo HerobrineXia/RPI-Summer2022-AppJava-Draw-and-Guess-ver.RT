@@ -41,26 +41,26 @@ public class DrawAndGuessGUI {
     	new StartGameFrame(controller);
 	}
 	
-//	/**
-//	 * the main for generating the window
-//	 * @param args no args is needed
-//	 */
-//    public static void main(String args[ ]){	
-//    	FlatDarkLaf.setup();
-//    	
-//    	try {	  
-//		    Font font = Font.createFont(Font.TRUETYPE_FONT,
-//		                                new File("./res/gui/font/windows_command_prompt.ttf"));
-//			Font plain = font.deriveFont(Font.PLAIN, 25);
-//			UIManager.getLookAndFeelDefaults().put("defaultFont", plain);
-//		} catch (FontFormatException | IOException e) {
-//			JOptionPane.showMessageDialog(null, 
-//					"Fail to load game resource: please check resource", 
-//					"Oops...", JOptionPane.ERROR_MESSAGE);
-//					e.printStackTrace();
-//		}
-//    	
-//    	// window
-//    	new GameSessionFrame();
-//    } 
+	/**
+	 * the main for generating the window
+	 * @param args no args is needed
+	 */
+    public static void main(String args[ ]){	
+    	FlatDarkLaf.setup();
+    	
+    	try {	  
+		    Font font = Font.createFont(Font.TRUETYPE_FONT,
+		                                new File("./res/gui/font/windows_command_prompt.ttf"));
+			Font plain = font.deriveFont(Font.PLAIN, 25);
+			UIManager.getLookAndFeelDefaults().put("defaultFont", plain);
+		} catch (FontFormatException | IOException e) {
+			JOptionPane.showMessageDialog(null, 
+					"Fail to load game resource: please check resource", 
+					"Oops...", JOptionPane.ERROR_MESSAGE);
+					e.printStackTrace();
+		}
+    	
+    	// window
+    	new GameSessionFrame();
+    } 
 }
