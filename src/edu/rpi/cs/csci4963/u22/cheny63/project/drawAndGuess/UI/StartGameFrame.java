@@ -71,8 +71,7 @@ public class StartGameFrame extends JFrame{
 	public void setAllOperationEnable(boolean enabled) {
 		for (Component component : this.operations.getComponents()) {
 		    if (component instanceof PixelatedButton)
-		    	((PixelatedButton) component).setEnabled(enabled);
-		    	
+		    	((PixelatedButton) component).setEnabled(enabled);	    	
 		}	
 	}
 	
@@ -121,9 +120,7 @@ public class StartGameFrame extends JFrame{
 	    else
 	    	this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	    
-	    this.setVisible(true);
-	    	
-	    
+	    this.setVisible(true); 
 	}
 	
 	/**

@@ -5,15 +5,16 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+
 import javax.swing.JPanel;
 
-public class StartGamePanel extends JPanel{
+public class GameSessionPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private Dimension curWindowSize;
 	protected double cursorTrackerY = 0;
 	protected double cursorTrackerX = 0;
 	
-	public StartGamePanel(Dimension screenSize) {
+	public GameSessionPanel(Dimension screenSize) {
 		super();
 		this.setBackground(new Color(32, 130, 147));
 		this.curWindowSize = new Dimension((int)screenSize.getWidth(), 
@@ -36,14 +37,15 @@ public class StartGamePanel extends JPanel{
 	protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);
 	    g.setColor(new Color(84, 159, 172));
-	    for (int j = 0; j < 40; j++) {
-	    	for (int i = 0; i < 120; i++) {
-		    	g.fillOval((int)(30+ i * 40 - 0.1 * cursorTrackerX) , 
-		    			  (int)(this.curWindowSize.height*0.6 - 0.1 * cursorTrackerY + j*40), 12, 12);
+	    for (int j = 0; j < 120; j++) {
+	    	for (int i = 0; i < 30; i++) {
+		    	g.fillOval((int)(i * 40 - 660) , 
+		    			  (int)(j*40), 12, 12);
 		    }
 	    }
 	    
 	    this.repaint();
 	    this.revalidate();
 	}
+
 }
