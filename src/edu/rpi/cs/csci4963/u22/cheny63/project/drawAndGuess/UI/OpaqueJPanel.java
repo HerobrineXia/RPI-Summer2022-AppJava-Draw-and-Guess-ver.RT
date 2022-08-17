@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-public class GradientJPanel extends JPanel{
+public class OpaqueJPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 
 	@Override

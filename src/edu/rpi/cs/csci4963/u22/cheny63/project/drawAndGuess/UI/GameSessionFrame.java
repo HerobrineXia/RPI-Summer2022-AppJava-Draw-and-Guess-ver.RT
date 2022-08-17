@@ -3,12 +3,13 @@ package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FontFormatException;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -27,11 +28,13 @@ public class GameSessionFrame extends JFrame{
 	private DrawBoard board;
 	private Color[][] drawContent = new Color[80][80];
 	// panels
-	private GradientJPanel operations;   // store drawboard operations
-	private GradientJPanel boardPanel;   // store drawboard all component
-	private GradientJPanel chatRoom;     // store chat
-	private GradientJPanel timer;        // store time
+	private OpaqueJPanel operations;   // store drawboard operations
+	private OpaqueJPanel boardPanel;   // store drawboard all component
+	private OpaqueJPanel chatRoom;     // store chat
+	private OpaqueJPanel timer;        // store time
 	private java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
+	private ChatBoxPanel chat;
+	
 	
 	private void initOperations(Controller controller) {
 		java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
@@ -60,16 +63,18 @@ public class GameSessionFrame extends JFrame{
 		this.operations.add(exit);
 	}
 	
-	private void generateGUI(Controller controller) {
+	private void generateGUI(Controller controller) throws FontFormatException, IOException {
 		// set full screen
 		GraphicsEnvironment graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice device = graphics.getDefaultScreenDevice();
         
         // init panel
-        this.operations = new GradientJPanel();   // store drawboard operations
-        this.chatRoom = new GradientJPanel();     // store chat
-        this.timer = new GradientJPanel();        // store time
-        this.boardPanel = new GradientJPanel();   // store all drawboard
+        this.operations = new OpaqueJPanel();   // store drawboard operations
+        this.chatRoom = new OpaqueJPanel();     // store chat
+        this.timer = new OpaqueJPanel();        // store time
+        this.boardPanel = new OpaqueJPanel();   // store all drawboard
+		this.chat = new ChatBoxPanel();
+        
         
         initOperations(controller);
         
@@ -84,8 +89,8 @@ public class GameSessionFrame extends JFrame{
      	this.boardPanel.add(board);
      	allContent.add(boardPanel, BorderLayout.CENTER);
      	allContent.add(operations, BorderLayout.NORTH);
+     	allContent.add(this.chat, BorderLayout.EAST);
      	this.add(allContent);
-     	
 
         //Display the window.       
 		this.setLocationRelativeTo(null); // set window centre
