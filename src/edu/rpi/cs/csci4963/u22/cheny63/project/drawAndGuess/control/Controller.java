@@ -52,13 +52,14 @@ public class Controller{
         config.setFilePath(filePath);
         startServer(port);
         myName = name;
-        afterConnect();
+        // afterConnect();
     }
 
     public void onClientStart(String name, String address, int port){
         config.setName(name);
         startClient(address, port);
         myName = name;
+        // afterConnect();
     }
 
     /**
@@ -73,18 +74,8 @@ public class Controller{
         }
     }
 
-    public void onPlayerJoinServerReturn(int id){
+    public void onIdReturn(int id){
         myId = id;
-    }
-
-    public void playerJoinEvent(String name, int id){
-        model.addUser(name, id);
-        model.addChat("System: Welcome %s to the game!".formatted(name));
-    }
-
-    public void playerLeaveEvent(int id){
-        model.addChat("System: Player %s left the game!".formatted(model.getPlayerName(id)));
-        model.removeUser(id);
     }
 
     public void sendMessageToAll(String message){
@@ -114,12 +105,11 @@ public class Controller{
         return isServer;
     }
 
-
-    public void onPlayerJoin(String name, String address){
+    public void onPlayerJoinServer(String name, String address){
         if(isServer){
             int id = server.getId(address);
             if(!address.equals("localhost")){
-                server.sendMessage(protocol.userJoinServerReturnEvent(id), address);
+                server.sendMessage(protocol.serverReturnIdEvent(id), address);
             }else{
                 myId = 0;
                 id = 0;
@@ -128,13 +118,38 @@ public class Controller{
         }
     }
 
-    public void onPlayerLeave(int id){
+    public void onPlayerLeaveServer(int id){
         if(isServer){
             sendMessageToAll(protocol.userLeftEvent(id));
         }
     }
 
-    // public void onPlayerJoin
+    public void onPlayerJoinClient(String name, int id){
+        model.addUser(name, id);
+        model.addChat("System", "Welcome %s to the game!".formatted(name));
+    }
+
+    public void onPlayerLeaveClient(int id){
+        model.addChat("System", "Player %s left the game!".formatted(model.getPlayerName(id)));
+        model.removeUser(id);
+    }
+
+    public void onPlayerSentMessage(String message){
+        if(isServer){
+            onPlayerReceiveMessageServer(myId, message);
+        }else{
+            client.send(protocol.userSentMessageEvent(myId, message));
+        }
+    }
+
+    public void onPlayerReceiveMessageServer(int id, String message){
+        // TODO: Guess Word
+        sendMessageToAll(protocol.serverSentMessageEvent(id, message));
+     }
+
+    public void onPlayerReceiveMessageClient(int id, String message){
+       model.addChat(model.getPlayerName(id), message);
+    }
 
     public void onClose(){
         log.info("Closing the application...");

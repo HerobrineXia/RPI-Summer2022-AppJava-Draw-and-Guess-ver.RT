@@ -95,13 +95,13 @@ public class Protocol {
 		StringBuilder response = new StringBuilder("%s%s%s%s%s%s%s".formatted("EVENT",SEPARATOR,"JOIN_SERVER",SEPARATOR,name,SEPARATOR,address));
 		return response.toString();
 	}
-	public String userJoinServerReturnEvent(int id) {
-		StringBuilder response = new StringBuilder("%s%s%s%s%d".formatted("EVENT",SEPARATOR,"JOIN_RETURN_ID",SEPARATOR,id));
+	public String serverReturnIdEvent(int id) {
+		StringBuilder response = new StringBuilder("%s%s%s%s%d".formatted("EVENT",SEPARATOR,"RETURN_ID",SEPARATOR,id));
 		return response.toString();
 	}
 	public String userJoinClientEvent(int id, String name) {
 		name = stringToUnicode(name);
-		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s".formatted("EVENT",SEPARATOR,"JOIN_CLIENT",SEPARATOR,id,SEPARATOR,name));
+		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s".formatted("EVENT",SEPARATOR,"JOIN",SEPARATOR,id,SEPARATOR,name));
 		return response.toString();
 	}
 	
@@ -113,9 +113,14 @@ public class Protocol {
 		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%d".formatted("DATA",SEPARATOR,"SCORE",SEPARATOR,id,SEPARATOR,score));
 		return response.toString();
 	}
-	public String userSentEvent(int id,String message) {
+	public String userSentMessageEvent(int id,String message) {
 		message = stringToUnicode(message);
-		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s".formatted("EVENT",SEPARATOR,"SENT",SEPARATOR,id,SEPARATOR,message));
+		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s".formatted("EVENT",SEPARATOR,"MESSAGE_CLIENT",SEPARATOR,id,SEPARATOR,message));
+		return response.toString();
+	}
+	public String serverSentMessageEvent(int id,String message) {
+		message = stringToUnicode(message);
+		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s".formatted("EVENT",SEPARATOR,"MESSAGE_SERVER",SEPARATOR,id,SEPARATOR,message));
 		return response.toString();
 	}
 
@@ -138,34 +143,43 @@ public class Protocol {
 		        }
 				String name = commands[2];
 				String address = commands[3];
-				controller.playerJoinEventServer(name, address);
-			}else if(secondary.equals("JOIN_RETURN_ID")){
+				controller.onPlayerJoinServer(name, address);
+			}else if(secondary.equals("RETURN_ID")){
 				int id = Integer.parseInt(commands[2]);
 				if(commands.length<3) {
 		        	response = new StringBuilder("Invalid Command: EVENT JOIN_RETURN_ID command length less than 3");
 		        	return response.toString();
 		        }
-				controller.playerJoinServerReturn(id);
+				controller.onIdReturn(id);
 			}
-			else if(secondary.equals("JOIN_CLIENT")) {
+			else if(secondary.equals("JOIN")) {
 				System.out.println(command);
 				if(commands.length<4) {
-		        	response = new StringBuilder("Invalid Command: EVENT JOIN_CLIENT command length less than 4");
+		        	response = new StringBuilder("Invalid Command: EVENT JOIN command length less than 4");
 		        	return response.toString();
 		        }
 				int id = Integer.parseInt(commands[2]);
 				String name = commands[3];
 				name = unicodeToString(name);
-				controller.playerJoinEventClient(name, id);
+				controller.onPlayerJoinClient(name, id);
 			}
-			else if(secondary.equals("SENT")) {
+			else if(secondary.equals("MESSAGE_SERVER")) {
 				if(commands.length<4) {
-		        	response = new StringBuilder("Invalid Command: EVENT SENT command length less than 4");
+		        	response = new StringBuilder("Invalid Command: EVENT MESSAGE_SERVER command length less than 4");
 		        	return response.toString();
 		        }
 				int id = Integer.parseInt(commands[2]);
 				String message = commands[3];
-				response = new StringBuilder("%s%s%s%s%d%s%s".formatted("DATA",SEPARATOR,"MESSAGE",SEPARATOR,id,SEPARATOR,message));
+				controller.onPlayerReceiveMessageClient(id, message);
+			}
+			else if(secondary.equals("MESSAGE_CLIENT")) {
+				if(commands.length<4) {
+		        	response = new StringBuilder("Invalid Command: EVENT MESSAGE_CLIENT command length less than 4");
+		        	return response.toString();
+		        }
+				int id = Integer.parseInt(commands[2]);
+				String message = commands[3];
+				controller.onPlayerReceiveMessageServer(id, message);
 			}
 			else if(secondary.equals( "LEFT")) {
 				int id = Integer.parseInt(commands[2]);
@@ -173,8 +187,7 @@ public class Protocol {
 		        	response = new StringBuilder("Invalid Command: EVENT LEFT command length less than 4");
 		        	return response.toString();
 		        }
-				
-				
+				controller.onPlayerLeaveClient(id);
 			}
 			else if(secondary.equals("NEW_ROUND")) {
 				int painterId = Integer.parseInt(commands[2]);

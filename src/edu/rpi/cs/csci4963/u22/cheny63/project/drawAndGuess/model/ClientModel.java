@@ -31,7 +31,8 @@ public class ClientModel {
         }
     }
 
-    public void addChat(String message){
+    public void addChat(String name, String message){
+        chatHistory.add(name);
         chatHistory.add(message);
     }
 
