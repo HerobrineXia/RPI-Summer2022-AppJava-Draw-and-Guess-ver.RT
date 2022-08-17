@@ -139,13 +139,15 @@ public class Controller{
 
     public void onClose(){
         log.info("Closing the application...");
-        network.interrupt();
-        try{
-            network.join();
-        }catch(InterruptedException e){
-            log.warning("Failed to interrupt network thread");
-        }
         config.save();
+        if(network != null){
+            network.interrupt();
+            try{
+                network.join();
+            }catch(InterruptedException e){
+                log.warning("Failed to interrupt network thread");
+            }
+        }
         System.exit(0);
     }
 
