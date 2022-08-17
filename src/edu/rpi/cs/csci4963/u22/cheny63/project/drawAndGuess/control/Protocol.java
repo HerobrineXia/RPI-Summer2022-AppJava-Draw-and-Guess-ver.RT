@@ -113,61 +113,107 @@ public class Protocol {
 		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%d".formatted("DATA",SEPARATOR,"SCORE",SEPARATOR,id,SEPARATOR,score));
 		return response.toString();
 	}
+	public String userSentEvent(int id,String message) {
+		message = stringToUnicode(message);
+		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s".formatted("EVENT",SEPARATOR,"SENT",SEPARATOR,id,SEPARATOR,message));
+		return response.toString();
+	}
 
 	public String process(String command){
         StringBuilder response = new StringBuilder();
 		System.out.println(command);
         String[] commands = parseCommand(command);
+        if(commands.length<2) {
+        	response = new StringBuilder("Invalid Command: command length less than 2");
+        	return response.toString();
+        }
         String keyword = commands[0];
         String secondary = commands[1];
 
 		if(keyword.equals("EVENT")) {
 			if(secondary.equals("JOIN_SERVER")) {
+				if(commands.length<4) {
+		        	response = new StringBuilder("Invalid Command: EVENT JOIN_SERVER command length less than 4");
+		        	return response.toString();
+		        }
 				String name = commands[2];
 				String address = commands[3];
 				controller.playerJoinEventServer(name, address);
 			}else if(secondary.equals("JOIN_RETURN_ID")){
 				int id = Integer.parseInt(commands[2]);
+				if(commands.length<3) {
+		        	response = new StringBuilder("Invalid Command: EVENT JOIN_RETURN_ID command length less than 3");
+		        	return response.toString();
+		        }
 				controller.playerJoinServerReturn(id);
 			}
 			else if(secondary.equals("JOIN_CLIENT")) {
 				System.out.println(command);
+				if(commands.length<4) {
+		        	response = new StringBuilder("Invalid Command: EVENT JOIN_CLIENT command length less than 4");
+		        	return response.toString();
+		        }
 				int id = Integer.parseInt(commands[2]);
 				String name = commands[3];
 				name = unicodeToString(name);
 				controller.playerJoinEventClient(name, id);
 			}
 			else if(secondary.equals("SENT")) {
+				if(commands.length<4) {
+		        	response = new StringBuilder("Invalid Command: EVENT SENT command length less than 4");
+		        	return response.toString();
+		        }
 				int id = Integer.parseInt(commands[2]);
 				String message = commands[3];
 				response = new StringBuilder("%s%s%s%s%d%s%s".formatted("DATA",SEPARATOR,"MESSAGE",SEPARATOR,id,SEPARATOR,message));
 			}
 			else if(secondary.equals( "LEFT")) {
 				int id = Integer.parseInt(commands[2]);
+				if(commands.length<3) {
+		        	response = new StringBuilder("Invalid Command: EVENT LEFT command length less than 4");
+		        	return response.toString();
+		        }
 				
 				
 			}
 			else if(secondary.equals("NEW_ROUND")) {
 				int painterId = Integer.parseInt(commands[2]);
+				if(commands.length<3) {
+		        	response = new StringBuilder("Invalid Command: EVENT NEW_ROUND command length less than 4");
+		        	return response.toString();
+		        }
 				//controller
 			}
 			else {
 				//invalid
+	        	response = new StringBuilder("Invalid Command: EVENT command not match");
 			}
 		}
 		else if( keyword.equals("DATA")) {
 			if(secondary.equals("SCORE")) {
+				if(commands.length<4) {
+		        	response = new StringBuilder("Invalid Command: DATA SCORE command length less than 4");
+		        	return response.toString();
+		        }
 				int id = Integer.parseInt(commands[2]);
 				int score = Integer.parseInt(commands[3]);
 			}
 			else if(secondary.equals("MESSAGE")) {
+				if(commands.length<4) {
+		        	response = new StringBuilder("Invalid Command: DATA MESSAGE command length less than 4");
+		        	return response.toString();
+		        }
 				int id = Integer.parseInt(commands[2]);
 				String message = commands[3];
 				message = unicodeToString(message);
 				// controller
 			}
 			else if(secondary.equals("MODEL")) {
-				LinkedList <User> users = new LinkedList <User>(); 
+				LinkedList <User> users = new LinkedList <User>();
+				if(commands.length<4) {
+		        	response = new StringBuilder("Invalid Command: DATA MODEL command length less than 4");
+		        	return response.toString();
+		        }
 				for(int i = 3;i<Integer.parseInt(commands[2]);i+=3) {
 					users.addLast(new User( unicodeToString(commands[i+1]),Integer.parseInt(commands[i+2]),Integer.parseInt(commands[i])));
 				}
@@ -178,11 +224,11 @@ public class Protocol {
 			}
 			
 			else {
-				//invalid
+				response = new StringBuilder("Invalid Command:DATA command not match");
 			}
 		}
 		else {
-			//invalid
+			response = new StringBuilder("Invalid Command: Command not find");
 		}
         return response.toString();
 	}
