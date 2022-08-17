@@ -83,7 +83,7 @@ public class ServerThread implements Runnable {
 			// Run the intialize method
 			// controller.afterConnect();
 		}
-		String message, respond;
+		String message;
 		// Manage the I/O flow while the connection is not close
 		while(!Thread.currentThread().isInterrupted() && !isConnectionClosed()){
 			message = null;

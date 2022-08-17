@@ -91,7 +91,7 @@ public class Server implements Runnable{
             for(int id: socketList.keySet()){
                 if(socketList.get(id).equals(socket)){
                     socketList.remove(id);
-                    controller.onPlayerLeave(id);
+                    controller.onPlayerLeaveServer(id);
                     break;
                 }
             }
@@ -134,6 +134,9 @@ public class Server implements Runnable{
             log.warning("Failed to create server socket.");
         }
         log.info("Server started with ip %s:%d".formatted(serverSocket.getLocalSocketAddress(),port));
+        if(!serverSocket.isClosed()){
+            controller.afterConnect();
+        }
 		// Manage connection while the connection is not close
 		while(!Thread.currentThread().isInterrupted() && flag){
             try {
