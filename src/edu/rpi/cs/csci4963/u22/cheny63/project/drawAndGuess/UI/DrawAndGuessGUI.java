@@ -50,7 +50,7 @@ public class DrawAndGuessGUI {
 		startFrame.failConnection();
 	}
 	
-	public void startGame(String msg, String title) {
+	public void startGame() {
 		this.startFrame.dispose();
 		this.gameStartFrame = new GameSessionFrame(this.controller);
 		
