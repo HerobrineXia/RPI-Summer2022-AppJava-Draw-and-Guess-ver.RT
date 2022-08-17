@@ -21,7 +21,7 @@ public class PixelatedButton extends JButton{
     	// basic info filling
         this.setFont(goreRegular);
         this.setText(text);
-        this.setForeground(Color.WHITE);
+        this.setForeground(new Color(253, 253, 253));
         PixelatedButton.this.setContentAreaFilled(false);
         this.setPreferredSize(new Dimension(900, 80));
         

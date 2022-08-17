@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JFrame;
 
-public class DrawBoard extends GradientJPanel{
+public class DrawBoard extends OpaqueJPanel{
 	
 	private static final long serialVersionUID = 1L;
 	private int drawEntryWidth = 80;

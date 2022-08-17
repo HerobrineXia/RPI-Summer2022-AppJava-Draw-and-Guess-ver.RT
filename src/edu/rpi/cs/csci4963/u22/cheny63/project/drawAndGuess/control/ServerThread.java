@@ -18,16 +18,16 @@ public class ServerThread implements Runnable {
 	private BufferedReader in;
 	private PrintWriter out;
 	private Logger log;
-	private Protocol protocol;
+	private Controller controller;
 
 	// Reference
 	private Server server;
 
-    public ServerThread(Socket socket, Logger log, Server server, Protocol protocol) throws IOException{
+    public ServerThread(Socket socket, Logger log, Server server, Controller controller) throws IOException{
         this.socket = socket;
 		this.server = server;
 		this.log = log;
-		this.protocol = protocol;
+		this.controller = controller;
         // I/O port
 		inStream =  socket.getInputStream();
 		outStream = socket.getOutputStream();
@@ -45,15 +45,6 @@ public class ServerThread implements Runnable {
 			return true;
 		}
 		return !socket.isConnected();
-	}
-
-    /**
-	 * Send the message
-	 * @param message the message
-	 */
-	private void send(String message){
-		out.println(message);
-		log.info(String.format("Message \"%s\" sent.\n", message));
 	}
 
 	/**
@@ -91,7 +82,7 @@ public class ServerThread implements Runnable {
             message = receive();
 			if(message != null){
 				// Receive the respond and remove the command from list
-				protocol.process(message);
+				controller.processCommand(message);
 			}else{
 				server.removeSocket(socket);
                 try{

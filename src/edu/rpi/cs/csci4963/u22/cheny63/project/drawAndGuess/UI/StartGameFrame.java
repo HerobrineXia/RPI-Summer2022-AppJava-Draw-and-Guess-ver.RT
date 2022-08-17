@@ -35,8 +35,11 @@ public class StartGameFrame extends JFrame{
 	private Action actionHost;
 	private Action actionClient;
 	private Controller controller;
+	
+	// GUI Component
 	private StartGamePanel operations;
-	private BeforeGameReadyFrame configFrame;
+	private BeforeGameReadyFrame configFrame;	
+	
 	private void initAction() {
 		this.actionExit = new AbstractAction("Exit") {
 			private static final long serialVersionUID = 1L;
@@ -90,7 +93,8 @@ public class StartGameFrame extends JFrame{
         GraphicsDevice device = graphics.getDefaultScreenDevice();
 		
 		initAction();
-		initCursorStrategy();
+		initCursorStrategy();		
+		
 		// start arrange
 		this.setBackground(new Color(32, 130, 147));
 		this.operations = new StartGamePanel(Toolkit.getDefaultToolkit().getScreenSize());
