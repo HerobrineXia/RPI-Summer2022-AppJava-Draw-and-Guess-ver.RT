@@ -57,17 +57,16 @@ public class DrawBoard extends GradientJPanel{
 		double slope = (x2 != x1? (y2 - y1) / (x2 - x1) : 0);
 		double b = (x2*y1-x1*y2)/(x2-x1);
 		// System.out.println("connect: (" + x1+", " + y1+")" + " ("+ x2 +", " + x2 + ")" + " slope: " + slope);
-		if (x1 == x2) {
-			while (y2 != y1) {
-				setEntryColor(findPosition((int)x1, (int)y1), Color.PINK);
-				y1 += (y1 < y2? 1 : -1);
-			}
-		}else {
-			while(x1 != x2) {
-				setEntryColor(findPosition((int)x1, (int)y1), Color.RED);
-				x1 += (x1 < x2? 1 : (x1 == x2? 0 : -1));
-				y1 = x1*slope+b;
-			}
+			
+		while (y2 != y1 &&!((x1-x2>1)||(x1-x2<-1)) ) {
+			setEntryColor(findPosition((int)x1, (int)y1), Color.PINK);
+			y1 += (y1 < y2? 1 : (y1 == y2? 0 : -1));
+		}
+		while(x1 != x2) {
+			setEntryColor(findPosition((int)x1, (int)y1), Color.RED);
+			x1 += (x1 < x2? 1 : (x1 == x2? 0 : -1));
+			y1 = x1*slope+b;
+			y2 = x2*slope+b;
 		}
 		
 	}
