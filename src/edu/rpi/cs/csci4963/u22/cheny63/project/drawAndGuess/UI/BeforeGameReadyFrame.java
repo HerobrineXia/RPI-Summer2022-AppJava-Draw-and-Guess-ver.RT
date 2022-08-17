@@ -205,6 +205,18 @@ public class BeforeGameReadyFrame extends JDialog {
 		JButton confirm = new JButton("Confirm");
 		confirm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+            	if (isHost && inputFilePath == null) {
+            		JOptionPane.showMessageDialog(BeforeGameReadyFrame.this, "You need to select a dictionary file", 
+            				                      "Oops...", JOptionPane.ERROR_MESSAGE);
+            		return;
+            	}
+            	
+            	if (BeforeGameReadyFrame.this.usernameField.getText().equals("")) {
+            		JOptionPane.showMessageDialog(BeforeGameReadyFrame.this, "You need to have a non-empty username", 
+		                      "Oops...", JOptionPane.ERROR_MESSAGE);
+            		return;
+            	}
+            		
             	if (isHost)
 					// TODO: Check if "inputFilePath" is the right argument to pass
             		controller.onStartServer(BeforeGameReadyFrame.this.usernameField.getText(), 
