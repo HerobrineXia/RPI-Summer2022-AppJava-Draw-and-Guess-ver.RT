@@ -55,20 +55,18 @@ public class Server implements Runnable{
         return -1;
     }
 
-    public void sendMessage(String message, String address){
+    public void sendMessage(String message, int id){
         PrintWriter out = null;
         synchronized(socketList){
-            for(Socket socket: socketList.values()){
-                if(socket.getRemoteSocketAddress().toString().equals(address)){
-                    try{
-                        out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
-                        out.println(message);	
-                    }catch(IOException e){
-                        log.warning("Failed to send the message to the client at %s".formatted(socket.getRemoteSocketAddress().toString()));
-                    }
-                }
+            Socket socket = socketList.get(id);
+            try{
+                out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
+                out.println(message);	
+            }catch(IOException e){
+                log.warning("Failed to send the message to the client at %s".formatted(socket.getRemoteSocketAddress().toString()));
             }
         }
+        log.info(String.format("Message \"%s\" sent.\n", message));
     }
 
     public void sendMessageToAll(String message){
@@ -129,13 +127,14 @@ public class Server implements Runnable{
         try{
             serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(1000);
+            log.info("Server started with ip %s:%d".formatted(serverSocket.getLocalSocketAddress(),port));
         }catch(IOException e){
             flag = false;
             log.warning("Failed to create server socket.");
+            controller.onConnectionFailed("Failed to create server", "Connection Failed");
         }
-        log.info("Server started with ip %s:%d".formatted(serverSocket.getLocalSocketAddress(),port));
-        if(!serverSocket.isClosed()){
-            controller.afterConnect();
+        if(!serverSocket.isClosed() && flag){
+            controller.onConnectionSuccess();
         }
 		// Manage connection while the connection is not close
 		while(!Thread.currentThread().isInterrupted() && flag){
@@ -148,7 +147,7 @@ public class Server implements Runnable{
                     socketList.put(currentId, accept);
                     ++currentId;
                 }
-                Thread thread = new Thread(new ServerThread(accept, log, this, controller.getProtocol()));
+                Thread thread = new Thread(new ServerThread(accept, log, this, controller));
                 threadList.add(thread);
                 thread.start();
             }catch(SocketTimeoutException e){

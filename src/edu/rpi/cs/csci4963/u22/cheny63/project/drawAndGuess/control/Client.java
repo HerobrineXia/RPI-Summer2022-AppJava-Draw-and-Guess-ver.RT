@@ -117,28 +117,25 @@ public class Client implements Runnable{
 			}
 			// Try to establish the connection 
 			connect();
-			// Close the windows when finished
-			// controller.waitEnd(false, null);
 		}catch(UnknownHostException e) {
-			log.warning(String.format("Unknown host: %s.\n", e.getMessage()));
-			// controller.waitEnd(true, "Unknown host " + e.getMessage());
+			log.warning("Unknown host: %s.".formatted(e.getMessage()));
+			controller.onConnectionFailed("Unknown host: " + e.getMessage(), "Connection Failed");
 		}catch(IOException e){
             log.warning(String.format("Unable to create socket: %s", e.getMessage()));
-			// controller.waitEnd(true, e.getMessage());
+			controller.onConnectionFailed("Unable to connect: " + e.getMessage(), "Connection Failed");
 		}
 		// Check if the connection is established
 		if(!isConnectionClosed()){
 			// Run the intialize method
-			controller.afterConnect();
+			controller.onConnectionSuccess();
 		}
-		String message, respond;
+		String message;
 		// Manage the I/O flow while the connection is not close
 		while(!Thread.currentThread().isInterrupted() && !isConnectionClosed()){
-			message = null;
 			// Receive the message
             message = receive();
 			if(message != null){
-				controller.getProtocol().process(message);
+				controller.processCommand(message);
 			}else{
 				break;
             }

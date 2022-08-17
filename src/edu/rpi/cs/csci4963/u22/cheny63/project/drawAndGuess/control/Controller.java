@@ -7,6 +7,7 @@ import java.util.logging.StreamHandler;
 
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI.DrawAndGuessGUI;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.ClientModel;
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.GameStatus;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.ServerModel;
 
 public class Controller{
@@ -52,37 +53,30 @@ public class Controller{
         config.setFilePath(filePath);
         startServer(port);
         myName = name;
-        // afterConnect();
     }
 
     public void onClientStart(String name, String address, int port){
         config.setName(name);
         startClient(address, port);
         myName = name;
-        // afterConnect();
     }
 
-    /**
-     * Intial command to send after the connection is made
-     */
-    public void afterConnect(){
+    protected void onConnectionFailed(String message, String title){
+        window.interrupt(message, title);
+    }
+
+    protected void onConnectionSuccess(){
         // Send the player name to server
         if(isServer){
             protocol.process(protocol.userJoinServerEvent("localhost", myName));
         }else{
             client.send(protocol.userJoinServerEvent(client.getAddress(), myName));
         }
+        window.startGame();
     }
 
-    public void onIdReturn(int id){
-        myId = id;
-    }
-
-    public void sendMessageToAll(String message){
-        if(isServer){
-            server.sendMessageToAll(message);
-            protocol.process(message);
-        }
+    public void processCommand(String command){
+        protocol.process(command);
     }
 
     public void startGame(){
@@ -97,58 +91,8 @@ public class Controller{
         return config.getFilePath();
     }
 
-    public Protocol getProtocol(){
-        return protocol;
-    }
-
     public boolean isServer(){
         return isServer;
-    }
-
-    public void onPlayerJoinServer(String name, String address){
-        if(isServer){
-            int id = server.getId(address);
-            if(!address.equals("localhost")){
-                server.sendMessage(protocol.serverReturnIdEvent(id), address);
-            }else{
-                myId = 0;
-                id = 0;
-            }
-            sendMessageToAll(protocol.userJoinClientEvent(id, name));
-        }
-    }
-
-    public void onPlayerLeaveServer(int id){
-        if(isServer){
-            sendMessageToAll(protocol.userLeftEvent(id));
-        }
-    }
-
-    public void onPlayerJoinClient(String name, int id){
-        model.addUser(name, id);
-        model.addChat("System", "Welcome %s to the game!".formatted(name));
-    }
-
-    public void onPlayerLeaveClient(int id){
-        model.addChat("System", "Player %s left the game!".formatted(model.getPlayerName(id)));
-        model.removeUser(id);
-    }
-
-    public void onPlayerSentMessage(String message){
-        if(isServer){
-            onPlayerReceiveMessageServer(myId, message);
-        }else{
-            client.send(protocol.userSentMessageEvent(myId, message));
-        }
-    }
-
-    public void onPlayerReceiveMessageServer(int id, String message){
-        // TODO: Guess Word
-        sendMessageToAll(protocol.serverSentMessageEvent(id, message));
-     }
-
-    public void onPlayerReceiveMessageClient(int id, String message){
-       model.addChat(model.getPlayerName(id), message);
     }
 
     public void onClose(){
@@ -163,6 +107,72 @@ public class Controller{
             }
         }
         System.exit(0);
+    }
+
+    protected void onIdReturn(int id){
+        myId = id;
+    }
+
+    protected void onPlayerJoinServer(String name, String address){
+        if(isServer){
+            int id = server.getId(address);
+            if(!address.equals("localhost")){
+                server.sendMessage(protocol.serverReturnIdEvent(id), id);
+            }else{
+                myId = 0;
+                id = 0;
+            }
+            sendMessageToAll(protocol.userJoinClientEvent(id, name));
+        }
+    }
+
+    protected void onPlayerLeaveServer(int id){
+        if(isServer){
+            sendMessageToAll(protocol.userLeftEvent(id));
+        }
+    }
+
+    protected void onPlayerJoinClient(String name, int id){
+        model.addUser(name, id);
+        addChat("System", "Welcome %s to the game!".formatted(name));
+    }
+
+    protected void onPlayerLeaveClient(int id){
+        addChat("System", "Player %s left the game!".formatted(model.getPlayerName(id)));
+        model.removeUser(id);
+    }
+
+    protected void onPlayerSentMessage(String message){
+        if(isServer){
+            onPlayerReceiveMessageServer(myId, message);
+        }else{
+            client.send(protocol.userSentMessageEvent(myId, message));
+        }
+    }
+
+    protected void onPlayerReceiveMessageClient(int id, String message){
+        addChat(model.getPlayerName(id), message);
+    }
+
+    protected void onPlayerReceiveMessageServer(int id, String message){
+        String realMessage = message;
+        if(model.getStatus() == GameStatus.PROCESSING){
+            
+        }
+        // TODO: Guess Word
+        sendMessageToAll(protocol.serverSentMessageEvent(id, message));
+    }
+
+    private void sendMessageToAll(String message){
+        if(isServer){
+            server.sendMessageToAll(message);
+            protocol.process(message);
+        }
+    }
+
+    private void addChat(String name, String message){
+        model.addChat(name, message);
+        // TODO: Refresh UI
     }
 
     private void startServer(int port){

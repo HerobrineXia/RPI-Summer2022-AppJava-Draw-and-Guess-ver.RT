@@ -9,7 +9,6 @@ public class ServerModel extends ClientModel{
 	private WordDictionary dictionary;
 
 	// Game Data
-	private boolean gameStart;
 	private String secretWord;
 	private Timer timer;
 	private int remainPoint;
@@ -21,7 +20,6 @@ public class ServerModel extends ClientModel{
 		super(log);
 		timer = new Timer();
 		currentDrawerId = -1;
-		gameStart = false;
 	}
 
 	public void readGraph(String filename) throws IOException{
@@ -40,20 +38,19 @@ public class ServerModel extends ClientModel{
     }
 	
 	public void startGame(){
-		intializeGame();
-		gameStart = true;
-		startRound();
+		if(gameStatus == GameStatus.INIT || gameStatus == GameStatus.END){
+			intializeGame();
+			startRound();
+		}
 	}
 
 	public void intializeGame(){
-		if(gameStatus == GameStatus.INIT || gameStatus == GameStatus.END){
-			dictionary.resetWordList();
-			for(User user: userList){
-				((UserServer)user).initialize();
-			}
-			currentDrawerId = 0;
-			gameStatus = GameStatus.WAITING;
+		dictionary.resetWordList();
+		for(User user: userList){
+			((UserServer)user).initialize();
 		}
+		currentDrawerId = 0;
+		gameStatus = GameStatus.WAITING;
 	}
 
 	public void startRound(){
