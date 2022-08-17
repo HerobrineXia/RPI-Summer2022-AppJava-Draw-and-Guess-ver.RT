@@ -47,7 +47,7 @@ public class Config {
             update = true;
         }
         File path = new File(filePath);
-        if(!path.isDirectory()){
+        if(!path.exists()){
             setFilePath(System.getProperty("user.dir"));
             update = false;
         }
