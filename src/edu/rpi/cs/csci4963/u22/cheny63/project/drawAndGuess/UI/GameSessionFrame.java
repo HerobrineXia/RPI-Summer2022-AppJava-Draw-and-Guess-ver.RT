@@ -12,6 +12,8 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control.Controller;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.ImageUtility;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.SystemCheck;
 
@@ -27,7 +29,7 @@ public class GameSessionFrame extends JFrame{
 	private GradientJPanel chatRoom;     // store chat
 	private GradientJPanel timer;        // store time
 	
-	private void initOperations() {
+	private void initOperations(Controller controller) {
 		java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 		this.operations.setLayout(new BoxLayout(this.operations, BoxLayout.X_AXIS));
 		this.operations.setOpaque(true);
@@ -46,7 +48,7 @@ public class GameSessionFrame extends JFrame{
             public void actionPerformed(ActionEvent e) {
 				if (JOptionPane.showConfirmDialog(GameSessionFrame.this, "Do you want to quit?", 
 				    "Are you sure", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) 
-					System.exit(0);
+					controller.onClose();
 			}
         });
 		
@@ -57,7 +59,7 @@ public class GameSessionFrame extends JFrame{
 		this.operations.add(exit);
 	}
 	
-	private void generateGUI() {
+	private void generateGUI(Controller controller) {
 		// set full screen
 		GraphicsEnvironment graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice device = graphics.getDefaultScreenDevice();
@@ -67,7 +69,7 @@ public class GameSessionFrame extends JFrame{
         this.chatRoom = new GradientJPanel();     // store chat
         this.timer = new GradientJPanel();        // store time
         
-        initOperations();
+        initOperations(controller);
         
         // start arrange
      	this.setBackground(new Color(32, 130, 147));
@@ -95,11 +97,11 @@ public class GameSessionFrame extends JFrame{
 	    this.setVisible(true);
 	}
 
-	public GameSessionFrame() {
+	public GameSessionFrame(Controller controller) {
 		super("Start a game - Draw and Guess");
 		try {
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			generateGUI();
+			generateGUI(controller);
 		} catch (Exception e) { // case: cannot get resource
 			JOptionPane.showMessageDialog(this, 
 			"Fail to load game resource: please check res folder", 

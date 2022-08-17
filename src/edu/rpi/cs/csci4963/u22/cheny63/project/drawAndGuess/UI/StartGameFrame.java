@@ -43,7 +43,7 @@ public class StartGameFrame extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				if (JOptionPane.showConfirmDialog(StartGameFrame.this, "Do you want to quit?", 
 				    "Are you sure", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) 
-					System.exit(0);
+					controller.onClose();
 			}
 		};
 		this.actionHost = new AbstractAction("Host") {

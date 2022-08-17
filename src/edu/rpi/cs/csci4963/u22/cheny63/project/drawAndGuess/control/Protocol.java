@@ -84,6 +84,7 @@ public class Protocol {
 				controller.playerJoinServerReturn(id);
 			}
 			else if(secondary.equals("JOIN_CLIENT")) {
+				System.out.println(command);
 				int id = Integer.parseInt(commands[2]);
 				String name = commands[3];
 				controller.playerJoinEventClient(name, id);

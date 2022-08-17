@@ -47,8 +47,9 @@ public class Controller{
         window = new DrawAndGuessGUI(this);
     }
 
-    public void onStartServer(String name, int port){
+    public void onStartServer(String name, int port, String filePath){
         config.setName(name);
+        config.setFilePath(filePath);
         startServer(port);
         myName = name;
         afterConnect();
@@ -124,6 +125,10 @@ public class Controller{
         return config.getName();
     }
 
+    public String getFileConfig(){
+        return config.getFilePath();
+    }
+
     public Protocol getProtocol(){
         return protocol;
     }
@@ -133,6 +138,7 @@ public class Controller{
     }
 
     public void onClose(){
+        log.info("Closing the application...");
         network.interrupt();
         try{
             network.join();
@@ -140,6 +146,7 @@ public class Controller{
             log.warning("Failed to interrupt network thread");
         }
         config.save();
+        System.exit(0);
     }
 
     private void startServer(int port){

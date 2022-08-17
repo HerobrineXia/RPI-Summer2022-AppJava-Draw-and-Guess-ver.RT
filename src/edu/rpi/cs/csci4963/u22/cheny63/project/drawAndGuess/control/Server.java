@@ -5,6 +5,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,6 +99,7 @@ public class Server implements Runnable{
     }
 
     private void onServerClose(){
+        log.info("Server closing...");
         for(Socket socket: socketList.values()){
             try{
                 socket.close();
@@ -126,6 +128,7 @@ public class Server implements Runnable{
         boolean flag = true;
         try{
             serverSocket = new ServerSocket(port);
+            serverSocket.setSoTimeout(1000);
         }catch(IOException e){
             flag = false;
             log.warning("Failed to create server socket.");
@@ -135,6 +138,7 @@ public class Server implements Runnable{
 		while(!Thread.currentThread().isInterrupted() && flag){
             try {
                 // Try to establish the connection 
+                serverSocket.accept();
                 Socket accept = serverSocket.accept();
                 log.info(String.format("Incoming connection from a client at %s accepted.\n", accept.getRemoteSocketAddress().toString()));
                 synchronized(socketList){
@@ -144,6 +148,8 @@ public class Server implements Runnable{
                 Thread thread = new Thread(new ServerThread(accept, log, this, controller.getProtocol()));
                 threadList.add(thread);
                 thread.start();
+            }catch(SocketTimeoutException e){
+                // DO NOTHING
             }catch(IOException e){
                 log.warning(String.format("Unable to create socket: %s", e.getMessage()));
                 flag = false;

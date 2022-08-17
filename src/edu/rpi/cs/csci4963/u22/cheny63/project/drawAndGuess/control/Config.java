@@ -1,5 +1,6 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
@@ -14,6 +15,7 @@ public class Config {
     // Config value
     private Properties configFile;
     private String username;
+    private String filePath;
     private Logger log;
 
     /**
@@ -30,6 +32,7 @@ public class Config {
      */
     public void defaultConfig(){
         username = "Player";
+        filePath = System.getProperty("user.dir");
     }
 
     /**
@@ -38,10 +41,15 @@ public class Config {
      *          false otherwise
      */
     public boolean validateData(){
-        Boolean update = false;
+        boolean update = false;
         if(username == null){
             username = "Player";
             update = true;
+        }
+        File path = new File(filePath);
+        if(!path.isDirectory()){
+            setFilePath(System.getProperty("user.dir"));
+            update = false;
         }
         return update;
     }
@@ -57,8 +65,9 @@ public class Config {
             FileInputStream file = new FileInputStream("Config.cfg");
             configFile.load(file);
             file.close();
-            // Game
+            // Config
             username = configFile.getProperty("user.name");
+            filePath = configFile.getProperty("file.path");
             // Validate
             log.info("Validating config...");
             if(validateData()){
@@ -81,6 +90,7 @@ public class Config {
         try{
             // Game
             configFile.setProperty("user.name", username);
+            configFile.setProperty("file.path", filePath);
             // Saving
             FileOutputStream file = new FileOutputStream("Config.cfg");
             configFile.store(file, "Config for Draw and Guess");            
@@ -105,5 +115,13 @@ public class Config {
      */
     public String getName(){
         return username;
+    }
+
+    public void setFilePath(String filePath){
+        this.filePath = filePath;
+    }
+
+    public String getFilePath(){
+        return filePath;
     }
 }
