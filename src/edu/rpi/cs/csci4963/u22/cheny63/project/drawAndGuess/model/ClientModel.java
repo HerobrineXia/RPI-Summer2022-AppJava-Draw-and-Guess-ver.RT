@@ -23,6 +23,10 @@ public class ClientModel {
         userList.add(new User(name, id));
     }
 
+    public void addUser(String name, int id, int score){
+        userList.add(new User(name, id, score));
+    }
+
     public void removeUser(int id){
         for(User user: userList){
             if(user.getId() == id){
@@ -58,7 +62,15 @@ public class ClientModel {
         return new LinkedList<>(chatHistory);
     }
 
+    public void setStatus(GameStatus status){
+        gameStatus = status;
+    }
+
     public GameStatus getStatus(){
         return gameStatus;
+    }
+
+    public LinkedList<User> getUserList(){
+        return new LinkedList<>(userList);
     }
 }

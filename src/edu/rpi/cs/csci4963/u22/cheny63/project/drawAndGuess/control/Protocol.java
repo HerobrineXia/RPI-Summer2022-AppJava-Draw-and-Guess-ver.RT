@@ -9,6 +9,7 @@ import java.lang.Object;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.PlayerStatus;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.User;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.UserServer;
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.GameStatus;
 
 
 
@@ -33,6 +34,7 @@ public class Protocol {
 		return decodedString;
 	}
 	
+	
 
 
 	public String messagePack(int id, String message){
@@ -42,8 +44,10 @@ public class Protocol {
 		return response.toString();
 	}
 
-	public String userDataPack(LinkedList<User> users, int num){
+	public String userDataPack(LinkedList<User> users,int currentDrawerId, GameStatus g){
+		int num = users.size();
 		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("DATA",SEPARATOR,"MODEL",SEPARATOR,num));
+		response.append(new StringBuilder(("%s%d%s%s").formatted(SEPARATOR,currentDrawerId,SEPARATOR,g.toString())));
 		for(int i = 0; i<num;i++) {
 			response.append(new StringBuilder("%s%d%s%s%s%d".formatted(SEPARATOR,users.get(i).getScore(),SEPARATOR,Base64.getEncoder().encodeToString(users.get(i).getName().getBytes()),SEPARATOR,users.get(i).getId())));
 		}
@@ -189,19 +193,20 @@ public class Protocol {
 			}
 			else if(secondary.equals("MODEL")) {
 				LinkedList<User> users = new LinkedList<User>();
-				if(commands.length<4) {
+				if(commands.length<5) {
 		        	response = new StringBuilder("Invalid Command: DATA MODEL command length less than 4");
 		        	return response.toString();
 		        }
-				
-				for(int i = 3;i<Integer.parseInt(commands[2]);i+=3) {
+				int currentDrawerId = Integer.parseInt(commands[3]);
+				GameStatus g = GameStatus.valueOf(commands[4]);
+				for(int i = 5;i<(Integer.parseInt(commands[2])*3)+5;i+=3) {
 					String name = commands[i+1];
 					name = baseToString(name);
 					int id = Integer.parseInt(commands[i+2]);
 					int score =  Integer.parseInt(commands[i]);
 					users.addLast(new User(name, id, score));
 				}
-				//controller
+				controller.onPlayerReceiveDatapack(users, currentDrawerId, g);
 			}
 			else if(secondary.equals("DREW")) {
 				
