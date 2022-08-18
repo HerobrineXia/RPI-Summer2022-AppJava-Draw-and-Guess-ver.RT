@@ -148,6 +148,9 @@ public class Server implements Runnable{
 		while(!Thread.currentThread().isInterrupted() && flag){
             try {
                 // Try to establish the connection 
+                if(controller.isGameStart()){
+                    continue;
+                }
                 Socket accept = serverSocket.accept();
                 log.info(String.format("Incoming connection from a client at %s accepted.\n", accept.getRemoteSocketAddress().toString()));
                 synchronized(socketList){
