@@ -1,9 +1,10 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model;
 
 import java.io.IOException;
+import java.util.AbstractMap;
 import java.util.Timer;
 import java.util.logging.Logger;
-
+import java.util.Map.Entry;
 public class ServerModel extends ClientModel{
 	// Data
 	private WordDictionary dictionary;
@@ -19,7 +20,7 @@ public class ServerModel extends ClientModel{
 	public ServerModel(Logger log) {
 		super(log);
 		timer = new Timer();
-		currentDrawerId = -1;
+		currentDrawerId = 0;
 	}
 
 	public void readGraph(String filename) throws IOException{
@@ -40,7 +41,6 @@ public class ServerModel extends ClientModel{
 	public void startGame(){
 		if(gameStatus == GameStatus.INIT || gameStatus == GameStatus.END){
 			intializeGame();
-			startRound();
 		}
 	}
 
@@ -78,17 +78,25 @@ public class ServerModel extends ClientModel{
 		}
 	}
 
-	public void guessWord(int id, String word){
+	public int guessWord(int id, String word){
 		if(gameStatus == GameStatus.PROCESSING){
 			if(currentDrawerId != id){
 				UserServer user = getUser(id);
 				if(!user.getGuessSuccess()){
 					if(equalSecret(word)){
 						userGuessRight(user);
+						return 2;
+					}else{
+						return 0;
 					}
+				}else{
+					return 1;
 				}
+			}else{
+				return 0;
 			}
 		}
+		return -1;
 	}
 
 	private void userGuessRight(UserServer user){
@@ -98,10 +106,6 @@ public class ServerModel extends ClientModel{
 		if(remainPoint == 0){
 			endRound();
 		}
-	}
-
-	private void addScore(UserServer user, int score){
-		user.addScore(score);
 	}
 
 	private UserServer getUser(int id){

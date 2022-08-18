@@ -36,6 +36,12 @@ public class ClientModel {
         }
     }
 
+    public void startGame(){
+        for(User user: userList){
+            user.initialize();
+        }
+    }
+
     public void addChat(String name, String message){
         chatHistory.add(name);
         chatHistory.add(message);

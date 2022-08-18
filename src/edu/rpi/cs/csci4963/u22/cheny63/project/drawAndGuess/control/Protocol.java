@@ -164,15 +164,15 @@ public class Protocol {
 				controller.onPlayerLeaveClient(id);
 			}
 			else if(secondary.equals("NEW_GAME")) {
-				
+				controller.onStartGameClient();
 			}
 			else if(secondary.equals("NEW_ROUND")) {
-				int painterId = Integer.parseInt(commands[2]);
+				int drawerId = Integer.parseInt(commands[2]);
 				if(commands.length<3) {
 		        	response = new StringBuilder("Invalid Command: EVENT NEW_ROUND command length less than 4");
 		        	return response.toString();
 		        }
-				//controller
+				controller.onNewRound(drawerId);
 			}
 			else {
 				//invalid
