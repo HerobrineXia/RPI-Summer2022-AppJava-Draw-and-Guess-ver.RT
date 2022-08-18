@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 * @version 1.0
 */
 public class Server implements Runnable{
+    // TODO: On player left, detect if round ends
     
     // Connection variable
     private HashMap<Integer, Socket> socketList;

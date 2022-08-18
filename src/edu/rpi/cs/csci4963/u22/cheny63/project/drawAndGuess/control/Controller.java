@@ -195,6 +195,9 @@ public class Controller{
     protected void onPlayerLeaveServer(int id){
         if(isServer){
             sendMessageToAll(protocol.userLeftEvent(id));
+            if(((ServerModel)model).roundEnd()){
+                sendMessageToAll(protocol.eventRoundEnd());
+            }
         }
     }
 
