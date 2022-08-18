@@ -87,7 +87,7 @@ public class Protocol {
 	public String userDataPack(LinkedList<User> users, int num){
 		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("DATA",SEPARATOR,"MODEL",SEPARATOR,num));
 		for(int i = 0; i<num;i++) {
-			response.append(new StringBuilder("%s%d%s%s%s%d".formatted(SEPARATOR,users.get(i).getScore(),SEPARATOR,users.get(i).getName(),SEPARATOR,users.get(i).getId())));
+			response.append(new StringBuilder("%s%d%s%s%s%d".formatted(SEPARATOR,users.get(i).getScore(),SEPARATOR,stringToUnicode(users.get(i).getName()),SEPARATOR,users.get(i).getId())));
 		}
 		return response.toString();
 	}
@@ -230,13 +230,16 @@ public class Protocol {
 				// controller
 			}
 			else if(secondary.equals("MODEL")) {
-				LinkedList <User> users = new LinkedList <User>();
 				if(commands.length<4) {
 		        	response = new StringBuilder("Invalid Command: DATA MODEL command length less than 4");
 		        	return response.toString();
 		        }
+				
 				for(int i = 3;i<Integer.parseInt(commands[2]);i+=3) {
-					users.addLast(new User( commands[i+1],Integer.parseInt(commands[i+2]),Integer.parseInt(commands[i])));
+					String name = commands[i+1];
+					name = unicodeToString(name);
+					int id = Integer.parseInt(commands[i+2]);
+					int score =  Integer.parseInt(commands[i]);
 				}
 				//controller
 			}
