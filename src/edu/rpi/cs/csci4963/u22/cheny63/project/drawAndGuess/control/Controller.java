@@ -293,7 +293,11 @@ public class Controller{
 
     protected void onUserScoreReceive(int id, int score){
         model.addScore(id, score);
-        addChat("System", "%s has guessed out the right word and earn %d point!".formatted(model.getPlayerName(id),score));
+        if(id != model.getDrawerId()){
+            addChat("System", "%s has guessed out the right word and earn %d point!".formatted(model.getPlayerName(id),score));
+        }else{
+            addChat("System", "Drawer %s has earned %d point!".formatted(model.getPlayerName(id),score));
+        }
         
     }
 
