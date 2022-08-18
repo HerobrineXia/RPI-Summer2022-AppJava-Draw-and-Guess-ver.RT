@@ -70,6 +70,10 @@ public class GameSessionFrame extends JFrame{
 			button.setEnabled(false);
 	}
 	
+	public void clear() {
+		this.board.clear(false);
+	}
+	
 	public void setEntryColor(int x, int y, Color targetColor) {
 		this.board.setEntryColor(x, y, targetColor, false);
 	}
@@ -124,7 +128,7 @@ public class GameSessionFrame extends JFrame{
             public void actionPerformed(ActionEvent e) {
             	if (JOptionPane.showConfirmDialog(GameSessionFrame.this, "Do you want to clear the board?", 
     				    "Are you sure", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) 
-            			GameSessionFrame.this.board.clear();
+            			GameSessionFrame.this.board.clear(true);
 			}
         });
 		

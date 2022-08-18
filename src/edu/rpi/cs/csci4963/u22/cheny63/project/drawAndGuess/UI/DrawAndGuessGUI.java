@@ -84,6 +84,10 @@ public class DrawAndGuessGUI {
 			
 	}
 	
+	public void clear() {
+		if (gameSessionFrame != null) gameSessionFrame.clear();
+	}
+	
 	/**
 	 * the main for generating the window
 	 * @param args no args is needed
