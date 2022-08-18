@@ -267,7 +267,7 @@ public class Protocol {
 				int r = Integer.parseInt(commands[6]);
 				int g = Integer.parseInt(commands[7]);
 				int b = Integer.parseInt(commands[8]);
-				Color c = new Color(a, r, g, b);
+				Color c = new Color(r,g,b,a);
 				controller.onBoardReceiveServer(x, y, c, id);
 			}
 			else if(secondary.equals("DRAW_CLIENT")) {
@@ -282,7 +282,7 @@ public class Protocol {
 				int r = Integer.parseInt(commands[6]);
 				int g = Integer.parseInt(commands[7]);
 				int b = Integer.parseInt(commands[8]);
-				Color c = new Color(a, r, g, b);
+				Color c = new Color( r, g, b,a);
 				controller.onBoardReceiveClient(x, y, c, id);
 			}
 			else {
