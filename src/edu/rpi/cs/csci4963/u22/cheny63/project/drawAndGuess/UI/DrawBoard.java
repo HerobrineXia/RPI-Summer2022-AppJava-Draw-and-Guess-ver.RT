@@ -161,6 +161,8 @@ public class DrawBoard extends OpaqueJPanel{
 	
 	public void setPrompt(String secretWord, String secretHint) {
 		this.prompting = new String[] {secretWord, secretHint};
+		this.repaint();
+		this.revalidate();
 	}
 	
 	
