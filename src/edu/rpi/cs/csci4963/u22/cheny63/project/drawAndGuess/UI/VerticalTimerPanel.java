@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 import java.awt.*;
@@ -14,16 +16,14 @@ public class VerticalTimerPanel extends JLabel {
     private String pattern;
     private Timer timer;
 
-    public VerticalTimerPanel ()
-    {
+    public VerticalTimerPanel () {
         super();
         pattern = "hh:mm:ss a";
         createTimer();
         timer.start();
     }
 
-    public VerticalTimerPanel(String pattern)
-    {
+    public VerticalTimerPanel(String pattern) {
         super (pattern);
         this.pattern = pattern;
         createTimer();
@@ -39,8 +39,7 @@ public class VerticalTimerPanel extends JLabel {
         });
     }
 
-    public void paint (Graphics g)
-    {
+    public void paint (Graphics g){
         if (g instanceof Graphics2D) {
             Graphics2D g2 = (Graphics2D) g;
             AffineTransform flipTrans = new AffineTransform();
@@ -52,4 +51,15 @@ public class VerticalTimerPanel extends JLabel {
             super.paint(g);
         }
     }
+    
+	public static void main(String[] args) {
+		JFrame testframe = new JFrame();
+		// avoid image displace case,  not necessary
+		testframe.add(new VerticalTimerPanel());
+		testframe.setSize(620, 640);
+		testframe.setLocationRelativeTo(null); // set window centre
+		testframe.setAlwaysOnTop(true); // since it is important, let it top
+		testframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		testframe.setVisible(true);
+	}
 }

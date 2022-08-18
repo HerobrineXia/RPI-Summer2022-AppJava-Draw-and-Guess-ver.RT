@@ -29,7 +29,9 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	
 	public void updateChat() {
 		LinkedList<String> history = this.controller.getChat();
+		this.historyText.setText("");
 		for (String line : history) {
+			System.out.println(line);
 			this.historyText.append(line + "\n");
 		}
 	}
