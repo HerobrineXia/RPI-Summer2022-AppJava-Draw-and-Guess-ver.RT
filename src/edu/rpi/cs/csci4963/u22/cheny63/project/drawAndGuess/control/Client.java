@@ -1,6 +1,5 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -30,6 +29,7 @@ public class Client implements Runnable{
 	private Scanner in;
 	private PrintWriter out;
 	private Controller controller;
+	private boolean manualShutdown;
 
 	// Logger
 	private Logger log;	
@@ -93,6 +93,7 @@ public class Client implements Runnable{
 	}
 
 	public void closeClient(){
+		manualShutdown = true;
 		if(socket != null){
 			try{
 				socket.close();
@@ -120,6 +121,7 @@ public class Client implements Runnable{
 
     @Override
     public void run(){
+		manualShutdown = false;
         // Wait a little bit just for windows to be established
 		controller.onConnectionWait();
 		try {
@@ -151,7 +153,9 @@ public class Client implements Runnable{
 			if(message != null){
 				controller.processCommand(message);
 			}else{
-				controller.onConnectionFailed("Failed to receive data from server!", "Connection Lost");
+				if(!manualShutdown){
+					controller.onConnectionFailed("Failed to receive data from server!", "Connection Lost");
+				}
 				break;
             }
 		}
