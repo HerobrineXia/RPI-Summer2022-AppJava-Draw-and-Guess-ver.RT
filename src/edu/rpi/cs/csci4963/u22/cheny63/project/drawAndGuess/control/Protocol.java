@@ -112,9 +112,11 @@ public class Protocol {
 		return response.toString();
 	}
 	public String dataDrawClient(int x,int y,Color color,int id) {
-		String c = color.toString();
-		c = Base64.getEncoder().encodeToString(c.getBytes());
-		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%d%s%s%s%d".formatted("DATA",SEPARATOR,"DRAW_CLIENT",SEPARATOR,x,SEPARATOR,y,SEPARATOR,c,SEPARATOR,id));
+		int a = color.getAlpha();
+		int g = color.getGreen();
+		int r = color.getRed();
+		int b = color.getBlue();
+		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%d%s%d%s%d%s%d%s%d%s%d".formatted("DATA",SEPARATOR,"DRAW_CLIENT",SEPARATOR,x,SEPARATOR,y,SEPARATOR,id,SEPARATOR,a,SEPARATOR,r,SEPARATOR,g,SEPARATOR,b));
 		return response.toString();
 	}
 
@@ -252,29 +254,33 @@ public class Protocol {
 				controller.onPlayerReceiveDatapack(users, currentDrawerId, g);
 			}
 			else if(secondary.equals("DRAW_SERVER")) {
-				if(commands.length<5) {
-		        	response = new StringBuilder("Invalid Command: DRAW_SERVER command length less than 5");
+				if(commands.length<9) {
+		        	response = new StringBuilder("Invalid Command: DRAW_SERVER command length less than 9");
 		        	return response.toString();
 		        }
 				int x = Integer.parseInt(commands[2]);
 				int y = Integer.parseInt(commands[3]);
-				String color = commands[4];
-				int id = Integer.parseInt(commands[5]);
-				color = baseToString(color);
-				Color c = Color.getColor(color);
+				int id = Integer.parseInt(commands[4]);
+				int a = Integer.parseInt(commands[5]);
+				int r = Integer.parseInt(commands[6]);
+				int g = Integer.parseInt(commands[7]);
+				int b = Integer.parseInt(commands[8]);
+				Color c = new Color(a, r, g, b);
 				controller.onBoardReceiveServer(x, y, c, id);
 			}
 			else if(secondary.equals("DRAW_CLIENT")) {
-				if(commands.length<5) {
-		        	response = new StringBuilder("Invalid Command: DRAW_CLIENT command length less than 5");
+				if(commands.length<9) {
+		        	response = new StringBuilder("Invalid Command: DRAW_CLIENT command length less than 9");
 		        	return response.toString();
 		        }
 				int x = Integer.parseInt(commands[2]);
 				int y = Integer.parseInt(commands[3]);
-				String color = commands[4];
-				int id = Integer.parseInt(commands[5]);
-				color = baseToString(color);
-				Color c = Color.getColor(color);
+				int id = Integer.parseInt(commands[4]);
+				int a = Integer.parseInt(commands[5]);
+				int r = Integer.parseInt(commands[6]);
+				int g = Integer.parseInt(commands[7]);
+				int b = Integer.parseInt(commands[8]);
+				Color c = new Color(a, r, g, b);
 				controller.onBoardReceiveClient(x, y, c, id);
 			}
 			else {
