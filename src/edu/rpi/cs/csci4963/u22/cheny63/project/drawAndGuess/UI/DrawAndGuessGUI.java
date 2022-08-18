@@ -22,7 +22,7 @@ import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control.Controller;
  */
 public class DrawAndGuessGUI {
 	private StartGameFrame startFrame;
-	private GameSessionFrame gameStartFrame;
+	private GameSessionFrame gameSessionFrame;
 	private Controller controller;
 	
 	public DrawAndGuessGUI(Controller controller) {
@@ -45,8 +45,16 @@ public class DrawAndGuessGUI {
     	this.startFrame = new StartGameFrame(controller);
 	}
 	
+	public void activate() {
+		if (gameSessionFrame != null) gameSessionFrame.activate();
+	}
+	
+	public void deactivate() {
+		if (gameSessionFrame != null) gameSessionFrame.deactivate();
+	}
+	
 	public void updateChat() {
-		if (gameStartFrame != null) gameStartFrame.updateChat();
+		if (gameSessionFrame != null) gameSessionFrame.updateChat();
 	}
 	
 	public void interrupt(String msg, String title) {
@@ -55,12 +63,12 @@ public class DrawAndGuessGUI {
 	
 	public void startGame() {
 		this.startFrame.startGame();
-		this.gameStartFrame = new GameSessionFrame(this.controller);
+		this.gameSessionFrame = new GameSessionFrame(this.controller);
 	}
 	
 	public void returnMainMenu() {
-		if (this.gameStartFrame != null) {
-			this.gameStartFrame.dispose();
+		if (this.gameSessionFrame != null) {
+			this.gameSessionFrame.dispose();
 			this.startFrame = new StartGameFrame(controller);
 		}
 			

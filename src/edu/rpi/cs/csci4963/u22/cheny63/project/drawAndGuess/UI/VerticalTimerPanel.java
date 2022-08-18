@@ -35,6 +35,11 @@ public class VerticalTimerPanel extends JLabel {
         createTimer();
         timer.start();
     }
+    
+    @Override
+    public Dimension getPreferredSize() {
+    	return new Dimension(500, 500);
+    }
 
     private void createTimer(){
         timer = new Timer(0, new ActionListener() {
