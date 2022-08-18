@@ -226,6 +226,7 @@ public class Controller{
     }
 
     public void onNewRound(int drawerId){
+        addChat("Server", "Round Start!");
         if(isServer){
             ((ServerModel) model).startRound();
         }else{

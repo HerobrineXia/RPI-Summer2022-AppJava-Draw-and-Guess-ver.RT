@@ -24,7 +24,7 @@ public class VerticalTimerPanel extends JLabel {
     }
     @Override
     public void paintComponent(Graphics g) {
-    	super();
+    	// super();
     	
     }
 }
