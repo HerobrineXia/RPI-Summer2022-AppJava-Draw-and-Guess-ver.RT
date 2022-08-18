@@ -275,23 +275,26 @@ public class Controller{
         }else{
             window.deactivate();
         }
-        runTimer();
+        startTimer();
     }
     
     public int getRemainTime(){
         return model.getRemainTime();
     }
 
+    private void startTimer(){
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run(){
+                runTimer();
+            }
+        }, 1000);
+    }
+
     private void runTimer(){
         int remainTime = model.reduceTime();
-        if(remainTime > 0){
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run(){
-                    runTimer();
-                }
-            }, 1000);
-        }else{
+        if(remainTime <= 0){
+            timer.cancel();
             if(isServer){
                 if(model.getStatus() == GameStatus.PROCESSING){
                     sendMessageToAll(protocol.eventRoundEnd());
@@ -346,7 +349,7 @@ public class Controller{
             model.setStatus(GameStatus.PROCESSING_WAIT);
         }
         model.startWait();
-        runTimer();
+        startTimer();
     }
 
     protected void onUserScoreReceive(int id, int score){

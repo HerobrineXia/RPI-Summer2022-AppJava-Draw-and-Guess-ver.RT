@@ -121,6 +121,10 @@ public class Protocol {
 		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%d%s%d%s%d%s%d%s%d%s%d".formatted("DATA",SEPARATOR,"DRAW_CLIENT",SEPARATOR,x,SEPARATOR,y,SEPARATOR,id,SEPARATOR,a,SEPARATOR,r,SEPARATOR,g,SEPARATOR,b));
 		return response.toString();
 	}
+	public String eventCleanBoard() {
+		StringBuilder response = new StringBuilder("%s%s%s".formatted("EVENT",SEPARATOR,"CLEAN_BOARD"));
+		return response.toString();
+	}
 
 	public String process(String command){
         StringBuilder response = new StringBuilder();
@@ -213,6 +217,9 @@ public class Protocol {
 				secret = baseToString(secret);
 				hint = baseToString(hint);
 				controller.onSecretWordReceive(secret, hint);
+			}
+			else if(secondary.equals("CLEAN_BOARD")) {
+				
 			}
 			else {
 				//invalid
