@@ -23,6 +23,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -260,12 +261,8 @@ public class BeforeGameReadyFrame extends JDialog {
 		this.setSize(800, 640);
 		this.setLocationRelativeTo(null); // set window centre
 		this.setResizable(false);
-		// this.setAlwaysOnTop(true);
+		this.setAlwaysOnTop(true);
 		this.setVisible(true);
 		
 	}
-
-//	public static void main(String args[ ]){	
-//		 new BeforeGameReadyFrame(null);
-//	 } 
 }

@@ -78,7 +78,9 @@ public class StartGameFrame extends JFrame{
 		}	
 	}
 	
-	public void failConnection() {
+	public void failConnection(String msg, String title) {
+		JOptionPane.showMessageDialog(configFrame, msg, title, JOptionPane.ERROR_MESSAGE);
+		this.setAllOperationEnable(true);
 		if (this.configFrame != null) this.configFrame.dispose();
 	}
 	

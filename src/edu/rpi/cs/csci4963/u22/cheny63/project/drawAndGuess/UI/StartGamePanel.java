@@ -39,7 +39,7 @@ public class StartGamePanel extends JPanel{
 	    for (int j = 0; j < 40; j++) {
 	    	for (int i = 0; i < 120; i++) {
 		    	g.fillOval((int)(30+ i * 40 - 0.1 * cursorTrackerX) , 
-		    			  (int)(this.curWindowSize.height*0.6 - 0.1 * cursorTrackerY + j*40), 12, 12);
+		    			   (int)(this.curWindowSize.height * 0.6 - 0.1 * cursorTrackerY + j*40), 12, 12);
 		    }
 	    }
 	    

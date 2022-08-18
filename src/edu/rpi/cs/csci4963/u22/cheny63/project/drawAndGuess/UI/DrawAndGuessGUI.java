@@ -46,8 +46,7 @@ public class DrawAndGuessGUI {
 	}
 	
 	public void interrupt(String msg, String title) {
-		JOptionPane.showMessageDialog(null, msg, title, JOptionPane.ERROR_MESSAGE);
-		startFrame.failConnection();
+		startFrame.failConnection(msg, title);
 	}
 	
 	public void startGame() {
