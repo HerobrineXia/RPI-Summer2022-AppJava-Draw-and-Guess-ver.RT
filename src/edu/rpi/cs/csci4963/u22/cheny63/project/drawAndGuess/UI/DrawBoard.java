@@ -137,10 +137,10 @@ public class DrawBoard extends OpaqueJPanel{
 	}
 	
 	public void clear(boolean syncToOther) {
+		if (syncToOther) controller.onBoardClear();
 		for (int i = 0; i < currentdrawingBoardStatus.length; i++)
 			for (int j = 0; j < currentdrawingBoardStatus[0].length; j++) {
 				this.currentdrawingBoardStatus[i][j] = new Color(251, 251, 251);
-				if (syncToOther) controller.onBoardDraw(i, j, new Color(251, 251, 251));
 			}
 				
 		this.repaint();
