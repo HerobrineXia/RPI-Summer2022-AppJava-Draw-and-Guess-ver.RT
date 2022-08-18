@@ -89,8 +89,6 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
 	            	controller.onStartGameServer();
-	            	board.setPrompting(new String[] {controller.getSecret(), controller.getSecretHint()});
-	            	
 				}
 	        });
 			startGame.setHorizontalAlignment(SwingConstants.LEFT);
