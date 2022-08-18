@@ -10,6 +10,8 @@ public class ClientModel {
     protected LinkedList<User> userList;
     protected int currentDrawerId;
     protected GameStatus gameStatus;
+    protected String secretWord;
+    protected String secretWordHint;
     
     public ClientModel(Logger log){
         this.log = log;
@@ -72,6 +74,22 @@ public class ClientModel {
         }
         return null;
     }
+
+    public void setSecret(String secret){
+        this.secretWord = secret;
+    }
+
+    public String getSecretHint(){
+        return secretWordHint;
+    }
+
+    public void setSecretHint(String hint){
+        this.secretWordHint = hint;
+    }
+
+	public String getSecret(){
+		return secretWord;
+	}
 
     public LinkedList<String> getChat(){
         return new LinkedList<>(chatHistory);

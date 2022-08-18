@@ -8,7 +8,6 @@ public class ServerModel extends ClientModel{
 	private WordDictionary dictionary;
 
 	// Game Data
-	private String secretWord;
 	private Timer timer;
 	private int remainTime;
 	private int remainPoint;
@@ -55,6 +54,7 @@ public class ServerModel extends ClientModel{
 	public void startRound(){
 		if(gameStatus == GameStatus.WAITING || gameStatus == GameStatus.PROCESSING_WAIT){
 			secretWord = dictionary.getRandomWord();
+			secretWordHint = dictionary.getCategory(secretWord);
 			gameStatus = GameStatus.PROCESSING;
 			for(User user: userList){
 				((UserServer)user).newRound();

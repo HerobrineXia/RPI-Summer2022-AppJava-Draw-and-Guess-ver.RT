@@ -184,6 +184,7 @@ public class Protocol {
 				controller.onNewRound(drawerId);
 			}
 			else if(secondary.equals("ROUND_END")) {
+				controller.onRoundEnd();
 			}
 			else if(secondary.equals("SECRET")){
 				if(commands.length<3) {
@@ -192,6 +193,7 @@ public class Protocol {
 		        }
 				String secret = commands[2];
 				secret = baseToString(secret);
+				controller.onSecretWordReceive(secret);
 			}
 			else {
 				//invalid

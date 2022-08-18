@@ -127,6 +127,14 @@ public class Controller{
         return config.getAddress();
     }
 
+    public String getSecret(){
+        return model.getSecret();
+    }
+
+    public String getSecretHint(){
+        return model.getSecretHint();
+    }
+
     public LinkedList<String> getChat(){
         return model.getChat();
     }
@@ -229,6 +237,7 @@ public class Controller{
         addChat("Server", "Round Start!");
         if(isServer){
             ((ServerModel) model).startRound();
+            sendMessageToAll(protocol.sendSecretWord(model.getSecret()));
         }else{
             model.setDrawerId(drawerId);
             model.setStatus(GameStatus.PROCESSING);
@@ -237,6 +246,15 @@ public class Controller{
             window.activate();
         }else{
             window.deactivate();
+        }
+    }
+
+    protected void onSecretWordReceive(String word){
+        if(myId == model.getDrawerId()){
+            addChat("Server", "You are the drawer, the secret word is %s!".formatted(word));
+        }else{
+            model.setSecret(word);
+            addChat("Server", "You are the guesser, the secret word is %s!".formatted(word));
         }
     }
 

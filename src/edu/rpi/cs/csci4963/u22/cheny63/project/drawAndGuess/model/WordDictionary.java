@@ -25,6 +25,10 @@ public class WordDictionary{
         return word;
     }
 
+    public String getCategory(String word){
+        return wordDictionary.get(word);
+    }
+
     public void resetWordList(){
         remainWord = new LinkedList<>(wordDictionary.keySet());
     }
