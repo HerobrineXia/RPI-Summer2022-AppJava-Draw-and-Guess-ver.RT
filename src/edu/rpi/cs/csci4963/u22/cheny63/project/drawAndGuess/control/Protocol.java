@@ -199,7 +199,7 @@ public class Protocol {
 		        }
 				int currentDrawerId = Integer.parseInt(commands[3]);
 				GameStatus g = GameStatus.valueOf(commands[4]);
-				for(int i = 5;i<Integer.parseInt(commands[2]);i+=3) {
+				for(int i = 5;i<(Integer.parseInt(commands[2])*3)+5;i+=3) {
 					String name = commands[i+1];
 					name = baseToString(name);
 					int id = Integer.parseInt(commands[i+2]);
