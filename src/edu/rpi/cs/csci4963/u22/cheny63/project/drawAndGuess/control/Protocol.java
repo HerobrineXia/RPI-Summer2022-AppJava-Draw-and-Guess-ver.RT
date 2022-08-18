@@ -105,10 +105,10 @@ public class Protocol {
 		StringBuilder response = new StringBuilder("%s%s%s%s%s%s%s".formatted("EVENT",SEPARATOR,"SECRET",SEPARATOR,secret,SEPARATOR,hint));
 		return response.toString();
 	}
-	public String dataDraw(int x,int y,Color color) {
+	public String dataDraw(int x,int y,Color color,int id) {
 		String c = color.toString();
 		c = Base64.getEncoder().encodeToString(c.getBytes());
-		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%d%s%s".formatted("DATA",SEPARATOR,"DRAW",SEPARATOR,x,SEPARATOR,y,SEPARATOR,c));
+		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%d%s%s%s%d".formatted("DATA",SEPARATOR,"DRAW",SEPARATOR,x,SEPARATOR,y,SEPARATOR,c,SEPARATOR,id));
 		return response.toString();
 	}
 
@@ -253,6 +253,7 @@ public class Protocol {
 				int x = Integer.parseInt(commands[2]);
 				int y = Integer.parseInt(commands[3]);
 				String color = commands[4];
+				int id = Integer.parseInt(commands[5]);
 				color = baseToString(color);
 				Color c = Color.getColor(color);
 				
