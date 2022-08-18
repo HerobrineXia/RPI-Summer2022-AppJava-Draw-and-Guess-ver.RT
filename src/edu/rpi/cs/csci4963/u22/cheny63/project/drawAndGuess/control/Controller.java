@@ -160,7 +160,7 @@ public class Controller{
             int id = server.getId(address);
             if(!address.equals("localhost")){
                 server.sendMessage(protocol.serverReturnIdEvent(id), id);
-                server.sendMessage(protocol.userDataPack(model.getUser(), model.getDrawerId(), model.getStatus()), id);
+                server.sendMessage(protocol.userDataPack(model.getUserList(), model.getDrawerId(), model.getStatus()), id);
             }else{
                 myId = 0;
                 id = 0;
@@ -173,8 +173,10 @@ public class Controller{
     protected void onPlayerReceiveDatapack(LinkedList<User> users, int currentDrawerId, GameStatus status){
         if(!isServer){
             for(User user: users){
+                System.out.println("%s,%d,%d".formatted(user.getName(),user.getId(),user.getScore()));
                 model.addUser(user.getName(), user.getId(), user.getScore());
             }
+            System.out.println("%d,%s".formatted(currentDrawerId,status.toString()));
             model.setDrawerId(currentDrawerId);
             model.setStatus(status);
         }

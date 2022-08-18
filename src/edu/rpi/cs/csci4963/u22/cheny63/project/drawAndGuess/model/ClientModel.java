@@ -70,7 +70,7 @@ public class ClientModel {
         return gameStatus;
     }
 
-    public LinkedList<User> getUser(){
+    public LinkedList<User> getUserList(){
         return new LinkedList<>(userList);
     }
 }
