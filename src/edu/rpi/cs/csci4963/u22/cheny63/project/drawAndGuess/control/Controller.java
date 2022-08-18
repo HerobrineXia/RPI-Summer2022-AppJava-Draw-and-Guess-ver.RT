@@ -11,6 +11,7 @@ import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI.HoldConnection;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.ClientModel;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.GameStatus;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.ServerModel;
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.User;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.StringUtil;
 
 public class Controller{
@@ -149,7 +150,9 @@ public class Controller{
     }
 
     protected void onIdReturn(int id){
-        myId = id;
+        if(!isServer){
+            myId = id;
+        }
     }
 
     protected void onPlayerJoinServer(String name, String address){
@@ -157,12 +160,23 @@ public class Controller{
             int id = server.getId(address);
             if(!address.equals("localhost")){
                 server.sendMessage(protocol.serverReturnIdEvent(id), id);
+                server.sendMessage(protocol.userDataPack(model.getUser(), model.getDrawerId(), model.getStatus()), id);
             }else{
                 myId = 0;
                 id = 0;
                 addChat("Room IP", StringUtil.getInetAddress());
             }
             sendMessageToAll(protocol.userJoinClientEvent(id, name));
+        }
+    }
+
+    protected void onPlayerReceiveDatapack(LinkedList<User> users, int currentDrawerId, GameStatus status){
+        if(!isServer){
+            for(User user: users){
+                model.addUser(user.getName(), user.getId(), user.getScore());
+            }
+            model.setDrawerId(currentDrawerId);
+            model.setStatus(status);
         }
     }
 

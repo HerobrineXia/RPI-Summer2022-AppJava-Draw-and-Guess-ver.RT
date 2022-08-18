@@ -44,7 +44,8 @@ public class Protocol {
 		return response.toString();
 	}
 
-	public String userDataPack(LinkedList<User> users, int num,int currentDrawerId, GameStatus g){
+	public String userDataPack(LinkedList<User> users,int currentDrawerId, GameStatus g){
+		int num = users.size();
 		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("DATA",SEPARATOR,"MODEL",SEPARATOR,num));
 		response.append(new StringBuilder(("%s%d%s%s").formatted(SEPARATOR,currentDrawerId,SEPARATOR,g.toString())));
 		for(int i = 0; i<num;i++) {
@@ -205,7 +206,7 @@ public class Protocol {
 					int score =  Integer.parseInt(commands[i]);
 					users.addLast(new User(name, id, score));
 				}
-				//controller
+				controller.onPlayerReceiveDatapack(users, currentDrawerId, g);
 			}
 			else if(secondary.equals("DREW")) {
 				
