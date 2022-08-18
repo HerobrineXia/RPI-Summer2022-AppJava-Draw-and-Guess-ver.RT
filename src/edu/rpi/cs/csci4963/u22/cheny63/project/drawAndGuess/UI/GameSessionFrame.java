@@ -69,14 +69,15 @@ public class GameSessionFrame extends JFrame{
 		this.operations.setLayout(new GridBagLayout());
 		GridBagConstraints gridBagCons = new GridBagConstraints();
 		this.operations.setOpaque(true);
+		int buttonWidth = (int)(toolkit.getScreenSize().width * 0.06);
 		DrawBoardButton pencil = new DrawBoardButton(new ImageIcon(ImageUtility.resizeIcon(toolkit.getImage("./res/gui/gameSession/pencil.png"), 
-								 new Dimension(90, 90))), true);
+								 new Dimension(buttonWidth, buttonWidth))), true);
 		DrawBoardButton eraser = new DrawBoardButton(new ImageIcon(ImageUtility.resizeIcon(toolkit.getImage("./res/gui/gameSession/eraser.png"), 
-				 				 new Dimension(90, 90))), true);
+				 				 new Dimension(buttonWidth, buttonWidth))), true);
 		DrawBoardButton restore = new DrawBoardButton(new ImageIcon(ImageUtility.resizeIcon(toolkit.getImage("./res/gui/gameSession/restore.png"), 
-				 				new Dimension(90, 90))), true);
+				 				new Dimension(buttonWidth, buttonWidth))), true);
 		DrawBoardButton exit = new DrawBoardButton(new ImageIcon(ImageUtility.resizeIcon(toolkit.getImage("./res/gui/gameSession/exit.png"), 
- 								new Dimension(80, 105))), true);
+ 								new Dimension((int)(toolkit.getScreenSize().width * 0.05), (int)(toolkit.getScreenSize().width *0.065)))), true);
 		
 		// set action to button
 		exit.addActionListener(new java.awt.event.ActionListener() {
@@ -152,6 +153,8 @@ public class GameSessionFrame extends JFrame{
      	gridBagCons.gridy = 0;
      	gridBagCons.anchor = GridBagConstraints.WEST;
      	chessboardAndTools.add(operations, gridBagCons);
+     	chessboardAndTools.setPreferredSize(new Dimension((int)(toolkit.getScreenSize().width * 0.5), 
+     			                                          (int)(toolkit.getScreenSize().width * 0.5)));
      	allContent.add(chessboardAndTools, BorderLayout.CENTER);
      	allContent.add(this.chatRoom, BorderLayout.EAST);
      	// allContent.add(this.timer, BorderLayout.WEST);

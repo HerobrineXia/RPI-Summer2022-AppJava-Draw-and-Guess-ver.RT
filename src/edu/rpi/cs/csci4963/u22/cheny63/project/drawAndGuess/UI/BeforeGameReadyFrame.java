@@ -100,7 +100,7 @@ public class BeforeGameReadyFrame extends JDialog {
 	    portAddressInfo.setText(this.controller.getPort());
 	    // auto assign default
 	    try {
-	    	portAddressInfo.setText("8189");
+	    	portAddressInfo.setText(controller.getPort());
 			portAddressInfo.commitEdit();
 		} catch (ParseException e) {
 			JOptionPane.showMessageDialog(this, "Failed to assign a port", "Oops...", JOptionPane.ERROR_MESSAGE);
