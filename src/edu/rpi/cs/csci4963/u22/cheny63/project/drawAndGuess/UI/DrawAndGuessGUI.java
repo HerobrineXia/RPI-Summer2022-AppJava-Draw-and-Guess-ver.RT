@@ -80,7 +80,6 @@ public class DrawAndGuessGUI {
 	 */
     public static void main(String args[ ]){	
     	FlatDarkLaf.setup();
-    	
     	try {	  
 		    Font font = Font.createFont(Font.TRUETYPE_FONT,
 		                                new File("./res/gui/font/windows_command_prompt.ttf"));

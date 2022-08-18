@@ -84,7 +84,6 @@ public class DrawBoard extends OpaqueJPanel{
 	public void activate() {
 		this.isValid = true;
 		initCursorStretegy();
-		
 	}
 
 	public void deactivate() {
