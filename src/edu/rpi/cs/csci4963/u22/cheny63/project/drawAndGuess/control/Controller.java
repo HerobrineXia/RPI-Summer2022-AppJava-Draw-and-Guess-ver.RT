@@ -52,6 +52,10 @@ public class Controller{
         window = new DrawAndGuessGUI(this);
     }
 
+    public void on(){
+        window.returnMainMenu();
+    }
+
     public void onStartServer(String name, int port, String filePath){
         config.setName(name);
         config.setFilePath(filePath);
@@ -79,6 +83,7 @@ public class Controller{
     protected void onConnectionFailed(String message, String title){
         onConnectionWaitEnd();
         window.interrupt(message, title);
+        window.returnMainMenu();
     }
 
     protected void onConnectionSuccess(){
@@ -188,12 +193,14 @@ public class Controller{
     }
 
     protected void onPlayerReceiveMessageServer(int id, String message){
-        String realMessage = message;
-        if(model.getStatus() == GameStatus.PROCESSING){
-            
+        if(isServer){
+            String realMessage = message;
+            if(model.getStatus() == GameStatus.PROCESSING){
+                ((ServerModel) model).guessWord(id, realMessage);
+            }
+            // TODO: Guess Word
+            sendMessageToAll(protocol.serverSentMessageEvent(id, realMessage));
         }
-        // TODO: Guess Word
-        sendMessageToAll(protocol.serverSentMessageEvent(id, message));
     }
 
     private void sendMessageToAll(String message){

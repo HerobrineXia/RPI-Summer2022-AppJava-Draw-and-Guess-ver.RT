@@ -5,9 +5,10 @@ import java.util.logging.Logger;
 
 public class ClientModel {
     protected LinkedList<String> chatHistory;
+    protected Logger log;
+
     protected LinkedList<User> userList;
     protected int currentDrawerId;
-    protected Logger log;
     protected GameStatus gameStatus;
     
     public ClientModel(Logger log){

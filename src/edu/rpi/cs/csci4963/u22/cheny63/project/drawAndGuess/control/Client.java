@@ -67,7 +67,7 @@ public class Client implements Runnable{
 		try{
 			message = this.in.readLine();
 			if(message != null){
-				log.info(String.format("Message \"%s\" received.\n", message));
+				log.info("Message \"%s\" received.\n".formatted(message));
 			}else{
 				log.info("No message received.");
 			}
@@ -139,7 +139,7 @@ public class Client implements Runnable{
 			if(message != null){
 				controller.processCommand(message);
 			}else{
-				// TODO: Reconnect
+				controller.onConnectionFailed("Failed to receive data through socket!", "Connection Lost");
 				break;
             }
 		}

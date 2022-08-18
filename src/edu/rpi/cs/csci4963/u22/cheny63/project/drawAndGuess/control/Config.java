@@ -3,8 +3,6 @@ package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Properties;
 import java.util.logging.Logger;
 
