@@ -62,8 +62,8 @@ public class Controller{
         config.setName(name);
         config.setFilePath(filePath);
         config.setPort(port);
-        startServer(port);
         ((ServerModel)model).readGraph(filePath);
+        startServer(port);
         myName = name;
     }
 
