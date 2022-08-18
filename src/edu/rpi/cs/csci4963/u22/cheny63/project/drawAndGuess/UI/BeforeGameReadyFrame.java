@@ -260,7 +260,7 @@ public class BeforeGameReadyFrame extends JDialog {
 		this.setSize(800, 640);
 		this.setLocationRelativeTo(null); // set window centre
 		this.setResizable(false);
-		this.setAlwaysOnTop(true);
+		// this.setAlwaysOnTop(true);
 		this.setVisible(true);
 		
 	}
