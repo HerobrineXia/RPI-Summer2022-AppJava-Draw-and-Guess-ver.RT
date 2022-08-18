@@ -343,8 +343,8 @@ public class Controller{
         }else{
             model.setStatus(GameStatus.PROCESSING_WAIT);
         }
-        runTimer();
         model.startWait();
+        runTimer();
     }
 
     protected void onUserScoreReceive(int id, int score){
