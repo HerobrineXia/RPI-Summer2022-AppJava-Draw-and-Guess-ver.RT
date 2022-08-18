@@ -53,8 +53,8 @@ public class DrawAndGuessGUI {
 		if (gameSessionFrame != null) gameSessionFrame.deactivate();
 	}
 	
-	public void updateChat() {
-		if (gameSessionFrame != null) gameSessionFrame.updateChat();
+	public void updateStats() {
+		if (gameSessionFrame != null) gameSessionFrame.updateStats();
 	}
 	
 	public void interrupt(String msg, String title) {

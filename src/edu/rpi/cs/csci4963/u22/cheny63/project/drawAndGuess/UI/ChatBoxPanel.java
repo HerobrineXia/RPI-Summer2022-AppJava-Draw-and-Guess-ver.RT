@@ -50,8 +50,9 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	
 	private String parsingText(LinkedList<String> history) {
 		String res  = "";
-		for (String line : history) {
-			res += line + "\n";
+		for (int i = 0; i < history.size(); i++) {
+			res += history.get(i) + "\n";
+			if (i % 2 == 1) res += "\n";
 		}
 		return res;
 	}

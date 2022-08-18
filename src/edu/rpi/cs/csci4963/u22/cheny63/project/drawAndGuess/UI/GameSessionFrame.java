@@ -2,6 +2,7 @@ package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FontFormatException;
@@ -45,16 +46,20 @@ public class GameSessionFrame extends JFrame{
 	private java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 	private ChatBoxPanel chat;
 	
-	public void updateChat() {
+	public void updateStats() {
 		this.chat.updateChat();
 	}
 	
 	public void activate() {
 		this.board.activate();
+		for (Component button: operations.getComponents())
+			button.setEnabled(false);
 	}
 	
 	public void deactivate() {
 		this.board.deactivate();
+		for (Component button: operations.getComponents())
+			button.setEnabled(true);
 	}
 	
 	private void initCursorStrategy() {
@@ -119,7 +124,9 @@ public class GameSessionFrame extends JFrame{
 		gridBagCons.anchor = GridBagConstraints.EAST;
 		gridBagCons.weightx = 10;
 		this.operations.add(exit);
-		
+		// deactivate all
+		for (Component button: operations.getComponents())
+			button.setEnabled(false);		
 	}
 	
 	private void generateGUI(Controller controller) throws FontFormatException, IOException {

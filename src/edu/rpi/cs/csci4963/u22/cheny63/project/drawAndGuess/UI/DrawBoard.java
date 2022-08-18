@@ -4,6 +4,9 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -11,8 +14,10 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import javax.swing.JFrame;
+import java.io.File;
+import java.io.IOException;
 
+import javax.swing.JFrame;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.ImageUtility;
 
 public class DrawBoard extends OpaqueJPanel{
@@ -27,6 +32,7 @@ public class DrawBoard extends OpaqueJPanel{
 	private Color strokeColor = new Color(251, 251, 251);
 	private boolean isValid = false;
 	private java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
+	private Font goreRegular;
 	/**
 	 * Construct a image from specific drawing board setting and color setting
 	 *
@@ -36,29 +42,35 @@ public class DrawBoard extends OpaqueJPanel{
 	 * @param zoomNum                the scale for drawing board size and window prefered size change, noted that 
 	 *                               if it is set as -1, then constructor will automatically generate one based
 	 *                               on drawing board size
+	 * @throws IOException 
+	 * @throws FontFormatException 
 	 */
-	public DrawBoard(Color[][] drawingBoardStatus, double zoomNum) {
+	public DrawBoard(Color[][] drawingBoardStatus, double zoomNum) throws FontFormatException, IOException {
 		this.zoomNum = zoomNum != -1? zoomNum:Toolkit.getDefaultToolkit().getScreenSize().height*0.80/(drawingBoardStatus.length*drawEntryWidth);
 		this.currentdrawingBoardStatus = new Color[drawingBoardStatus.length][drawingBoardStatus[0].length];
+		this.goreRegular = Font.createFont(Font.TRUETYPE_FONT, new File("./res/gui/font/Gore Regular.otf"));
+		this.goreRegular  = goreRegular.deriveFont(Font.PLAIN, 60);
 		this.setBackground(new Color(251, 251, 251));
 		for (int i = 0; i < drawingBoardStatus.length; i++)
 			for (int j = 0; j < drawingBoardStatus[0].length; j++)
 				this.currentdrawingBoardStatus[i][j] = (drawingBoardStatus[i][j] != null? drawingBoardStatus[i][j] : new Color(251, 251, 251));
 		
 		initCursorStretegy();
-		
 		this.addMouseMotionListener(new MouseMotionListener() {
 	        @Override
 	        public void mouseMoved(MouseEvent e) {
-	        	lastDragEventTriggerY = lastDragEventTriggerX = -1;
+	        	if(isValid)
+	        		lastDragEventTriggerY = lastDragEventTriggerX = -1;
 	        }
 	        @Override
 	        public void mouseDragged(MouseEvent e) {
-	        	if (lastDragEventTriggerY != -1)
-	        		connectTwoDots(e.getX(), e.getY(), lastDragEventTriggerX, lastDragEventTriggerY);
-	        	setEntryColor(findPosition(e.getX(), e.getY()), strokeColor);
-	        	lastDragEventTriggerX = e.getX();
-	        	lastDragEventTriggerY = e.getY();
+	        	if(isValid) {
+	        		if (lastDragEventTriggerY != -1)
+		        		connectTwoDots(e.getX(), e.getY(), lastDragEventTriggerX, lastDragEventTriggerY);
+		        	setEntryColor(findPosition(e.getX(), e.getY()), strokeColor);
+		        	lastDragEventTriggerX = e.getX();
+		        	lastDragEventTriggerY = e.getY();
+	        	}
 	        }
 	    });
 	}
@@ -78,7 +90,6 @@ public class DrawBoard extends OpaqueJPanel{
 			y1 = x1*slope+b;
 			y2 = x2*slope+b;
 		}
-		
 	}
 	
 	public void activate() {
@@ -115,8 +126,8 @@ public class DrawBoard extends OpaqueJPanel{
 	}
 	
     public Dimension getPreferredSize(){
-        return new Dimension((int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.86), 
-        		             (int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.86));
+        return new Dimension((int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.8), 
+        		             (int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.8));
     }
     
 	private Dimension findPosition(int x, int y) {
@@ -178,10 +189,17 @@ public class DrawBoard extends OpaqueJPanel{
         g2.drawRect(0, 0, (int)((this.drawEntryWidth * this.zoomNum)* rowNum), 
         		          (int)((this.drawEntryWidth * this.zoomNum)* colNum));
         
+        // gernate prompt
+        g2.setColor(Color.BLACK);
+        FontMetrics metric = g.getFontMetrics(this.goreRegular);
+        g.setFont(goreRegular);
+        g.drawString("3 letters", 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - metric.getAscent() - 9));
+        g.drawString("An animal", 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - 9));
+        
 	}
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FontFormatException, IOException {
 		JFrame testframe = new JFrame();
 		// avoid image displace case,  not necessary
 		Color[][] arr = new Color[180][180];
