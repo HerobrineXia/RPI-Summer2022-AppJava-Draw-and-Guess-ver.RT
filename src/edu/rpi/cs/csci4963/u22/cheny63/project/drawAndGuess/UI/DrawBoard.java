@@ -74,7 +74,7 @@ public class DrawBoard extends OpaqueJPanel{
 	        		if (lastDragEventTriggerY != -1)
 		        		connectTwoDots(e.getX(), e.getY(), lastDragEventTriggerX, lastDragEventTriggerY);
 	        		Dimension position = findPosition(e.getX(), e.getY());
-		        	setEntryColor((int)position.getWidth(), (int)position.getHeight(), strokeColor, true);
+		        	setEntryColor((int)position.getHeight(), (int)position.getWidth(), strokeColor, true);
 		        	lastDragEventTriggerX = e.getX();
 		        	lastDragEventTriggerY = e.getY();
 	        	}
@@ -95,12 +95,12 @@ public class DrawBoard extends OpaqueJPanel{
 			
 		while (y2 != y1 &&!((x1-x2>1)||(x1-x2<-1)) ) {
 			Dimension position = findPosition((int)x1, (int)y1);
-			setEntryColor((int)position.getWidth(), (int)position.getHeight(), strokeColor, true);
+			setEntryColor((int)position.getHeight(), (int)position.getWidth(), strokeColor, true);
 			y1 += (y1 < y2? 1 : (y1 == y2? 0 : -1));
 		}
 		while(x1 != x2) {
 			Dimension position = findPosition((int)x1, (int)y1);
-			setEntryColor((int)position.getWidth(), (int)position.getHeight(), strokeColor, true);
+			setEntryColor((int)position.getHeight(), (int)position.getWidth(), strokeColor, true);
 			x1 += (x1 < x2? 1 : (x1 == x2? 0 : -1));
 			y1 = x1*slope+b;
 			y2 = x2*slope+b;
@@ -215,13 +215,15 @@ public class DrawBoard extends OpaqueJPanel{
         FontMetrics metric = g.getFontMetrics(this.goreRegular);
         g.setFont(goreRegular);
         // generate prompt
-        if (this.prompting != null) {
-	    	 if(isValid) {
-	             g.drawString(String.valueOf(this.prompting[0].length()) + " letters", 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - metric.getAscent() - 9));
-	             g.drawString(this.prompting[1], 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - 9));
-	         }else {
-	         	g.drawString("Please draw: " + this.prompting[0], 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - 9));
-	         }
+        if (this.controller.isGameStart()) {
+        	if (this.prompting == null) this.prompting = new String[] {this.controller.getSecret(), this.controller.getSecretHint()};
+			if(!isValid) {
+			    g.drawString(String.valueOf(this.prompting[0].length()) + " letters", 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - metric.getAscent() - 9));
+			    g.drawString(this.prompting[1], 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - 9));
+			}else {
+				g.drawString("Please draw: ", 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - metric.getAscent() - 9));
+			    g.drawString(this.prompting[0], 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - 9));
+			}
         }  
         
 	}
