@@ -167,6 +167,24 @@ public class Controller{
         System.exit(0);
     }
 
+    public void onBoardClear(){
+        if(isServer){
+            sendMessageToAll(protocol.eventCleanBoard(0));
+        }else{
+            client.send(protocol.eventCleanBoard(1));
+        }
+    }
+
+    public void onBoardClearReceive(int flag){
+        if(flag == 1){
+            if(isServer){
+                onBoardClear();
+            }
+        }else{
+            window.clear();
+        }
+    }
+
     public void onBoardDraw(int x, int y, Color color){
         if(isServer){
             protocol.process(protocol.dataDrawServer(x, y, color, myId));
@@ -261,6 +279,7 @@ public class Controller{
     }
 
     public void onNewRound(int drawerId){
+        window.clear();
         addChat("Server", "Round Start!");
         if(isServer){
             ((ServerModel) model).startRound();

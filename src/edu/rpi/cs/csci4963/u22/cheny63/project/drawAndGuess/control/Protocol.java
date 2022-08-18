@@ -224,6 +224,7 @@ public class Protocol {
 		        	return response.toString();
 		        }
 				int bool = Integer.parseInt(commands[2]);
+				controller.onBoardClearReceive(bool);
 			}
 			else {
 				//invalid
