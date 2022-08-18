@@ -1,9 +1,9 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model;
 
 import java.io.IOException;
+import java.util.AbstractMap;
 import java.util.Timer;
 import java.util.logging.Logger;
-
 public class ServerModel extends ClientModel{
 	// Data
 	private WordDictionary dictionary;
@@ -11,6 +11,7 @@ public class ServerModel extends ClientModel{
 	// Game Data
 	private String secretWord;
 	private Timer timer;
+	private int remainTime;
 	private int remainPoint;
 
 	// Log
@@ -19,7 +20,7 @@ public class ServerModel extends ClientModel{
 	public ServerModel(Logger log) {
 		super(log);
 		timer = new Timer();
-		currentDrawerId = -1;
+		currentDrawerId = 0;
 	}
 
 	public void readGraph(String filename) throws IOException{
@@ -40,7 +41,6 @@ public class ServerModel extends ClientModel{
 	public void startGame(){
 		if(gameStatus == GameStatus.INIT || gameStatus == GameStatus.END){
 			intializeGame();
-			startRound();
 		}
 	}
 
@@ -61,14 +61,19 @@ public class ServerModel extends ClientModel{
 				((UserServer)user).newRound();
 			}
 			remainPoint = userList.size() - 1;
+			remainTime = 90;
 		}
+	}
+
+	public boolean roundEnd(){
+		return remainPoint == 0 || remainTime == 0;
 	}
 
 	public void endRound(){
 		if(gameStatus == GameStatus.PROCESSING){
 			UserServer user = getUser(currentDrawerId);
 			if(remainPoint != 0){
-				addScore(user, userList.size() - remainPoint);
+				// addScore(user, userList.size() - remainPoint);
 			}
 			++currentDrawerId;
 			if(currentDrawerId > userList.size()){
@@ -78,30 +83,37 @@ public class ServerModel extends ClientModel{
 		}
 	}
 
-	public void guessWord(int id, String word){
+	public int guessWord(int id, String word){
 		if(gameStatus == GameStatus.PROCESSING){
 			if(currentDrawerId != id){
 				UserServer user = getUser(id);
 				if(!user.getGuessSuccess()){
 					if(equalSecret(word)){
 						userGuessRight(user);
+						return 2;
+					}else{
+						return 0;
 					}
+				}else{
+					return 1;
 				}
+			}else{
+				return 0;
 			}
 		}
+		return -1;
+	}
+
+	public int decrementPoint(){
+		return remainPoint--;
 	}
 
 	private void userGuessRight(UserServer user){
-		addScore(user, remainPoint);
-		--remainPoint;
+		// addScore(user, remainPoint);
 		user.setGuessSuccess();
 		if(remainPoint == 0){
 			endRound();
 		}
-	}
-
-	private void addScore(UserServer user, int score){
-		user.addScore(score);
 	}
 
 	private UserServer getUser(int id){

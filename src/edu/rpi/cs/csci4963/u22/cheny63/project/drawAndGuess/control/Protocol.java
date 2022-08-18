@@ -37,10 +37,10 @@ public class Protocol {
 	
 
 
-	public String messagePack(int id, String message){
+	public String messagePack(String message){
 		message = Base64.getEncoder().encodeToString(message.getBytes());
 		
-		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s".formatted("DATA",SEPARATOR,"MESSAGE",SEPARATOR,id,SEPARATOR,message));
+		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("DATA",SEPARATOR,"MESSAGE",SEPARATOR,message));
 		return response.toString();
 	}
 
@@ -93,6 +93,10 @@ public class Protocol {
 	}
 	public String eventStartGame() {
 		StringBuilder response = new StringBuilder("%s%s%s".formatted("EVENT",SEPARATOR,"NEW_GAME"));
+		return response.toString();
+	}
+	public String eventRoundEnd() {
+		StringBuilder response = new StringBuilder("%s%s%s".formatted("EVENT",SEPARATOR,"ROUND_END"));
 		return response.toString();
 	}
 
@@ -164,15 +168,17 @@ public class Protocol {
 				controller.onPlayerLeaveClient(id);
 			}
 			else if(secondary.equals("NEW_GAME")) {
-				
+				controller.onStartGameClient();
 			}
 			else if(secondary.equals("NEW_ROUND")) {
-				int painterId = Integer.parseInt(commands[2]);
+				int drawerId = Integer.parseInt(commands[2]);
 				if(commands.length<3) {
 		        	response = new StringBuilder("Invalid Command: EVENT NEW_ROUND command length less than 4");
 		        	return response.toString();
 		        }
-				//controller
+				controller.onNewRound(drawerId);
+			}
+			else if(secondary.equals("ROUND_END")) {
 			}
 			else {
 				//invalid
@@ -189,14 +195,13 @@ public class Protocol {
 				int score = Integer.parseInt(commands[3]);
 			}
 			else if(secondary.equals("MESSAGE")) {
-				if(commands.length<4) {
+				if(commands.length<3) {
 		        	response = new StringBuilder("Invalid Command: DATA MESSAGE command length less than 4");
 		        	return response.toString();
 		        }
-				int id = Integer.parseInt(commands[2]);
-				String message = commands[3];
+				String message = commands[2];
 				message = baseToString(message);
-				// controller
+				controller.onMessageReceive(message);
 			}
 			else if(secondary.equals("MODEL")) {
 				LinkedList<User> users = new LinkedList<User>();

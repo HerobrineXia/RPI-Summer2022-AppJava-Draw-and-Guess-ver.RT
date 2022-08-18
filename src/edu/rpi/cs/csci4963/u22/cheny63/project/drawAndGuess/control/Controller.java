@@ -1,5 +1,6 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control;
 
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -57,11 +58,12 @@ public class Controller{
         return model.getPlayerName(model.getDrawerId());
     }
 
-    public void onStartServer(String name, int port, String filePath){
+    public void onStartServer(String name, int port, String filePath) throws IOException{
         config.setName(name);
         config.setFilePath(filePath);
         config.setPort(port);
         startServer(port);
+        ((ServerModel)model).readGraph(filePath);
         myName = name;
     }
 
@@ -101,10 +103,6 @@ public class Controller{
 
     public void processCommand(String command){
         protocol.process(command);
-    }
-
-    public void startGame(){
-        ((ServerModel)model).startGame();
     }
 
     public String getNameConfig(){
@@ -206,8 +204,33 @@ public class Controller{
         }
     }
 
-    public void onStartGame(){
+    public void onStartGameServer(){
+        if(isServer){
+            sendMessageToAll(protocol.eventStartGame());
+            sendMessageToAll(protocol.newRound(model.getDrawerId()));
+        }
+    }
 
+    public void onStartGameClient(){
+        if(isServer){
+            ((ServerModel)model).startGame();
+        }else{
+            model.startGame();
+        }
+    }
+
+    public void onNewRound(int drawerId){
+        if(isServer){
+            ((ServerModel) model).startRound();
+        }else{
+            model.setDrawerId(drawerId);
+            model.setStatus(GameStatus.PROCESSING);
+        }
+        if(myId == drawerId){
+            window.activate();
+        }else{
+            window.deactivate();
+        }
     }
 
     protected void onPlayerReceiveMessageClient(int id, String message){
@@ -216,13 +239,26 @@ public class Controller{
 
     protected void onPlayerReceiveMessageServer(int id, String message){
         if(isServer){
-            String realMessage = message;
             if(model.getStatus() == GameStatus.PROCESSING){
-                ((ServerModel) model).guessWord(id, realMessage);
+                int result = ((ServerModel) model).guessWord(id, message);
+                if(result == 0){
+                    sendMessageToAll(protocol.serverSentMessageEvent(id, message));
+                }else if(result == 1){
+                    server.sendMessage(protocol.messagePack("You have already guessed out the word!"), id);
+                }else if(result == 2){
+                    sendMessageToAll(protocol.userScorePack(((ServerModel)model).decrementPoint(), id));
+                    if(((ServerModel)model).roundEnd()){
+                        // sendMessageToAll(message);
+                    }
+                }
+            }else{
+                sendMessageToAll(protocol.serverSentMessageEvent(id, message));
             }
-            // TODO: Guess Word
-            sendMessageToAll(protocol.serverSentMessageEvent(id, realMessage));
         }
+    }
+
+    protected void onMessageReceive(String message){
+        addChat("System", message);
     }
 
     private void sendMessageToAll(String message){
