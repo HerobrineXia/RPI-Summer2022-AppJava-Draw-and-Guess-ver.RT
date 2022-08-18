@@ -6,6 +6,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
+import java.awt.Color;
 
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI.DrawAndGuessGUI;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI.HoldConnection;
@@ -159,6 +160,18 @@ public class Controller{
             }
         }
         System.exit(0);
+    }
+
+    public void onBoardDraw(int x, int y, Color color){
+        if(isServer){
+            server.sendMessageToAll(message);
+        }else{
+            client.send(protocol.dataDraw(x, y, color));
+        }
+    }
+
+    protected void onBoardReceive(){
+
     }
 
     protected void onIdReturn(int id){
