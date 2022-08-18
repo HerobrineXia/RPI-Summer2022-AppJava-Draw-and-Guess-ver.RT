@@ -2,12 +2,15 @@ package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FontFormatException;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -52,6 +55,13 @@ public class GameSessionFrame extends JFrame{
 	
 	public void deactivate() {
 		this.board.deactivate();
+	}
+	
+	private void initCursorStrategy() {
+		java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
+		Image image = ImageUtility.resizeIcon(toolkit.getImage("./res/gui/cursor/normal.png"), new Dimension(10, 10));
+		Cursor newCursor = toolkit.createCustomCursor(image , new Point(0, 0), "");
+		this.setCursor (newCursor);
 	}
 	
 	private void initOperations(Controller controller) {
@@ -115,6 +125,7 @@ public class GameSessionFrame extends JFrame{
 		// set full screen
 		GraphicsEnvironment graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice device = graphics.getDefaultScreenDevice();
+        initCursorStrategy();
         
         // init panel
         this.operations = new OpaqueJPanel();                   // store drawboard operations

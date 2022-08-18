@@ -58,28 +58,34 @@ public class ChatBoxPanel extends OpaqueJPanel{
 
 	private void initTitle() {
 		titleContent = new JPanel();
-		JTextPane currentGuessing = new JTextPane();
+		JTextPane currentDrawing = new JTextPane();
 		JTextPane guessCandidate = new JTextPane();
 		
 		titleContent.setLayout(new BorderLayout());
-		currentGuessing.setText("Currently guessing:");
-		currentGuessing.setEditable(false);
-		currentGuessing.setBackground(Color.WHITE);
+		currentDrawing.setText("Currently drawing:");
+		currentDrawing.setEditable(false);
+		currentDrawing.setBackground(Color.WHITE);
 		titleContent.setBackground(Color.WHITE);
 		Font goreRegularTitleSmall  = goreRegular.deriveFont(Font.PLAIN, 22);
-		currentGuessing.setFont(goreRegularTitleSmall);
+		currentDrawing.setFont(goreRegularTitleSmall);
 			
-		guessCandidate.setText(isStart ? "HOLD" : "Yuetian");
+		guessCandidate.setText(isStart ? "HOLD" : controller.getDrawerName());
 		guessCandidate.setEditable(false);
 		guessCandidate.setBackground(Color.WHITE);
 		Font goreRegularTitleLarge  = goreRegular.deriveFont(Font.PLAIN, 70);
 		guessCandidate.setFont(goreRegularTitleLarge);
-		currentGuessing.setAlignmentY(Component.LEFT_ALIGNMENT);
+		currentDrawing.setAlignmentY(Component.LEFT_ALIGNMENT);
 		
-		titleContent.add(currentGuessing, BorderLayout.NORTH);
+		titleContent.add(currentDrawing, BorderLayout.NORTH);
 		
 		if (isHost && !isStart) {
 			JButton startGame = new JButton("Click to Start");
+			startGame.addActionListener(new java.awt.event.ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	            	controller.onStartGameServer();
+				}
+	        });
 			startGame.setHorizontalAlignment(SwingConstants.LEFT);
 			goreRegularTitleLarge  = goreRegular.deriveFont(Font.PLAIN, 50);
 			startGame.setForeground(new Color(192, 0, 0));
@@ -140,9 +146,9 @@ public class ChatBoxPanel extends OpaqueJPanel{
 			}
 		});
 		
-		writerPanel.setBackground(new Color(191, 191, 191));
-		writerPanel.setForeground(Color.WHITE);
-		writerPanel.setCaretColor(Color.WHITE);
+		//writerPanel.setBackground(new Color(191, 191, 191));
+		writerPanel.setBackground(Color.WHITE);
+		writerPanel.setCaretColor(new Color(236, 164, 145));
 		this.sendMsg.setFont(goreRegular);
 		this.sendMsg.setBackground(new Color(236, 164, 145));
 		this.sendMsg.setForeground(new Color(253, 253, 253));
@@ -157,8 +163,8 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		chatContent.setLayout(new BorderLayout());
 		writerContent.setBackground(new Color(236, 164, 145));
 		this.sendMsg.setPreferredSize(new Dimension(100, 100));
-		historyScroll.setPreferredSize(new Dimension(500, 600));
-		historyText.setPreferredSize(new Dimension(550, 500));
+		historyScroll.setPreferredSize(new Dimension(500, (int)(toolkit.getScreenSize().height*0.7)));
+		historyText.setPreferredSize(new Dimension(500, 500));
 		writerPanel.setPreferredSize(new Dimension(500, 100));
 		writerContent.setPreferredSize(new Dimension(600, 100));
 		
@@ -179,7 +185,6 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		goreRegular  = goreRegular.deriveFont(Font.PLAIN, 27);
 		this.controller = controller;
 		this.isHost = this.controller.isServer();
-		// this.isHost = true;
 		
 		JPanel allContent = new JPanel();
 		allContent.setLayout(new BoxLayout(allContent, BoxLayout.Y_AXIS));

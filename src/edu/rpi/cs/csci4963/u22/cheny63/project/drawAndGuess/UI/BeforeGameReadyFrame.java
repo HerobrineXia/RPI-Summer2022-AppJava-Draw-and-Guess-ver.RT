@@ -171,7 +171,9 @@ public class BeforeGameReadyFrame extends JDialog {
 		dictLocatioinField.setPreferredSize(new Dimension(320, 60));
 		usernameField.setPreferredSize(new Dimension(380, 60));
 		dictLocatioinField.setEditable(false);
-		dictLocatioinField.setHorizontalAlignment(JFormattedTextField.CENTER);    
+		dictLocatioinField.setHorizontalAlignment(JFormattedTextField.CENTER);  
+		File file = new File(controller.getFileConfig());
+		dictLocatioinField.setText(this.inputFilePath = (file.isFile()? controller.getFileConfig() : ""));	
 		usernameField.setHorizontalAlignment(JFormattedTextField.CENTER); 
 		
 		selectFile.addActionListener(new ActionListener() {
@@ -205,7 +207,7 @@ public class BeforeGameReadyFrame extends JDialog {
 		JButton confirm = new JButton("Confirm");
 		confirm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            	if (isHost && inputFilePath == null) {
+            	if (isHost && (inputFilePath == null || inputFilePath == "")) {
             		JOptionPane.showMessageDialog(BeforeGameReadyFrame.this, "You need to select a dictionary file", 
             				                      "Oops...", JOptionPane.ERROR_MESSAGE);
             		return;
