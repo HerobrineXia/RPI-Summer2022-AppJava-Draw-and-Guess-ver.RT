@@ -230,6 +230,7 @@ public class Protocol {
 				// controller
 			}
 			else if(secondary.equals("MODEL")) {
+				LinkedList<User> users = new LinkedList<User>();
 				if(commands.length<4) {
 		        	response = new StringBuilder("Invalid Command: DATA MODEL command length less than 4");
 		        	return response.toString();
@@ -240,6 +241,7 @@ public class Protocol {
 					name = unicodeToString(name);
 					int id = Integer.parseInt(commands[i+2]);
 					int score =  Integer.parseInt(commands[i]);
+					users.addLast(new User(name, id, score));
 				}
 				//controller
 			}
