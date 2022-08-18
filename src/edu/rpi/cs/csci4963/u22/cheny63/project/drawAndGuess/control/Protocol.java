@@ -105,10 +105,16 @@ public class Protocol {
 		StringBuilder response = new StringBuilder("%s%s%s%s%s%s%s".formatted("EVENT",SEPARATOR,"SECRET",SEPARATOR,secret,SEPARATOR,hint));
 		return response.toString();
 	}
-	public String dataDraw(int x,int y,Color color,int id) {
+	public String dataDrawServer(int x,int y,Color color,int id) {
 		String c = color.toString();
 		c = Base64.getEncoder().encodeToString(c.getBytes());
-		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%d%s%s%s%d".formatted("DATA",SEPARATOR,"DRAW",SEPARATOR,x,SEPARATOR,y,SEPARATOR,c,SEPARATOR,id));
+		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%d%s%s%s%d".formatted("DATA",SEPARATOR,"DRAW_SERVER",SEPARATOR,x,SEPARATOR,y,SEPARATOR,c,SEPARATOR,id));
+		return response.toString();
+	}
+	public String dataDrawClient(int x,int y,Color color,int id) {
+		String c = color.toString();
+		c = Base64.getEncoder().encodeToString(c.getBytes());
+		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%d%s%s%s%d".formatted("DATA",SEPARATOR,"DRAW_CLIENT",SEPARATOR,x,SEPARATOR,y,SEPARATOR,c,SEPARATOR,id));
 		return response.toString();
 	}
 
@@ -245,9 +251,9 @@ public class Protocol {
 				}
 				controller.onPlayerReceiveDatapack(users, currentDrawerId, g);
 			}
-			else if(secondary.equals("DRAW")) {
+			else if(secondary.equals("DRAW_SERVER")) {
 				if(commands.length<5) {
-		        	response = new StringBuilder("Invalid Command: DATA DREW command length less than 5");
+		        	response = new StringBuilder("Invalid Command: DRAW_SERVER command length less than 5");
 		        	return response.toString();
 		        }
 				int x = Integer.parseInt(commands[2]);
@@ -256,9 +262,21 @@ public class Protocol {
 				int id = Integer.parseInt(commands[5]);
 				color = baseToString(color);
 				Color c = Color.getColor(color);
-				
+				controller.onBoardReceiveServer(x, y, c, id);
 			}
-			
+			else if(secondary.equals("DRAW_CLIENT")) {
+				if(commands.length<5) {
+		        	response = new StringBuilder("Invalid Command: DRAW_CLIENT command length less than 5");
+		        	return response.toString();
+		        }
+				int x = Integer.parseInt(commands[2]);
+				int y = Integer.parseInt(commands[3]);
+				String color = commands[4];
+				int id = Integer.parseInt(commands[5]);
+				color = baseToString(color);
+				Color c = Color.getColor(color);
+				controller.onBoardReceiveClient(x, y, c, id);
+			}
 			else {
 				response = new StringBuilder("Invalid Command:DATA command not match");
 			}
