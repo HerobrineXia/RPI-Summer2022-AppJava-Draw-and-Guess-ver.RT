@@ -211,6 +211,7 @@ public class Protocol {
 		        }
 				int id = Integer.parseInt(commands[2]);
 				int score = Integer.parseInt(commands[3]);
+				controller.onUserScoreReceive(id, score);
 			}
 			else if(secondary.equals("MESSAGE")) {
 				if(commands.length<3) {

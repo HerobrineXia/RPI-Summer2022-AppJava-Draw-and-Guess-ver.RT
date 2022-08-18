@@ -185,10 +185,8 @@ public class Controller{
     protected void onPlayerReceiveDatapack(LinkedList<User> users, int currentDrawerId, GameStatus status){
         if(!isServer){
             for(User user: users){
-                System.out.println("%s,%d,%d".formatted(user.getName(),user.getId(),user.getScore()));
                 model.addUser(user.getName(), user.getId(), user.getScore());
             }
-            System.out.println("%d,%s".formatted(currentDrawerId,status.toString()));
             model.setDrawerId(currentDrawerId);
             model.setStatus(status);
         }
@@ -255,7 +253,7 @@ public class Controller{
         }else{
             model.setSecret(word);
             model.setSecretHint(category);
-            addChat("Server", "You are the guesser, the secret word is %s!".formatted(word));
+            addChat("Server", "You are the guesser, the secret word is a kind of %s!".formatted(category));
         }
     }
 
