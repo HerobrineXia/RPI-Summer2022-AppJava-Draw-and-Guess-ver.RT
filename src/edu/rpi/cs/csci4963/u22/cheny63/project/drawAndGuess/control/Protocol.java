@@ -127,7 +127,6 @@ public class Protocol {
 
 	public String process(String command){
         StringBuilder response = new StringBuilder();
-		System.out.println(command);
         String[] commands = parseCommand(command);
         if(commands.length<2) {
         	response = new StringBuilder("Invalid Command: command length less than 2");
@@ -156,7 +155,6 @@ public class Protocol {
 				controller.onIdReturn(id);
 			}
 			else if(secondary.equals("JOIN")) {
-				System.out.println(command);
 				if(commands.length<4) {
 		        	response = new StringBuilder("Invalid Command: EVENT JOIN command length less than 4");
 		        	return response.toString();

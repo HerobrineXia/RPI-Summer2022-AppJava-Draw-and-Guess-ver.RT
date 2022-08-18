@@ -4,19 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
 
 public class ServerThread implements Runnable {
     private Socket socket;
     private InputStream inStream;
-	private OutputStream outStream;
 	private BufferedReader in;
-	private PrintWriter out;
 	private Logger log;
 	private Controller controller;
 
@@ -30,9 +24,7 @@ public class ServerThread implements Runnable {
 		this.controller = controller;
         // I/O port
 		inStream =  socket.getInputStream();
-		outStream = socket.getOutputStream();
 		in = new BufferedReader(new InputStreamReader(inStream));
-		out = new PrintWriter(new OutputStreamWriter(outStream, StandardCharsets.UTF_8), true);
     }
 
     /**

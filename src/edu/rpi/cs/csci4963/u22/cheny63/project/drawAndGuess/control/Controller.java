@@ -148,6 +148,7 @@ public class Controller{
             }else{
                 myId = 0;
                 id = 0;
+                addChat("Room IP", );
             }
             sendMessageToAll(protocol.userJoinClientEvent(id, name));
         }
