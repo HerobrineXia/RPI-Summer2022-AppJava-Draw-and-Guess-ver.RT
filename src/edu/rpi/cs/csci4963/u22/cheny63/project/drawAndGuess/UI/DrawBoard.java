@@ -73,7 +73,8 @@ public class DrawBoard extends OpaqueJPanel{
 	        	if(isValid) {
 	        		if (lastDragEventTriggerY != -1)
 		        		connectTwoDots(e.getX(), e.getY(), lastDragEventTriggerX, lastDragEventTriggerY);
-		        	setEntryColor(findPosition(e.getX(), e.getY()), strokeColor, true);
+	        		Dimension position = findPosition(e.getX(), e.getY());
+		        	setEntryColor((int)position.getWidth(), (int)position.getHeight(), strokeColor, true);
 		        	lastDragEventTriggerX = e.getX();
 		        	lastDragEventTriggerY = e.getY();
 	        	}
@@ -93,11 +94,13 @@ public class DrawBoard extends OpaqueJPanel{
 		// System.out.println("connect: (" + x1+", " + y1+")" + " ("+ x2 +", " + x2 + ")" + " slope: " + slope);
 			
 		while (y2 != y1 &&!((x1-x2>1)||(x1-x2<-1)) ) {
-			setEntryColor(findPosition((int)x1, (int)y1), strokeColor, true);
+			Dimension position = findPosition((int)x1, (int)y1);
+			setEntryColor((int)position.getWidth(), (int)position.getHeight(), strokeColor, true);
 			y1 += (y1 < y2? 1 : (y1 == y2? 0 : -1));
 		}
 		while(x1 != x2) {
-			setEntryColor(findPosition((int)x1, (int)y1), strokeColor, true);
+			Dimension position = findPosition((int)x1, (int)y1);
+			setEntryColor((int)position.getWidth(), (int)position.getHeight(), strokeColor, true);
 			x1 += (x1 < x2? 1 : (x1 == x2? 0 : -1));
 			y1 = x1*slope+b;
 			y2 = x2*slope+b;
@@ -157,11 +160,11 @@ public class DrawBoard extends OpaqueJPanel{
 	}
 	
 	
-	public void setEntryColor(Dimension position, Color targetColor, boolean syncToOther) {
-		this.currentdrawingBoardStatus[position.height][position.width] = targetColor;
+	public void setEntryColor(int x, int y, Color targetColor, boolean syncToOther) {
+		this.currentdrawingBoardStatus[x][y] = targetColor;
+		if (syncToOther) controller.onBoardDraw(x, y, targetColor);
 		this.repaint();
 		this.revalidate();
-		if (syncToOther) controller.onBoardDraw((int) position.getWidth(), (int) position.getHeight(), targetColor);
 	}
 	
 	/**
