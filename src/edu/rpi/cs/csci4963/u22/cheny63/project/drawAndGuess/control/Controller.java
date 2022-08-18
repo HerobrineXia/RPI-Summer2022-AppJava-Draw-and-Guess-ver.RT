@@ -84,6 +84,7 @@ public class Controller{
         model = new ClientModel(log);
         startClient(address, port);
         myName = name;
+        timer = new Timer();
     }
 
     protected void onConnectionWait(){
