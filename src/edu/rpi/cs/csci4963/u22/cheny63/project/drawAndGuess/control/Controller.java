@@ -70,21 +70,21 @@ public class Controller{
         config.setName(name);
         config.setFilePath(filePath);
         config.setPort(port);
+        timer = new Timer();
         model = new ServerModel(log);
         ((ServerModel)model).readGraph(filePath);
         startServer(port);
         myName = name;
-        timer = new Timer();
     }
 
     public void onClientStart(String name, String address, int port){
         config.setName(name);
         config.setAddress(address);
         config.setPort(port);
+        timer = new Timer();
         model = new ClientModel(log);
         startClient(address, port);
         myName = name;
-        timer = new Timer();
     }
 
     protected void onConnectionWait(){
@@ -283,7 +283,7 @@ public class Controller{
     }
 
     private void runTimer(){
-        int remainTime = ((ServerModel)model).reduceTime();
+        int remainTime = model.reduceTime();
         if(remainTime > 0){
             timer.schedule(new TimerTask() {
                 @Override
