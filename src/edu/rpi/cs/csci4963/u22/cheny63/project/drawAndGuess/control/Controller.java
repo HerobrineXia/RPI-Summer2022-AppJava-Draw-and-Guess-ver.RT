@@ -310,6 +310,7 @@ public class Controller{
             model.setSecretHint(category);
             addChat("Server", "You are the guesser, the secret word is a kind of %s!".formatted(category));
         }
+        window.setPrompt(word, category);
     }
 
     protected void onPlayerReceiveMessageClient(int id, String message){
