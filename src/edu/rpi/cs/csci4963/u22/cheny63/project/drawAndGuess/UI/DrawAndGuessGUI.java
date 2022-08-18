@@ -53,7 +53,14 @@ public class DrawAndGuessGUI {
 	public void startGame() {
 		this.startFrame.dispose();
 		this.gameStartFrame = new GameSessionFrame(this.controller);
-		
+	}
+	
+	public void returnMainMenu() {
+		if (this.gameStartFrame != null) {
+			this.gameStartFrame.dispose();
+			this.startFrame = new StartGameFrame(controller);
+		}
+			
 	}
 	
 	/**

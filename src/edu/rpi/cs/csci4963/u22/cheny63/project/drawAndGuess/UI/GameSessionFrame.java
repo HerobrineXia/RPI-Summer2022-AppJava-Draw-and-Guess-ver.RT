@@ -48,6 +48,8 @@ public class GameSessionFrame extends JFrame{
 				 				new Dimension(90, 90))), true);
 		DrawBoardButton exit = new DrawBoardButton(new ImageIcon(ImageUtility.resizeIcon(toolkit.getImage("./res/gui/gameSession/exit.png"), 
  								new Dimension(80, 105))), true);
+		
+		// set action to button
 		exit.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -56,6 +58,28 @@ public class GameSessionFrame extends JFrame{
 					controller.onClose();
 			}
         });
+		pencil.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+				GameSessionFrame.this.board.setStroke(Color.BLACK);
+			}
+        });
+		eraser.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+            public void actionPerformed(ActionEvent e) {
+				GameSessionFrame.this.board.setStroke(new Color(251, 251, 251));
+			}
+        });
+		restore.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	if (JOptionPane.showConfirmDialog(GameSessionFrame.this, "Do you want to clear the board?", 
+    				    "Are you sure", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION) 
+            			GameSessionFrame.this.board.clear();
+			}
+        });
+		
+		
 		this.operations.add(pencil);
 		this.operations.add(eraser);
 		this.operations.add(restore);

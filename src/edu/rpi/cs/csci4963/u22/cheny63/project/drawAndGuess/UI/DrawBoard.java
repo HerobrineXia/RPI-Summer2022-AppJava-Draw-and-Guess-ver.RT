@@ -19,6 +19,8 @@ public class DrawBoard extends OpaqueJPanel{
 	private int lastDragEventTriggerX = -1;
 	private int lastDragEventTriggerY = -1;
 	private boolean stroke = true;
+	private Color strokeColor = new Color(251, 251, 251);
+	private boolean isValid = false;
 	/**
 	 * Construct a image from specific drawing board setting and color setting
 	 *
@@ -46,7 +48,7 @@ public class DrawBoard extends OpaqueJPanel{
 	        public void mouseDragged(MouseEvent e) {
 	        	if (lastDragEventTriggerY != -1)
 	        		connectTwoDots(e.getX(), e.getY(), lastDragEventTriggerX, lastDragEventTriggerY);
-	        	setEntryColor(findPosition(e.getX(), e.getY()), Color.BLUE);
+	        	setEntryColor(findPosition(e.getX(), e.getY()), strokeColor);
 	        	lastDragEventTriggerX = e.getX();
 	        	lastDragEventTriggerY = e.getY();
 	        }
@@ -59,16 +61,36 @@ public class DrawBoard extends OpaqueJPanel{
 		// System.out.println("connect: (" + x1+", " + y1+")" + " ("+ x2 +", " + x2 + ")" + " slope: " + slope);
 			
 		while (y2 != y1 &&!((x1-x2>1)||(x1-x2<-1)) ) {
-			setEntryColor(findPosition((int)x1, (int)y1), Color.PINK);
+			setEntryColor(findPosition((int)x1, (int)y1), strokeColor);
 			y1 += (y1 < y2? 1 : (y1 == y2? 0 : -1));
 		}
 		while(x1 != x2) {
-			setEntryColor(findPosition((int)x1, (int)y1), Color.RED);
+			setEntryColor(findPosition((int)x1, (int)y1), strokeColor);
 			x1 += (x1 < x2? 1 : (x1 == x2? 0 : -1));
 			y1 = x1*slope+b;
 			y2 = x2*slope+b;
 		}
 		
+	}
+	
+	public void activate() {
+		this.isValid = true;
+	}
+	
+	public void deactivate() {
+		this.isValid = false;
+	}
+	
+	public void setStroke(Color color) {
+		this.strokeColor = color;
+	}
+	
+	public void clear() {
+		for (int i = 0; i < currentdrawingBoardStatus.length; i++)
+			for (int j = 0; j < currentdrawingBoardStatus[0].length; j++)
+				this.currentdrawingBoardStatus[i][j] = new Color(251, 251, 251);
+		this.repaint();
+		this.revalidate();
 	}
 	
     public Dimension getPreferredSize(){
@@ -149,4 +171,6 @@ public class DrawBoard extends OpaqueJPanel{
 		testframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		testframe.setVisible(true);
 	}
+
+	
 }
