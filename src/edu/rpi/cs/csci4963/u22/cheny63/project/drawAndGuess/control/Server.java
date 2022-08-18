@@ -25,6 +25,7 @@ public class Server implements Runnable{
     private ServerSocket serverSocket;
 	private int port;
     private int currentId;
+    private boolean flag;
 
 	// Logger
 	private Logger log;	
@@ -97,27 +98,32 @@ public class Server implements Runnable{
         }
     }
 
+    public void closeServer(){
+        flag = false;
+    }
+
     private void onServerClose(){
         log.info("Server closing...");
-        for(Socket socket: socketList.values()){
-            try{
-                socket.close();
-            }catch(IOException e){
-                log.warning("Failed to close socket at %s on server close...".formatted(socket.getRemoteSocketAddress().toString()));
+        synchronized(socketList){
+            for(Socket socket: socketList.values()){
+                try{
+                    log.info("Closing socket at %s".formatted(socket.getRemoteSocketAddress().toString()));
+                    socket.close();
+                }catch(IOException e){
+                    log.warning("Failed to close socket at %s on server close...".formatted(socket.getRemoteSocketAddress().toString()));
+                }
             }
+            socketList.clear();
         }
-        socketList.clear();
         try{
             serverSocket.close();
         }catch(IOException e){
             log.warning("Failed to close server socket on server close...");
         }
         for(Thread thread: threadList){
-            thread.interrupt();
             try{
                 thread.join();
             }catch(InterruptedException e){
-                e.printStackTrace();
                 log.warning("Failed to join the client thread...");
             }
         }
@@ -125,7 +131,7 @@ public class Server implements Runnable{
 
     @Override
     public void run(){
-        boolean flag = true;
+        flag = true;
         try{
             serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(1000);

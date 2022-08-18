@@ -1,10 +1,10 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -46,7 +46,11 @@ public class ServerThread implements Runnable {
 	 */
 	private String receive(){
 		String message;
-		message = this.in.nextLine();
+		try{
+			message = this.in.nextLine();
+		}catch(NoSuchElementException e){
+			message = null;
+		}
 		if(message != null){
 			log.info(String.format("Message \"%s\" received.\n", message));
 		}else{
@@ -71,7 +75,7 @@ public class ServerThread implements Runnable {
 				// Receive the respond and remove the command from list
 				controller.processCommand(message);
 			}else{
-				log.info("Connection from %s lost, closing socket...".formatted(socket.getInetAddress().getAddress()));
+				log.info("Connection from %s lost, closing socket...".formatted(socket.getRemoteSocketAddress().toString()));
 				server.removeSocket(socket);
                 try{
                     socket.close();

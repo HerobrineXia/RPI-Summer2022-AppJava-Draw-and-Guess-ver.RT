@@ -11,6 +11,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -65,6 +66,11 @@ public class Client implements Runnable{
 	 */
 	private String receive(){
 		String message;
+		try{
+			message = this.in.nextLine();
+		}catch(NoSuchElementException e){
+			message = null;
+		}
 		message = this.in.nextLine();
 		if(message != null){
 			log.info("Message \"%s\" received.\n".formatted(message));
@@ -84,6 +90,16 @@ public class Client implements Runnable{
 			return true;
 		}
 		return !socket.isConnected();
+	}
+
+	public void closeClient(){
+		if(socket != null){
+			try{
+				socket.close();
+			}catch(IOException e){
+				log.severe("Failed to close socket...");
+			}
+		}
 	}
 
     /**
@@ -138,11 +154,6 @@ public class Client implements Runnable{
 				controller.onConnectionFailed("Failed to receive data from server!", "Connection Lost");
 				break;
             }
-		}
-		try{
-			socket.close();
-		}catch(IOException e){
-			log.info("Failed to close socket...");
 		}
 		log.info("Connection End...");
     }

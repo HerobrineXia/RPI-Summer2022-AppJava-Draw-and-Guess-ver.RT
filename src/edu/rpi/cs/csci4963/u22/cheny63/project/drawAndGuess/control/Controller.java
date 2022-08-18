@@ -132,7 +132,11 @@ public class Controller{
         log.info("Closing the application...");
         config.save();
         if(network != null){
-            network.interrupt();
+            if(isServer){
+                server.closeServer();
+            }else{
+                client.closeClient();
+            }
             try{
                 network.join();
             }catch(InterruptedException e){
