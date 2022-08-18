@@ -42,7 +42,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		
 		this.sendMsg = new JButton("GO");
 		JEditorPane writerPanel = new JEditorPane();
-		this.historyText = new JTextArea();
+		this.historyText = new JTextArea(20, 40);
 		JPanel historyPanel = new JPanel();
 		JScrollPane historyScroll = new JScrollPane(historyPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 													JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);	
@@ -54,8 +54,11 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		this.sendMsg.addActionListener(new java.awt.event.ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	if (writerPanel.getText().equals(""))
+            	if (!writerPanel.getText().equals("")) {
             		controller.onPlayerSentMessage(writerPanel.getText());
+            		writerPanel.setText("");
+            	}
+            		
 			}
         });
 		
