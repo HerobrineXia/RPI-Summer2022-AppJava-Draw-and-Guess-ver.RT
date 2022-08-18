@@ -73,6 +73,7 @@ public class Client implements Runnable{
 			}
 		}catch(IOException e){
 			message = null;
+			e.printStackTrace();
 			log.warning("Failed to receive the line...");
 		}
 		return message;
