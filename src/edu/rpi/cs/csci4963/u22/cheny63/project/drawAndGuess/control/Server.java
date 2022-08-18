@@ -158,6 +158,8 @@ public class Server implements Runnable{
                     Thread thread = new Thread(new ServerThread(accept, log, this, controller));
                     threadList.add(thread);
                     thread.start();
+                }else{
+                    serverSocket.close();
                 }
             }catch(SocketTimeoutException e){
                 // DO NOTHING
