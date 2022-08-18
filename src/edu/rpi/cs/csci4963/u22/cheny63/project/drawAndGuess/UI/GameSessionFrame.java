@@ -66,8 +66,8 @@ public class GameSessionFrame extends JFrame{
 			button.setEnabled(false);
 	}
 	
-	public void setEntryColor(Dimension position, Color targetColor) {
-		this.board.setEntryColor(position, targetColor, false);
+	public void setEntryColor(int x, int y, Color targetColor) {
+		this.board.setEntryColor(x, y, targetColor, false);
 	}
 	
 	private void initCursorStrategy() {

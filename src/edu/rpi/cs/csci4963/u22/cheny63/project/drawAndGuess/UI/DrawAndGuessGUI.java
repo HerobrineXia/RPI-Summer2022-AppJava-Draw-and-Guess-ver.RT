@@ -63,8 +63,8 @@ public class DrawAndGuessGUI {
 		startFrame.failConnection(msg, title);
 	}
 	
-	public void setEntryColor(Dimension position, Color targetColor) {
-		if (gameSessionFrame != null) gameSessionFrame.setEntryColor(position, targetColor);
+	public void setEntryColor(int x, int y, Color targetColor) {
+		if (gameSessionFrame != null) gameSessionFrame.setEntryColor(x, y, targetColor);
 	}
 	
 	public void startGame() {
