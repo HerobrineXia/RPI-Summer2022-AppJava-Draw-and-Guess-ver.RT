@@ -31,6 +31,7 @@ public class HoldConnection{
 		mainFrameWaiter.setSize(350, 150);
 		mainFrameWaiter.setLocationRelativeTo(null); // set window centre
 		mainFrameWaiter.setResizable(false);
+		mainFrameWaiter.setAlwaysOnTop(true);
 		mainFrameWaiter.setVisible(true);
 	}
 	
