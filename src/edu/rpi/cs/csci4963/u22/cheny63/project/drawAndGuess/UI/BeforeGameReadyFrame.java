@@ -37,6 +37,7 @@ import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control.Controller;
 public class BeforeGameReadyFrame extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private boolean isHost;
+	private Controller controller;
 	
 	// IP info
     private JPanel IPInfo;
@@ -69,7 +70,7 @@ public class BeforeGameReadyFrame extends JDialog {
 		ipPanel.setLayout(new BoxLayout(ipPanel, BoxLayout.Y_AXIS));
 		this.ipAddressLabel = new JLabel((isHost? "Your IP address: " : "Host's IP address: "));		
 		this.ipAddressInfo.setPreferredSize(new Dimension(380, 60));
-		
+		this.ipAddressInfo.setText(this.controller.getAddress());
 		JCheckBox host = new JCheckBox("Use localhost");
 		host.addItemListener(new ItemListener() {    
 			public void itemStateChanged(ItemEvent e) {                 
@@ -99,7 +100,7 @@ public class BeforeGameReadyFrame extends JDialog {
 	    portFormatter.setAllowsInvalid(false);
 	    portAddressInfo = new JFormattedTextField(portFormatter);
 	    portAddressInfo.setPreferredSize(new Dimension(380, 60));
-	    
+	    portAddressInfo.setText(this.controller.getPort());
 	    // auto assign default
 	    try {
 	    	portAddressInfo.setText("8189");
@@ -198,6 +199,7 @@ public class BeforeGameReadyFrame extends JDialog {
 		super(parent, String.format("Input some necessary info as a %s...", (isHost? "host" : "client")));		
 		parent.setAllOperationEnable(false);
 		this.isHost = isHost;
+		this.controller = controller;
 		this.IPInfo = new JPanel();    // store IP Info
 		this.gameInfo = new JPanel();  // store Game Info
 		JPanel allContent = new JPanel();

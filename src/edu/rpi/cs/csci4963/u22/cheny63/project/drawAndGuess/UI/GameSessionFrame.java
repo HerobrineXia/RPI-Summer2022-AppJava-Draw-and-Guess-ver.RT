@@ -24,6 +24,8 @@ import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.SystemCheck;
 
 public class GameSessionFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
+	private Controller controller;
+	
 	// chessboard info
 	private DrawBoard board;
 	private Color[][] drawContent = new Color[80][80];
@@ -97,7 +99,7 @@ public class GameSessionFrame extends JFrame{
         this.chatRoom = new OpaqueJPanel();     // store chat
         this.timer = new OpaqueJPanel();        // store time
         this.boardPanel = new OpaqueJPanel();   // store all drawboard
-		this.chat = new ChatBoxPanel();
+		this.chat = new ChatBoxPanel(this.controller);
         
         
         initOperations(controller);
@@ -132,6 +134,7 @@ public class GameSessionFrame extends JFrame{
 
 	public GameSessionFrame(Controller controller) {
 		super("Start a game - Draw and Guess");
+		this.controller = controller;
 		try {
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			generateGUI(controller);
