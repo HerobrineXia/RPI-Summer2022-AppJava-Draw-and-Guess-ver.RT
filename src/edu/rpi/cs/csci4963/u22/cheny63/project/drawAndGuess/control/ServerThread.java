@@ -5,12 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class ServerThread implements Runnable {
     private Socket socket;
     private InputStream inStream;
-	private BufferedReader in;
+	private Scanner in;
 	private Logger log;
 	private Controller controller;
 
@@ -24,7 +25,7 @@ public class ServerThread implements Runnable {
 		this.controller = controller;
         // I/O port
 		inStream =  socket.getInputStream();
-		in = new BufferedReader(new InputStreamReader(inStream));
+		in = new Scanner(new InputStreamReader(inStream));
     }
 
     /**
@@ -45,16 +46,11 @@ public class ServerThread implements Runnable {
 	 */
 	private String receive(){
 		String message;
-		try{
-			message = this.in.readLine();
-			if(message != null){
-				log.info(String.format("Message \"%s\" received.\n", message));
-			}else{
-				log.info("No message received.");
-			}
-		}catch(IOException e){
-			message = null;
-			log.warning("Failed to receive the line...");
+		message = this.in.nextLine();
+		if(message != null){
+			log.info(String.format("Message \"%s\" received.\n", message));
+		}else{
+			log.info("No message received.");
 		}
 		return message;
 	}
@@ -69,13 +65,13 @@ public class ServerThread implements Runnable {
 		String message;
 		// Manage the I/O flow while the connection is not close
 		while(!Thread.currentThread().isInterrupted() && !isConnectionClosed()){
-			message = null;
 			// Receive the message
             message = receive();
 			if(message != null){
 				// Receive the respond and remove the command from list
 				controller.processCommand(message);
 			}else{
+				log.info("Connection from %s lost, closing socket...".formatted(socket.getInetAddress().getAddress()));
 				server.removeSocket(socket);
                 try{
                     socket.close();

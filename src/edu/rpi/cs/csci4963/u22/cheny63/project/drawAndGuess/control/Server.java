@@ -117,6 +117,7 @@ public class Server implements Runnable{
             try{
                 thread.join();
             }catch(InterruptedException e){
+                e.printStackTrace();
                 log.warning("Failed to join the client thread...");
             }
         }

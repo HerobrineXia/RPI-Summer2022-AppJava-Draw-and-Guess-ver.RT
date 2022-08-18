@@ -11,6 +11,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 /**
@@ -25,7 +26,7 @@ public class Client implements Runnable{
 	private int port;
 	private InputStream inStream;
 	private OutputStream outStream;
-	private BufferedReader in;
+	private Scanner in;
 	private PrintWriter out;
 	private Controller controller;
 
@@ -64,17 +65,11 @@ public class Client implements Runnable{
 	 */
 	private String receive(){
 		String message;
-		try{
-			message = this.in.readLine();
-			if(message != null){
-				log.info("Message \"%s\" received.\n".formatted(message));
-			}else{
-				log.info("No message received.");
-			}
-		}catch(IOException e){
-			message = null;
-			e.printStackTrace();
-			log.warning("Failed to receive the line...");
+		message = this.in.nextLine();
+		if(message != null){
+			log.info("Message \"%s\" received.\n".formatted(message));
+		}else{
+			log.info("No message received.");
 		}
 		return message;
 	}
@@ -102,7 +97,7 @@ public class Client implements Runnable{
         // I/O port
 		inStream =  socket.getInputStream();
 		outStream = socket.getOutputStream();
-		in = new BufferedReader(new InputStreamReader(inStream));
+		in = new Scanner(new InputStreamReader(inStream));
 		out = new PrintWriter(new OutputStreamWriter(outStream, StandardCharsets.UTF_8), true);
 		log.info(String.format("Connection to server %s established at port %d.\n", address, port));
 	}
@@ -140,7 +135,7 @@ public class Client implements Runnable{
 			if(message != null){
 				controller.processCommand(message);
 			}else{
-				controller.onConnectionFailed("Failed to receive data through socket!", "Connection Lost");
+				controller.onConnectionFailed("Failed to receive data from server!", "Connection Lost");
 				break;
             }
 		}
