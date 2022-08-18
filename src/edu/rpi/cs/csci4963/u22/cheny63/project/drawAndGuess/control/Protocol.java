@@ -102,7 +102,7 @@ public class Protocol {
 	public String sendSecretWord(String secret,String hint) {
 		secret = Base64.getEncoder().encodeToString(secret.getBytes());
 		hint = Base64.getEncoder().encodeToString(hint.getBytes());
-		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("EVENT",SEPARATOR,"SECRET",SEPARATOR,secret,SEPARATOR,hint));
+		StringBuilder response = new StringBuilder("%s%s%s%s%s%s%s".formatted("EVENT",SEPARATOR,"SECRET",SEPARATOR,secret,SEPARATOR,hint));
 		return response.toString();
 	}
 
