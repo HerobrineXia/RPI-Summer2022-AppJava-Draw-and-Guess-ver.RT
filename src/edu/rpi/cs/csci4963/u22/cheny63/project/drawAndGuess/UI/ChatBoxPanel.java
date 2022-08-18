@@ -199,14 +199,14 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		this.updateChat();
 	}
 
-	public static void main(String[] args) throws FontFormatException, IOException {
-		JFrame testframe = new JFrame();
-		// avoid image displace case,  not necessary
-		testframe.add(new ChatBoxPanel(null));
-		testframe.setSize(620, 640);
-		testframe.setLocationRelativeTo(null); // set window centre
-		testframe.setAlwaysOnTop(true); // since it is important, let it top
-		testframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		testframe.setVisible(true);
-	}
+//	public static void main(String[] args) throws FontFormatException, IOException {
+//		JFrame testframe = new JFrame();
+//		// avoid image displace case,  not necessary
+//		testframe.add(new ChatBoxPanel(null));
+//		testframe.setSize(620, 640);
+//		testframe.setLocationRelativeTo(null); // set window centre
+//		testframe.setAlwaysOnTop(true); // since it is important, let it top
+//		testframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		testframe.setVisible(true);
+//	}
 }
