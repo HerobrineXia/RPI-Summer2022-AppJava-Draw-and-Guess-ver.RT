@@ -33,7 +33,6 @@ public class GameSessionFrame extends JFrame{
 	// chessboard info
 	private DrawBoard board;
 	private Color[][] drawContent = new Color[80][80];
-	
 	// statusInfo
 	private boolean isHost;
 	private boolean isStart = false;
@@ -42,7 +41,7 @@ public class GameSessionFrame extends JFrame{
 	private OpaqueJPanel operations;   // store drawboard operations
 	private OpaqueJPanel boardPanel;   // store drawboard all component
 	private OpaqueJPanel chatRoom;     // store chat
-	private OpaqueJPanel timer;        // store time
+	private VerticalTimerPanel timer;        // store time
 	private java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 	private ChatBoxPanel chat;
 	private DrawBoardButton exit;
@@ -156,11 +155,10 @@ public class GameSessionFrame extends JFrame{
         this.operations = new OpaqueJPanel();                   // store drawboard operations
         OpaqueJPanel allOperations = new OpaqueJPanel();        // store drawboard operations
         this.chatRoom = new OpaqueJPanel();                     // store chat
-        this.timer = new OpaqueJPanel();                        // store time
+        this.timer = new VerticalTimerPanel();                        // store time
         OpaqueJPanel chessboardAndTools = new OpaqueJPanel();   // store drawboard operations
 		this.chat = new ChatBoxPanel(this.controller, this.board);
         initOperations(controller);
-        VerticalTimerPanel timerContent = new VerticalTimerPanel();
         this.board = new DrawBoard(drawContent, -1, controller);
         allOperations.add(operations);
         allOperations.add(exit);
@@ -173,7 +171,6 @@ public class GameSessionFrame extends JFrame{
      	GridBagConstraints gridBagCons = new GridBagConstraints();
      	
      	this.chatRoom.add(chat);
-     	this.timer.add(timerContent);
      	gridBagCons.gridx = 0;
      	gridBagCons.gridy = 1;
      	chessboardAndTools.add(board, gridBagCons);
@@ -182,9 +179,12 @@ public class GameSessionFrame extends JFrame{
      	chessboardAndTools.add(allOperations, gridBagCons);
      	chessboardAndTools.setPreferredSize(new Dimension((int)(toolkit.getScreenSize().width * 0.5), 
      			                                          (int)(toolkit.getScreenSize().width * 0.5)));
+     	// this.timer.setBounds(0, 0, 50, 1000);
+     	// this.timer.add(chessboardAndTools);
+     	allContent.add(new VerticalTimerPanel(), BorderLayout.WEST);
      	allContent.add(chessboardAndTools, BorderLayout.CENTER);
      	allContent.add(this.chatRoom, BorderLayout.EAST);
-     	// allContent.add(this.timer, BorderLayout.WEST);
+     	
      	this.add(allContent);
 
         //Display the window.       
@@ -214,5 +214,7 @@ public class GameSessionFrame extends JFrame{
 			"Oops...", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
+		
+		
 	}
 }
