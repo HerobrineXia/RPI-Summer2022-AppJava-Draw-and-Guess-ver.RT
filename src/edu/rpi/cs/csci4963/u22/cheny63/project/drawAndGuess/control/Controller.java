@@ -6,6 +6,7 @@ import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
 
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI.DrawAndGuessGUI;
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI.HoldConnection;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.ClientModel;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.GameStatus;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.ServerModel;
@@ -16,6 +17,7 @@ public class Controller{
     private Protocol protocol;
     private ClientModel model;
     private DrawAndGuessGUI window;
+    private HoldConnection holdWindow;
     
     // Game Network
     private Thread network;
@@ -38,7 +40,7 @@ public class Controller{
 		}catch (Exception e) {
 			log.warning(String.format("Unable to create logger file handler: %s", e.getMessage()));
             throw e;
-		} 
+		}
 		handler.setFormatter(new SimpleFormatter());
 		log.addHandler(handler);
 
@@ -51,17 +53,29 @@ public class Controller{
     public void onStartServer(String name, int port, String filePath){
         config.setName(name);
         config.setFilePath(filePath);
+        config.setPort(port);
         startServer(port);
         myName = name;
     }
 
     public void onClientStart(String name, String address, int port){
         config.setName(name);
+        config.setAddress(address);
+        config.setPort(port);
         startClient(address, port);
         myName = name;
     }
 
+    protected void onConnectionWait(){
+        holdWindow = new HoldConnection();
+    }
+
+    protected void onConnectionWaitEnd(){
+        holdWindow.close();
+    }
+
     protected void onConnectionFailed(String message, String title){
+        onConnectionWaitEnd();
         window.interrupt(message, title);
     }
 
@@ -89,6 +103,14 @@ public class Controller{
 
     public String getFileConfig(){
         return config.getFilePath();
+    }
+
+    public String getPort(){
+        return Integer.toString(config.getPort());
+    }
+
+    public String getAddress(){
+        return config.getAddress();
     }
 
     public boolean isServer(){
@@ -142,12 +164,16 @@ public class Controller{
         model.removeUser(id);
     }
 
-    protected void onPlayerSentMessage(String message){
+    public void onPlayerSentMessage(String message){
         if(isServer){
             onPlayerReceiveMessageServer(myId, message);
         }else{
             client.send(protocol.userSentMessageEvent(myId, message));
         }
+    }
+
+    public void onStartGame(){
+
     }
 
     protected void onPlayerReceiveMessageClient(int id, String message){
