@@ -58,17 +58,22 @@ public class Protocol {
 		str = str.replace("\\","");
 		String[] arr = str.split("u");
 		String text = "";
-		for(int i = 1; i < arr.length; i++){
+		System.out.println(arr.length);
+		for(int i = 0; i < arr.length; i++){
 			if(arr[i].length()>4) {
 				int hexVal = Integer.parseInt(arr[i].substring(0, 4), 16);
 				text += (char)hexVal;
 				text+= arr[i].substring(4);
 			}
 			else {
-				int hexVal = Integer.parseInt(arr[i].substring(0, 4), 16);
-				text += (char)hexVal;
+				if(arr[i].length()<4) {
+					text += arr[i];
+				}
+				else {
+					int hexVal = Integer.parseInt(arr[i], 16);
+					text += (char)hexVal;
+				}
 			}
-
 		}
 		return text;
 	}
