@@ -82,6 +82,11 @@ public class StartGameFrame extends JFrame{
 		if (this.configFrame != null) this.configFrame.dispose();
 	}
 	
+	public void startGame() {
+		this.dispose();
+		this.configFrame.dispose();
+	}
+	
 	/**
 	 * main GUI generation function
 	 * @throws IOException 
@@ -146,5 +151,7 @@ public class StartGameFrame extends JFrame{
 			e.printStackTrace();
 		}
 	}
+
+	
 	
 }

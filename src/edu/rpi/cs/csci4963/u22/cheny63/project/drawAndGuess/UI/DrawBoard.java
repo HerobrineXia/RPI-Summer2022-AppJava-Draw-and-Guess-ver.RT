@@ -2,13 +2,18 @@ package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JFrame;
+
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.ImageUtility;
 
 public class DrawBoard extends OpaqueJPanel{
 	
@@ -21,6 +26,7 @@ public class DrawBoard extends OpaqueJPanel{
 	private boolean stroke = true;
 	private Color strokeColor = new Color(251, 251, 251);
 	private boolean isValid = false;
+	private java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 	/**
 	 * Construct a image from specific drawing board setting and color setting
 	 *
@@ -38,6 +44,8 @@ public class DrawBoard extends OpaqueJPanel{
 		for (int i = 0; i < drawingBoardStatus.length; i++)
 			for (int j = 0; j < drawingBoardStatus[0].length; j++)
 				this.currentdrawingBoardStatus[i][j] = (drawingBoardStatus[i][j] != null? drawingBoardStatus[i][j] : new Color(251, 251, 251));
+		
+		initCursorStretegy();
 		
 		this.addMouseMotionListener(new MouseMotionListener() {
 	        @Override
@@ -75,10 +83,24 @@ public class DrawBoard extends OpaqueJPanel{
 	
 	public void activate() {
 		this.isValid = true;
+		initCursorStretegy();
+		
 	}
-	
+
 	public void deactivate() {
 		this.isValid = false;
+		initCursorStretegy();
+	}
+	
+	private void initCursorStretegy() {
+		Image image;
+		if (this.isValid)
+			image = ImageUtility.resizeIcon(toolkit.getImage("./res/gui/cursor/normal.png"), new Dimension(10, 10));
+		else
+			image = ImageUtility.resizeIcon(toolkit.getImage("./res/gui/cursor/busy.png"), new Dimension(10, 10));
+		Cursor newCursor = toolkit.createCustomCursor(image , new Point(0, 0), "");
+		this.setCursor (newCursor);
+		
 	}
 	
 	public void setStroke(Color color) {
