@@ -1,11 +1,12 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
@@ -14,50 +15,98 @@ import java.util.LinkedList;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
 
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control.Controller;
 
 public class ChatBoxPanel extends OpaqueJPanel{
 	private static final long serialVersionUID = 1L;
+	private java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 	private Controller controller;
+	private Font goreRegular;
 	// GUI Component
 	private JButton sendMsg;
-	private JTextArea historyText;
+	private JEditorPane historyText;
+	private JPanel chatContent;
+	private JPanel titleContent;
+	// statusInfo
+	private boolean isHost;
+	private boolean isStart = false;
+	
 	
 	public void updateChat() {
 		LinkedList<String> history = this.controller.getChat();
-		this.historyText.setText("");
+		this.historyText.setText(parsingText(history));
+	}
+	
+	private String parsingText(LinkedList<String> history) {
+		String res  = "";
 		for (String line : history) {
-			this.historyText.append(line + "\n");
+			res += line + "\n";
+		}
+		return res;
+	}
+
+	private void initTitle() {
+		titleContent = new JPanel();
+		JTextPane currentGuessing = new JTextPane();
+		JTextPane guessCandidate = new JTextPane();
+		
+		titleContent.setLayout(new BorderLayout());
+		currentGuessing.setText("Currently guessing:");
+		currentGuessing.setEditable(false);
+		currentGuessing.setBackground(Color.WHITE);
+		titleContent.setBackground(Color.WHITE);
+		Font goreRegularTitleSmall  = goreRegular.deriveFont(Font.PLAIN, 22);
+		currentGuessing.setFont(goreRegularTitleSmall);
+			
+		guessCandidate.setText(isStart ? "HOLD" : "Yuetian");
+		guessCandidate.setEditable(false);
+		guessCandidate.setBackground(Color.WHITE);
+		Font goreRegularTitleLarge  = goreRegular.deriveFont(Font.PLAIN, 70);
+		guessCandidate.setFont(goreRegularTitleLarge);
+		currentGuessing.setAlignmentY(Component.LEFT_ALIGNMENT);
+		
+		titleContent.add(currentGuessing, BorderLayout.NORTH);
+		
+		if (isHost && !isStart) {
+			JButton startGame = new JButton("Click to Start");
+			startGame.setHorizontalAlignment(SwingConstants.LEFT);
+			goreRegularTitleLarge  = goreRegular.deriveFont(Font.PLAIN, 50);
+			startGame.setForeground(new Color(192, 0, 0));
+			startGame.setLayout(null);
+			startGame.setFont(goreRegularTitleLarge);
+			startGame.setBackground(Color.WHITE);
+			startGame.setBorderPainted(false);
+			startGame.setFocusable(false);			
+			titleContent.add(startGame, BorderLayout.CENTER);
+		}else {
+			titleContent.add(guessCandidate, BorderLayout.CENTER);
+			guessCandidate.setAlignmentY(Component.LEFT_ALIGNMENT);
 		}
 	}
 	
-	public ChatBoxPanel(Controller controller) throws FontFormatException, IOException {
-		//Set font
-		Font goreRegular = Font.createFont(Font.TRUETYPE_FONT, new File("./res/gui/font/Gore Regular.otf"));
-		goreRegular  = goreRegular.deriveFont(Font.PLAIN, 45);
-		this.controller = controller;
-		
-		this.sendMsg = new JButton("GO");
-		JEditorPane writerPanel = new JEditorPane();
-		this.historyText = new JTextArea(20, 40);
-		JPanel historyPanel = new JPanel();
-		JScrollPane historyScroll = new JScrollPane(historyPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-													JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);	
-		JScrollPane writerScroll = new JScrollPane(writerPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-															   JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		JPanel allContent = new JPanel();
+	private void initChat() {
+		chatContent = new JPanel();
 		JPanel writerContent = new JPanel();
+		JEditorPane writerPanel = new JEditorPane();
+		this.historyText = new JEditorPane();
+		this.sendMsg = new JButton("GO");
 		
-				
+		JScrollPane historyScroll = new JScrollPane(historyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);	
+		JScrollPane writerScroll = new JScrollPane(writerPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+			   JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		
 		Action actionSend = new AbstractAction("Send") {
 			private static final long serialVersionUID = 1L;
 			public void actionPerformed(ActionEvent e) {
@@ -82,7 +131,6 @@ public class ChatBoxPanel extends OpaqueJPanel{
 					e.consume();
 				}
 			}
-
 			@Override
 			public void keyTyped(KeyEvent e) {
 			}
@@ -92,29 +140,60 @@ public class ChatBoxPanel extends OpaqueJPanel{
 			}
 		});
 		
-		writerPanel.setBackground(new Color(253, 253, 253));
+		writerPanel.setBackground(new Color(191, 191, 191));
+		writerPanel.setForeground(Color.WHITE);
+		writerPanel.setCaretColor(Color.WHITE);
 		this.sendMsg.setFont(goreRegular);
 		this.sendMsg.setBackground(new Color(236, 164, 145));
 		this.sendMsg.setForeground(new Color(253, 253, 253));
 		this.sendMsg.setBorderPainted(false);
 		this.sendMsg.setFocusable(false);
 		this.historyText.setEditable(false);
-		historyPanel.add(historyText);
-		historyPanel.setBackground(new Color(191, 191, 191));
-		allContent.setLayout(new BoxLayout(allContent, BoxLayout.Y_AXIS));
-		writerContent.setLayout(new BoxLayout(writerContent, BoxLayout.X_AXIS));
-		historyScroll.setPreferredSize(new Dimension(500, 500));
-		writerPanel.setPreferredSize(new Dimension(500, 50));
+		historyScroll.setAutoscrolls(true);
+		historyScroll.setBorder(BorderFactory.createEmptyBorder());
+		writerScroll.setBorder(BorderFactory.createEmptyBorder());
 		
-		writerContent.add(writerScroll);
-		writerContent.add(sendMsg);
-		allContent.add(historyScroll);
-		allContent.add(writerContent);
+		writerContent.setLayout(new BorderLayout());
+		chatContent.setLayout(new BorderLayout());
+		writerContent.setBackground(new Color(236, 164, 145));
+		this.sendMsg.setPreferredSize(new Dimension(100, 100));
+		historyScroll.setPreferredSize(new Dimension(500, 600));
+		historyText.setPreferredSize(new Dimension(550, 500));
+		writerPanel.setPreferredSize(new Dimension(500, 100));
+		writerContent.setPreferredSize(new Dimension(600, 100));
+		
+		writerContent.add(writerScroll, BorderLayout.WEST);
+		writerContent.add(sendMsg, BorderLayout.EAST);
+		chatContent.add(historyScroll, BorderLayout.NORTH);
+		chatContent.add(writerContent, BorderLayout.SOUTH);
+	}
+	
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension(600, toolkit.getScreenSize().height);
+	}
+	
+	public ChatBoxPanel(Controller controller) throws FontFormatException, IOException {
+		//Set font
+		this.goreRegular = Font.createFont(Font.TRUETYPE_FONT, new File("./res/gui/font/Gore Regular.otf"));
+		goreRegular  = goreRegular.deriveFont(Font.PLAIN, 27);
+		this.controller = controller;
+		this.isHost = this.controller.isServer();
+		// this.isHost = true;
+		
+		JPanel allContent = new JPanel();
+		allContent.setLayout(new BoxLayout(allContent, BoxLayout.Y_AXIS));
+		
+		initChat();
+		initTitle();
+				
+		allContent.add(titleContent);
+		allContent.add(chatContent);
+		allContent.setBackground(Color.WHITE);
 		this.add(allContent);
 		this.updateChat();
 	}
-	
-	
+
 	public static void main(String[] args) throws FontFormatException, IOException {
 		JFrame testframe = new JFrame();
 		// avoid image displace case,  not necessary
