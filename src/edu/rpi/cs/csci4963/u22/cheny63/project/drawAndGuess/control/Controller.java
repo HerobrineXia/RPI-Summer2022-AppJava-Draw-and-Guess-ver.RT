@@ -62,6 +62,7 @@ public class Controller{
         config.setName(name);
         config.setFilePath(filePath);
         config.setPort(port);
+        model = new ServerModel(log);
         ((ServerModel)model).readGraph(filePath);
         startServer(port);
         myName = name;
@@ -71,6 +72,7 @@ public class Controller{
         config.setName(name);
         config.setAddress(address);
         config.setPort(port);
+        model = new ClientModel(log);
         startClient(address, port);
         myName = name;
     }
@@ -290,7 +292,6 @@ public class Controller{
     }
 
     private void startServer(int port){
-        model = new ServerModel(log);
         server = new Server(port, log, this);
         network = new Thread(server);
         isServer = true;
@@ -298,7 +299,6 @@ public class Controller{
     }
 
     private void startClient(String address, int port){
-        model = new ClientModel(log);
         client = new Client(address, port, log, this);
         network = new Thread(client);
         isServer = false;
