@@ -95,6 +95,10 @@ public class Protocol {
 		StringBuilder response = new StringBuilder("%s%s%s".formatted("EVENT",SEPARATOR,"NEW_GAME"));
 		return response.toString();
 	}
+	public String eventRoundEnd() {
+		StringBuilder response = new StringBuilder("%s%s%s".formatted("EVENT",SEPARATOR,"ROUND_END"));
+		return response.toString();
+	}
 
 	public String process(String command){
         StringBuilder response = new StringBuilder();
@@ -173,6 +177,8 @@ public class Protocol {
 		        	return response.toString();
 		        }
 				controller.onNewRound(drawerId);
+			}
+			else if(secondary.equals("ROUND_END")) {
 			}
 			else {
 				//invalid
