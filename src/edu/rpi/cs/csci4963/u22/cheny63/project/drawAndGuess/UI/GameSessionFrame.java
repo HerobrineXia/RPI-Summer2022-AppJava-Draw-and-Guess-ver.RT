@@ -86,7 +86,7 @@ public class GameSessionFrame extends JFrame{
 		DrawBoardButton restore = new DrawBoardButton(new ImageIcon(ImageUtility.resizeIcon(toolkit.getImage("./res/gui/gameSession/restore.png"), 
 				 				new Dimension(buttonWidth, buttonWidth))), true);
 		this.exit = new DrawBoardButton(new ImageIcon(ImageUtility.resizeIcon(toolkit.getImage("./res/gui/gameSession/exit.png"), 
- 								new Dimension((int)(toolkit.getScreenSize().width * scale), (int)(toolkit.getScreenSize().width *scale/1321*1741)))), true);
+ 								new Dimension((int)(toolkit.getScreenSize().width * scale/1741*1321), (int)(toolkit.getScreenSize().width *scale)))), true);
 		
 		// set action to button
 		exit.addActionListener(new java.awt.event.ActionListener() {

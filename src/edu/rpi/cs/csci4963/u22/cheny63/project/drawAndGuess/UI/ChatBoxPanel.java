@@ -27,6 +27,7 @@ import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control.Controller;
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.SystemCheck;
 
 public class ChatBoxPanel extends OpaqueJPanel{
 	private static final long serialVersionUID = 1L;
@@ -41,7 +42,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	// statusInfo
 	private boolean isHost;
 	private boolean isStart = false;
-	
+	private double scale = SystemCheck.isWindows()? 0.7 : 0.6;
 	
 	public void updateChat() {
 		LinkedList<String> history = this.controller.getChat();
@@ -164,7 +165,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		chatContent.setLayout(new BorderLayout());
 		writerContent.setBackground(new Color(236, 164, 145));
 		this.sendMsg.setPreferredSize(new Dimension(100, 100));
-		historyScroll.setPreferredSize(new Dimension(500, (int)(toolkit.getScreenSize().height*0.7)));
+		historyScroll.setPreferredSize(new Dimension(500, (int)(toolkit.getScreenSize().height*scale)));
 		historyText.setPreferredSize(new Dimension(500, 500));
 		writerPanel.setPreferredSize(new Dimension(500, 100));
 		writerContent.setPreferredSize(new Dimension(600, 100));
