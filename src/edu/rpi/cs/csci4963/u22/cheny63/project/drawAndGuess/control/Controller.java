@@ -1,5 +1,6 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control;
 
+import java.util.LinkedList;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -111,6 +112,10 @@ public class Controller{
 
     public String getAddress(){
         return config.getAddress();
+    }
+
+    public LinkedList<String> getChat(){
+        return model.getChat();
     }
 
     public boolean isServer(){

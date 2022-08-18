@@ -1,5 +1,6 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.logging.Logger;
 
@@ -51,6 +52,10 @@ public class ClientModel {
             }
         }
         return null;
+    }
+
+    public LinkedList<String> getChat(){
+        return new LinkedList<>(chatHistory);
     }
 
     public GameStatus getStatus(){
