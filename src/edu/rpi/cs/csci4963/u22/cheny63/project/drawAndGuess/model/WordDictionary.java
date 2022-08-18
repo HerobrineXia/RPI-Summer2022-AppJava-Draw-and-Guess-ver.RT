@@ -17,7 +17,7 @@ public class WordDictionary{
     }
 
     public String getRandomWord(){
-        int index = new Random().nextInt() % remainWord.size();
+        int index = Math.abs(new Random().nextInt()) % remainWord.size();
         String word = remainWord.remove(index);
         if(remainWord.size() == 0){
             resetWordList();
