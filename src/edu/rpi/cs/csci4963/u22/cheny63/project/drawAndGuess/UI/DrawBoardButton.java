@@ -35,12 +35,19 @@ class ImageBrightener extends JPanel{
     public Dimension getPreferredSize(){
         return new Dimension(iamgeIcon.getWidth(), iamgeIcon.getHeight());
     }
+    
 
     public void paintComponent(Graphics g){
         // super.paintComponent(g);
         g.drawImage(iamgeIcon, 0, 0, this);
-        int brightness = (int)(255 * brightPercent);
-        g.setColor(new Color(255, 255, 255, brightness));
+        if (this.brightPercent == -1) {
+        	int brightness = (int)(255 * 0.7);
+            g.setColor(new Color(0, 0, 0, brightness));
+        }else {
+        	int brightness = (int)(255 * brightPercent);
+            g.setColor(new Color(255, 255, 255, brightness));
+        }
+        
         g.fillRect(0, 0, getWidth(), getHeight());
     }
     
@@ -67,7 +74,7 @@ class ImageBrightener extends JPanel{
     }
     
     public void darker() {
-    	this.brightPercent = 0.f;
+    	this.brightPercent = -1;
     	this.repaint();
     	this.revalidate();
     }
@@ -110,7 +117,10 @@ public class DrawBoardButton extends JButton{
                 	DrawBoardButton.this.setContentAreaFilled(false);
                 } else {
                 	DrawBoardButton.this.setForeground(new Color(251, 251, 251));
-                	DrawBoardButton.this.buttonContent.restore();
+                	if(DrawBoardButton.this.isEnabled())
+                		DrawBoardButton.this.buttonContent.restore();
+                	else
+                		DrawBoardButton.this.buttonContent.darker();
                 	DrawBoardButton.this.setContentAreaFilled(false);
                 }
                 if (model.isPressed()) {

@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.swing.JFrame;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.ImageUtility;
@@ -33,6 +34,7 @@ public class DrawBoard extends OpaqueJPanel{
 	private boolean isValid = false;
 	private java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 	private Font goreRegular;
+	private String[] prompting;
 	/**
 	 * Construct a image from specific drawing board setting and color setting
 	 *
@@ -45,7 +47,8 @@ public class DrawBoard extends OpaqueJPanel{
 	 * @throws IOException 
 	 * @throws FontFormatException 
 	 */
-	public DrawBoard(Color[][] drawingBoardStatus, double zoomNum) throws FontFormatException, IOException {
+	public DrawBoard(Color[][] drawingBoardStatus, double zoomNum, String[] prompting) throws FontFormatException, IOException {
+		this.prompting = Arrays.copyOf(prompting, prompting.length);
 		this.zoomNum = zoomNum != -1? zoomNum:Toolkit.getDefaultToolkit().getScreenSize().height*0.80/(drawingBoardStatus.length*drawEntryWidth);
 		this.currentdrawingBoardStatus = new Color[drawingBoardStatus.length][drawingBoardStatus[0].length];
 		this.goreRegular = Font.createFont(Font.TRUETYPE_FONT, new File("./res/gui/font/Gore Regular.otf"));
@@ -189,12 +192,17 @@ public class DrawBoard extends OpaqueJPanel{
         g2.drawRect(0, 0, (int)((this.drawEntryWidth * this.zoomNum)* rowNum), 
         		          (int)((this.drawEntryWidth * this.zoomNum)* colNum));
         
-        // gernate prompt
         g2.setColor(Color.BLACK);
         FontMetrics metric = g.getFontMetrics(this.goreRegular);
         g.setFont(goreRegular);
-        g.drawString("3 letters", 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - metric.getAscent() - 9));
-        g.drawString("An animal", 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - 9));
+        // generate prompt
+        if(this.prompting.length == 2) {
+            g.drawString(String.valueOf(this.prompting[0].length()) + " letters", 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - metric.getAscent() - 9));
+            g.drawString(this.prompting[1], 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - 9));
+        }else {
+        	g.drawString("Please draw: " + this.prompting[0], 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - 9));
+        }
+        
         
 	}
 	
@@ -203,7 +211,7 @@ public class DrawBoard extends OpaqueJPanel{
 		JFrame testframe = new JFrame();
 		// avoid image displace case,  not necessary
 		Color[][] arr = new Color[180][180];
-		testframe.add(new DrawBoard(arr, 0.05));
+		testframe.add(new DrawBoard(arr, 0.05, new String[]{"Cat", "An animal"}));
 		testframe.setSize(620, 640);
 		testframe.setLocationRelativeTo(null); // set window centre
 		testframe.setAlwaysOnTop(true); // since it is important, let it top

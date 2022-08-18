@@ -43,7 +43,6 @@ public class GameSessionPanel extends JPanel{
 		    			  (int)(j*40), 12, 12);
 		    }
 	    }
-	    
 	    this.repaint();
 	    this.revalidate();
 	}
