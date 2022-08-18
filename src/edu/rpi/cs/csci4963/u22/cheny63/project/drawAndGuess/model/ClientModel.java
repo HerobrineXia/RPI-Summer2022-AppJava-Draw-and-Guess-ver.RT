@@ -57,7 +57,7 @@ public class ClientModel {
     }
 
     public void startRound(){
-        if(gameStatus == GameStatus.WAITING || gameStatus == GameStatus.PROCESSING_WAIT){
+        if(gameStatus == GameStatus.INIT || gameStatus == GameStatus.WAITING || gameStatus == GameStatus.PROCESSING_WAIT){
             remainTime = 90;
         }
     }
