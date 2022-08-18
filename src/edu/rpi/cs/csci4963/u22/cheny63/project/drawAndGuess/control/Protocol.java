@@ -121,8 +121,8 @@ public class Protocol {
 		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%d%s%d%s%d%s%d%s%d%s%d".formatted("DATA",SEPARATOR,"DRAW_CLIENT",SEPARATOR,x,SEPARATOR,y,SEPARATOR,id,SEPARATOR,a,SEPARATOR,r,SEPARATOR,g,SEPARATOR,b));
 		return response.toString();
 	}
-	public String eventCleanBoard() {
-		StringBuilder response = new StringBuilder("%s%s%s".formatted("EVENT",SEPARATOR,"CLEAN_BOARD"));
+	public String eventCleanBoard(int bool) {
+		StringBuilder response = new StringBuilder("%s%s%s%s%d".formatted("EVENT",SEPARATOR,"CLEAN_BOARD",SEPARATOR,bool));
 		return response.toString();
 	}
 
@@ -219,7 +219,11 @@ public class Protocol {
 				controller.onSecretWordReceive(secret, hint);
 			}
 			else if(secondary.equals("CLEAN_BOARD")) {
-				
+				if(commands.length<3) {
+		        	response = new StringBuilder("Invalid Command: EVENT CLEAN_BOARD command length less than 3");
+		        	return response.toString();
+		        }
+				int bool = Integer.parseInt(commands[2]);
 			}
 			else {
 				//invalid
