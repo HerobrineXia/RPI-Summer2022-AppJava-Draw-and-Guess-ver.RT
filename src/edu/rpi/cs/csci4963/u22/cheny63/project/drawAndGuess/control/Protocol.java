@@ -105,9 +105,10 @@ public class Protocol {
 		StringBuilder response = new StringBuilder("%s%s%s%s%s%s%s".formatted("EVENT",SEPARATOR,"SECRET",SEPARATOR,secret,SEPARATOR,hint));
 		return response.toString();
 	}
-	public String dataDraw(int x,int y,String color) {
-		color = Base64.getEncoder().encodeToString(color.getBytes());
-		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%d%s%s".formatted("DATA",SEPARATOR,"DRAW",SEPARATOR,x,SEPARATOR,y,SEPARATOR,color));
+	public String dataDraw(int x,int y,Color color) {
+		String c = color.toString();
+		c = Base64.getEncoder().encodeToString(c.getBytes());
+		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%d%s%s".formatted("DATA",SEPARATOR,"DRAW",SEPARATOR,x,SEPARATOR,y,SEPARATOR,c));
 		return response.toString();
 	}
 
