@@ -312,8 +312,8 @@ public class Controller{
 
     private void runTimer(){
         int remainTime = model.reduceTime();
+        System.out.println(remainTime);
         if(remainTime <= 0){
-            timer.cancel();
             if(isServer){
                 if(model.getStatus() == GameStatus.PROCESSING){
                     sendMessageToAll(protocol.eventRoundEnd());
@@ -321,6 +321,8 @@ public class Controller{
                     sendMessageToAll(protocol.newRound(model.getDrawerId()));
                 }
             }
+        }else{
+            startTimer();
         }
 	}
 
