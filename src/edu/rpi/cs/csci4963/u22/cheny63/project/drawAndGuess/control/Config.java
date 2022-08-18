@@ -39,7 +39,12 @@ public class Config {
     public void defaultConfig(){
         username = "Player";
         filePath = System.getProperty("user.dir");
-        address = InetAddress.getLocalHost().toString().split("/")[1];
+        try{
+            address = InetAddress.getLocalHost().toString().split("/")[1];
+        }catch(UnknownHostException e){
+            log.severe("Cannot get localhost information...");
+            address = "";
+        }
         port = 8180;
     }
 
