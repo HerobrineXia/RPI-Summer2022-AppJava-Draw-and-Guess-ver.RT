@@ -39,12 +39,7 @@ public class Config {
     public void defaultConfig(){
         username = "Player";
         filePath = System.getProperty("user.dir");
-        try{
-            address = InetAddress.getLocalHost().toString().split("/")[1];
-        }catch(UnknownHostException e){
-            log.severe("Cannot get localhost information...");
-            address = "";
-        }
+        address = StringUtil.getInetAddress();
         port = 8180;
     }
 
@@ -69,12 +64,7 @@ public class Config {
             update = true;
         }
         if(!StringUtil.validAddress(address)){
-            try{
-                address = InetAddress.getLocalHost().toString().split("/")[1];
-            }catch(UnknownHostException e){
-                log.severe("Cannot get localhost information...");
-                address = "";
-            }
+            StringUtil.getInetAddress();
             update = true;
         }
         return update;
