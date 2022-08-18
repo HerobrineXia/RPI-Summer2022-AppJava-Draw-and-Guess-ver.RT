@@ -23,10 +23,8 @@ public class HoldConnection{
 		mainFrameWaiter = new JFrame("Please wait..");
 		JLabel text = new JLabel("Connecting to your peer...");
 		JPanel mainPanel = new JPanel();
-		JButton cancel = new JButton("Cancel");
-		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
 		mainPanel.add(text);
-		mainPanel.add(cancel);
 		mainFrameWaiter.add(mainPanel);
 		
 		//Display the window.       
