@@ -5,15 +5,20 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -53,16 +58,40 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		JPanel allContent = new JPanel();
 		JPanel writerContent = new JPanel();
 		
-		this.sendMsg.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	if (!writerPanel.getText().equals("")) {
+				
+		Action actionSend = new AbstractAction("Send") {
+			private static final long serialVersionUID = 1L;
+			public void actionPerformed(ActionEvent e) {
+				if (!writerPanel.getText().equals("")) {
             		controller.onPlayerSentMessage(writerPanel.getText());
             		writerPanel.setText("");
             	}
-            		
+			}
+		};
+		
+		this.sendMsg.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	actionSend.actionPerformed(e);	
 			}
         });
+		
+		writerPanel.addKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					actionSend.actionPerformed(null);
+					e.consume();
+				}
+			}
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+			}
+		});
 		
 		writerPanel.setBackground(new Color(253, 253, 253));
 		this.sendMsg.setFont(goreRegular);
@@ -82,8 +111,8 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		writerContent.add(sendMsg);
 		allContent.add(historyScroll);
 		allContent.add(writerContent);
-		
 		this.add(allContent);
+		this.updateChat();
 	}
 	
 	

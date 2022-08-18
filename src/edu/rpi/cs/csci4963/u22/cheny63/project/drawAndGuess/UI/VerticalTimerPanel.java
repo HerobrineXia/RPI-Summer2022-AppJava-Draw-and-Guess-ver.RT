@@ -10,15 +10,21 @@ import javax.swing.JLabel;
 import javax.swing.Timer;
 import java.awt.*;
 import java.awt.geom.*;
+import java.io.File;
+import java.io.IOException;
 
 public class VerticalTimerPanel extends JLabel {
 
     private String pattern;
     private Timer timer;
 
-    public VerticalTimerPanel () {
-        super();
-        pattern = "hh:mm:ss a";
+    public VerticalTimerPanel () throws FontFormatException, IOException {
+        super("" ,JLabel.LEFT);
+        Font goreRegular = Font.createFont(Font.TRUETYPE_FONT, new File("./res/gui/font/Gore Regular.otf"));
+        goreRegular  = goreRegular.deriveFont(Font.PLAIN, 140);
+        this.setFont(goreRegular);
+        this.setForeground(Color.WHITE);
+        pattern = "mm:ss";
         createTimer();
         timer.start();
     }
@@ -44,7 +50,7 @@ public class VerticalTimerPanel extends JLabel {
             Graphics2D g2 = (Graphics2D) g;
             AffineTransform flipTrans = new AffineTransform();
             double widthD = (double) getWidth();
-            flipTrans.setToRotation(-Math.PI / 2.0, getWidth() / 2.0, getHeight() / 2.0);
+            flipTrans.setToRotation(-Math.PI / 2.0, 500, 500);
             g2.setTransform(flipTrans);
             super.paint(g);
         } else {
@@ -52,7 +58,7 @@ public class VerticalTimerPanel extends JLabel {
         }
     }
     
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FontFormatException, IOException {
 		JFrame testframe = new JFrame();
 		// avoid image displace case,  not necessary
 		testframe.add(new VerticalTimerPanel());

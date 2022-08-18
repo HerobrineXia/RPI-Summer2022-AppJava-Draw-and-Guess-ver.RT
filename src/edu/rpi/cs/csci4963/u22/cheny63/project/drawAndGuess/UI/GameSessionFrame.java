@@ -101,8 +101,6 @@ public class GameSessionFrame extends JFrame{
         this.timer = new OpaqueJPanel();        // store time
         this.boardPanel = new OpaqueJPanel();   // store all drawboard
 		this.chat = new ChatBoxPanel(this.controller);
-        
-        
         initOperations(controller);
         
         // start arrange
@@ -117,6 +115,7 @@ public class GameSessionFrame extends JFrame{
      	allContent.add(boardPanel, BorderLayout.CENTER);
      	allContent.add(operations, BorderLayout.NORTH);
      	allContent.add(this.chat, BorderLayout.EAST);
+     	allContent.add(new VerticalTimerPanel(), BorderLayout.WEST);
      	this.add(allContent);
 
         //Display the window.       

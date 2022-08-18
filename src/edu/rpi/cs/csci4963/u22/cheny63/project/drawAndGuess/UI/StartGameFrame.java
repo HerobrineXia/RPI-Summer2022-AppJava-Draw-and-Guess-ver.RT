@@ -153,7 +153,4 @@ public class StartGameFrame extends JFrame{
 			e.printStackTrace();
 		}
 	}
-
-	
-	
 }
