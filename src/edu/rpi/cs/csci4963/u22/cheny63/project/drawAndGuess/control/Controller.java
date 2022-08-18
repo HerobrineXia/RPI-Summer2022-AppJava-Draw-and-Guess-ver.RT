@@ -237,7 +237,7 @@ public class Controller{
         addChat("Server", "Round Start!");
         if(isServer){
             ((ServerModel) model).startRound();
-            sendMessageToAll(protocol.sendSecretWord(model.getSecret()));
+            sendMessageToAll(protocol.sendSecretWord(getSecret(), getSecretHint()));
         }else{
             model.setDrawerId(drawerId);
             model.setStatus(GameStatus.PROCESSING);
@@ -249,11 +249,12 @@ public class Controller{
         }
     }
 
-    protected void onSecretWordReceive(String word){
+    protected void onSecretWordReceive(String word, String category){
         if(myId == model.getDrawerId()){
             addChat("Server", "You are the drawer, the secret word is %s!".formatted(word));
         }else{
             model.setSecret(word);
+            model.setSecretHint(category);
             addChat("Server", "You are the guesser, the secret word is %s!".formatted(word));
         }
     }

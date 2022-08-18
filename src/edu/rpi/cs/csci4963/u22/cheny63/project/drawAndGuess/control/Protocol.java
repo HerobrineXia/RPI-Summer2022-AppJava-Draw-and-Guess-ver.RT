@@ -196,7 +196,7 @@ public class Protocol {
 				String hint = commands[3];
 				secret = baseToString(secret);
 				hint = baseToString(hint);
-				controller.onSecretWordReceive(secret);
+				controller.onSecretWordReceive(secret, hint);
 			}
 			else {
 				//invalid
