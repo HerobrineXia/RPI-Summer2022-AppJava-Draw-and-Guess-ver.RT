@@ -6,6 +6,7 @@ import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
 
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI.DrawAndGuessGUI;
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI.HoldConnection;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.ClientModel;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.GameStatus;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.ServerModel;
@@ -16,6 +17,7 @@ public class Controller{
     private Protocol protocol;
     private ClientModel model;
     private DrawAndGuessGUI window;
+    private HoldConnection holdWindow;
     
     // Game Network
     private Thread network;
@@ -61,7 +63,16 @@ public class Controller{
         myName = name;
     }
 
+    protected void onConnectionWait(){
+        holdWindow = new HoldConnection();
+    }
+
+    protected void onConnectionWaitEnd(){
+        holdWindow.close();
+    }
+
     protected void onConnectionFailed(String message, String title){
+        onConnectionWaitEnd();
         window.interrupt(message, title);
     }
 
@@ -142,12 +153,16 @@ public class Controller{
         model.removeUser(id);
     }
 
-    protected void onPlayerSentMessage(String message){
+    public void onPlayerSentMessage(String message){
         if(isServer){
             onPlayerReceiveMessageServer(myId, message);
         }else{
             client.send(protocol.userSentMessageEvent(myId, message));
         }
+    }
+
+    public void onStartGame(){
+
     }
 
     protected void onPlayerReceiveMessageClient(int id, String message){

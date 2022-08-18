@@ -13,6 +13,8 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
 
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI.HoldConnection;
+
 /**
 * Game Network Client 
 * @author Kevin Xia
@@ -109,10 +111,11 @@ public class Client implements Runnable{
     @Override
     public void run(){
         // Wait a little bit just for windows to be established
+		controller.onConnectionWait();
 		try {
 			try {
 				Thread.sleep(100);
-			} catch (InterruptedException e) {
+			}catch(InterruptedException e) {
 				log.warning("Fail to sleep the thread");
 			}
 			// Try to establish the connection 
@@ -127,6 +130,7 @@ public class Client implements Runnable{
 		// Check if the connection is established
 		if(!isConnectionClosed()){
 			// Run the intialize method
+			controller.onConnectionWaitEnd();
 			controller.onConnectionSuccess();
 		}
 		String message;
@@ -137,6 +141,7 @@ public class Client implements Runnable{
 			if(message != null){
 				controller.processCommand(message);
 			}else{
+				// TODO: Reconnect
 				break;
             }
 		}
