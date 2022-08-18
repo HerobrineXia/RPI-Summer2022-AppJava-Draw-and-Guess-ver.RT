@@ -164,14 +164,22 @@ public class Controller{
 
     public void onBoardDraw(int x, int y, Color color){
         if(isServer){
-            server.sendMessageToAll(message);
+            protocol.process(protocol.dataDrawServer(x, y, color, myId));
         }else{
-            client.send(protocol.dataDraw(x, y, color));
+            client.send(protocol.dataDrawServer(x, y, color, myId));
         }
     }
 
-    protected void onBoardReceive(){
+    public void onBoardReceiveServer(int x, int y, Color color, int drawerId){
+        if(isServer){
+            sendMessageToAll(protocol.dataDrawClient(x, y, color, drawerId));
+        }
+    }
 
+    protected void onBoardReceiveClient(int x, int y, Color color, int drawerId){
+        if(myId != model.getDrawerId()){
+            window.setEntryColor(x, y, color);
+        }
     }
 
     protected void onIdReturn(int id){
