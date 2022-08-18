@@ -159,8 +159,13 @@ public class DrawBoard extends OpaqueJPanel{
 		return new Dimension(xEntry, yEntry);
 	}
 	
+	public void setPrompt(String secretWord, String secretHint) {
+		this.prompting = new String[] {secretWord, secretHint};
+	}
+	
 	
 	public void setEntryColor(int x, int y, Color targetColor, boolean syncToOther) {
+		System.out.println("x:" +x + "y:" +y);
 		this.currentdrawingBoardStatus[x][y] = targetColor;
 		if (syncToOther) controller.onBoardDraw(x, y, targetColor);
 		this.repaint();
@@ -215,8 +220,7 @@ public class DrawBoard extends OpaqueJPanel{
         FontMetrics metric = g.getFontMetrics(this.goreRegular);
         g.setFont(goreRegular);
         // generate prompt
-        if (this.controller.isGameStart()) {
-        	this.prompting = new String[] {this.controller.getSecret(), this.controller.getSecretHint()};
+        if (this.controller.isGameStart() && this.prompting != null) {
 			if(!isValid) {
 			    g.drawString(String.valueOf(this.prompting[0].length()) + " letters", 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - metric.getAscent() - 9));
 			    g.drawString(this.prompting[1], 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - 9));

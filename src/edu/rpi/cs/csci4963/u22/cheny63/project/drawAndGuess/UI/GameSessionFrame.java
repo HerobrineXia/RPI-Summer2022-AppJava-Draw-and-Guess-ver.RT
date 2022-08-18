@@ -54,6 +54,10 @@ public class GameSessionFrame extends JFrame{
 		this.chat.updateChat();
 	}
 	
+	public void setPrompt(String secretWord, String secretHint) {
+		this.board.setPrompt(secretWord, secretHint);
+	}
+	
 	public void activate() {
 		this.board.activate();
 		for (Component button: operations.getComponents())

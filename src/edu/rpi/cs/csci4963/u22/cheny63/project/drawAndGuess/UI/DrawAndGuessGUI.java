@@ -72,6 +72,10 @@ public class DrawAndGuessGUI {
 		this.gameSessionFrame = new GameSessionFrame(this.controller);
 	}
 	
+	public void setPrompt(String secretWord, String secretHint) {
+		if (gameSessionFrame != null) gameSessionFrame.setPrompt(secretWord, secretHint);
+	}
+	
 	public void returnMainMenu() {
 		if (this.gameSessionFrame != null) {
 			this.gameSessionFrame.dispose();
