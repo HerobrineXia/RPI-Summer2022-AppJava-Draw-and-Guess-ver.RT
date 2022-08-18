@@ -106,9 +106,11 @@ public class Protocol {
 		return response.toString();
 	}
 	public String dataDrawServer(int x,int y,Color color,int id) {
-		String c = color.toString();
-		c = Base64.getEncoder().encodeToString(c.getBytes());
-		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%d%s%s%s%d".formatted("DATA",SEPARATOR,"DRAW_SERVER",SEPARATOR,x,SEPARATOR,y,SEPARATOR,c,SEPARATOR,id));
+		int a = color.getAlpha();
+		int g = color.getGreen();
+		int r = color.getRed();
+		int b = color.getBlue();
+		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%d%s%d%s%d%s%d%s%d%s%d".formatted("DATA",SEPARATOR,"DRAW_SERVER",SEPARATOR,x,SEPARATOR,y,SEPARATOR,id,SEPARATOR,a,SEPARATOR,r,SEPARATOR,g,SEPARATOR,b));
 		return response.toString();
 	}
 	public String dataDrawClient(int x,int y,Color color,int id) {
