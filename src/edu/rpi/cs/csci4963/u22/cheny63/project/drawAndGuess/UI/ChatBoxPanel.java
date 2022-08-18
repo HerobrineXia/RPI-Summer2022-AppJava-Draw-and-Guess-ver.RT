@@ -62,6 +62,8 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	}
 
 	private void initTitle() {
+		Font goreRegularTitleLarge  = goreRegular.deriveFont(Font.PLAIN, 70);
+		
 		titleContent = new JPanel();
 		JTextPane currentDrawing = new JTextPane();
 		JTextPane guessCandidate = new JTextPane();
@@ -73,22 +75,17 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		titleContent.setBackground(Color.WHITE);
 		Font goreRegularTitleSmall  = goreRegular.deriveFont(Font.PLAIN, 22);
 		currentDrawing.setFont(goreRegularTitleSmall);
-			
-		guessCandidate.setText(isStart ? "HOLD" : controller.getDrawerName());
-		guessCandidate.setEditable(false);
-		guessCandidate.setBackground(Color.WHITE);
-		Font goreRegularTitleLarge  = goreRegular.deriveFont(Font.PLAIN, 70);
-		guessCandidate.setFont(goreRegularTitleLarge);
 		currentDrawing.setAlignmentY(Component.LEFT_ALIGNMENT);
-		
+		JButton startGame = new JButton("Click to Start");
 		titleContent.add(currentDrawing, BorderLayout.NORTH);
-		
 		if (isHost && !isStart) {
-			JButton startGame = new JButton("Click to Start");
 			startGame.addActionListener(new java.awt.event.ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
 	            	controller.onStartGameServer();
+	            	isStart = true;
+	            	// titleContent.removeAll();
+	            	initTitle();
 				}
 	        });
 			startGame.setHorizontalAlignment(SwingConstants.LEFT);
@@ -101,8 +98,14 @@ public class ChatBoxPanel extends OpaqueJPanel{
 			startGame.setFocusable(false);			
 			titleContent.add(startGame, BorderLayout.CENTER);
 		}else {
-			titleContent.add(guessCandidate, BorderLayout.CENTER);
+			titleContent.removeAll();
+			guessCandidate.setText(!isStart ? "HOLD" : controller.getDrawerName());
+			guessCandidate.setForeground(Color.BLACK);
+			guessCandidate.setEditable(false);
+			guessCandidate.setFont(goreRegularTitleLarge);
+			guessCandidate.setBackground(Color.WHITE);
 			guessCandidate.setAlignmentY(Component.LEFT_ALIGNMENT);
+			titleContent.add(guessCandidate, BorderLayout.CENTER);
 		}
 	}
 	

@@ -216,7 +216,7 @@ public class DrawBoard extends OpaqueJPanel{
         g.setFont(goreRegular);
         // generate prompt
         if (this.controller.isGameStart()) {
-        	if (this.prompting == null) this.prompting = new String[] {this.controller.getSecret(), this.controller.getSecretHint()};
+        	this.prompting = new String[] {this.controller.getSecret(), this.controller.getSecretHint()};
 			if(!isValid) {
 			    g.drawString(String.valueOf(this.prompting[0].length()) + " letters", 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - metric.getAscent() - 9));
 			    g.drawString(this.prompting[1], 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - 9));

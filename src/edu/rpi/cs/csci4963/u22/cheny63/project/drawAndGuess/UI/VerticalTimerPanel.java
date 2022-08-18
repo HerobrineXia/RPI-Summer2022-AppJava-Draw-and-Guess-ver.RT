@@ -26,12 +26,13 @@ public class VerticalTimerPanel extends JPanel {
         frame.pack();
         frame.setSize(420, 350);
         frame.setVisible(true);
+        // control remain time ==> get seconds
     }
 
     @Override
     public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-
+        
         // Define rendering hint, font name, font style and font size
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setFont(new Font("Segoe Script", Font.BOLD, 22));
