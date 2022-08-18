@@ -37,6 +37,7 @@ public class DrawBoard extends OpaqueJPanel{
 	private java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 	private Font goreRegular;
 	private String[] prompting;
+	private Controller controller;
 	/**
 	 * Construct a image from specific drawing board setting and color setting
 	 *
@@ -54,6 +55,7 @@ public class DrawBoard extends OpaqueJPanel{
 		this.currentdrawingBoardStatus = new Color[drawingBoardStatus.length][drawingBoardStatus[0].length];
 		this.goreRegular = Font.createFont(Font.TRUETYPE_FONT, new File("./res/gui/font/Gore Regular.otf"));
 		this.goreRegular  = goreRegular.deriveFont(Font.PLAIN, 60);
+		this.controller = controller;
 		this.setBackground(new Color(251, 251, 251));
 		for (int i = 0; i < drawingBoardStatus.length; i++)
 			for (int j = 0; j < drawingBoardStatus[0].length; j++)
@@ -71,7 +73,7 @@ public class DrawBoard extends OpaqueJPanel{
 	        	if(isValid) {
 	        		if (lastDragEventTriggerY != -1)
 		        		connectTwoDots(e.getX(), e.getY(), lastDragEventTriggerX, lastDragEventTriggerY);
-		        	setEntryColor(findPosition(e.getX(), e.getY()), strokeColor);
+		        	setEntryColor(findPosition(e.getX(), e.getY()), strokeColor, true);
 		        	lastDragEventTriggerX = e.getX();
 		        	lastDragEventTriggerY = e.getY();
 	        	}
@@ -91,11 +93,11 @@ public class DrawBoard extends OpaqueJPanel{
 		// System.out.println("connect: (" + x1+", " + y1+")" + " ("+ x2 +", " + x2 + ")" + " slope: " + slope);
 			
 		while (y2 != y1 &&!((x1-x2>1)||(x1-x2<-1)) ) {
-			setEntryColor(findPosition((int)x1, (int)y1), strokeColor);
+			setEntryColor(findPosition((int)x1, (int)y1), strokeColor, true);
 			y1 += (y1 < y2? 1 : (y1 == y2? 0 : -1));
 		}
 		while(x1 != x2) {
-			setEntryColor(findPosition((int)x1, (int)y1), strokeColor);
+			setEntryColor(findPosition((int)x1, (int)y1), strokeColor, true);
 			x1 += (x1 < x2? 1 : (x1 == x2? 0 : -1));
 			y1 = x1*slope+b;
 			y2 = x2*slope+b;
@@ -155,10 +157,11 @@ public class DrawBoard extends OpaqueJPanel{
 	}
 	
 	
-	public void setEntryColor(Dimension position, Color targetColor) {
+	public void setEntryColor(Dimension position, Color targetColor, boolean syncToOther) {
 		this.currentdrawingBoardStatus[position.height][position.width] = targetColor;
 		this.repaint();
 		this.revalidate();
+		if (syncToOther) controller.onBoardDraw((int) position.getWidth(), (int) position.getHeight(), targetColor);
 	}
 	
 	/**
@@ -216,9 +219,7 @@ public class DrawBoard extends OpaqueJPanel{
 	         }else {
 	         	g.drawString("Please draw: " + this.prompting[0], 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - 9));
 	         }
-        }
-       
-        
+        }  
         
 	}
 	
