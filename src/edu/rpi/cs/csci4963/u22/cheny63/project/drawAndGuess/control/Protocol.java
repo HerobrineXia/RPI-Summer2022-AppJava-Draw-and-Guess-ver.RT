@@ -74,7 +74,7 @@ public class Protocol {
 	}
 
 	public String messagePack(int id, String message){
-		message = stringToUnicode(message);
+		//message = stringToUnicode(message);
 		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s".formatted("DATA",SEPARATOR,"MESSAGE",SEPARATOR,id,SEPARATOR,message));
 		return response.toString();
 	}
@@ -91,7 +91,7 @@ public class Protocol {
 		return response.toString();
 	}
 	public String userJoinServerEvent(String address, String name) {
-		name = stringToUnicode(name);
+		//name = stringToUnicode(name);
 		StringBuilder response = new StringBuilder("%s%s%s%s%s%s%s".formatted("EVENT",SEPARATOR,"JOIN_SERVER",SEPARATOR,name,SEPARATOR,address));
 		return response.toString();
 	}
@@ -100,7 +100,7 @@ public class Protocol {
 		return response.toString();
 	}
 	public String userJoinClientEvent(int id, String name) {
-		name = stringToUnicode(name);
+		//name = stringToUnicode(name);
 		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s".formatted("EVENT",SEPARATOR,"JOIN",SEPARATOR,id,SEPARATOR,name));
 		return response.toString();
 	}
@@ -114,12 +114,12 @@ public class Protocol {
 		return response.toString();
 	}
 	public String userSentMessageEvent(int id,String message) {
-		message = stringToUnicode(message);
+		//message = stringToUnicode(message);
 		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s".formatted("EVENT",SEPARATOR,"MESSAGE_CLIENT",SEPARATOR,id,SEPARATOR,message));
 		return response.toString();
 	}
 	public String serverSentMessageEvent(int id,String message) {
-		message = stringToUnicode(message);
+		//message = stringToUnicode(message);
 		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s".formatted("EVENT",SEPARATOR,"MESSAGE_SERVER",SEPARATOR,id,SEPARATOR,message));
 		return response.toString();
 	}
@@ -160,7 +160,7 @@ public class Protocol {
 		        }
 				int id = Integer.parseInt(commands[2]);
 				String name = commands[3];
-				name = unicodeToString(name);
+				//name = unicodeToString(name);
 				controller.onPlayerJoinClient(name, id);
 			}
 			else if(secondary.equals("MESSAGE_SERVER")) {
@@ -218,7 +218,7 @@ public class Protocol {
 		        }
 				int id = Integer.parseInt(commands[2]);
 				String message = commands[3];
-				message = unicodeToString(message);
+				//message = unicodeToString(message);
 				// controller
 			}
 			else if(secondary.equals("MODEL")) {
@@ -228,7 +228,7 @@ public class Protocol {
 		        	return response.toString();
 		        }
 				for(int i = 3;i<Integer.parseInt(commands[2]);i+=3) {
-					users.addLast(new User( unicodeToString(commands[i+1]),Integer.parseInt(commands[i+2]),Integer.parseInt(commands[i])));
+					users.addLast(new User( commands[i+1],Integer.parseInt(commands[i+2]),Integer.parseInt(commands[i])));
 				}
 				//controller
 			}

@@ -5,3 +5,4 @@
 .classpath
 .DS_Store
 Config.cfg
+.idea/vcs.xml
