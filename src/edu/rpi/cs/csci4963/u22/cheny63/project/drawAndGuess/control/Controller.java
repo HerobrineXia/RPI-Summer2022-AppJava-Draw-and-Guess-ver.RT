@@ -203,7 +203,7 @@ public class Controller{
 
     private void addChat(String name, String message){
         model.addChat(name, message);
-        // TODO: Refresh UI
+        window.updateChat();
     }
 
     private void startServer(int port){
