@@ -37,6 +37,9 @@ public class GameSessionFrame extends JFrame{
 	private java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 	private ChatBoxPanel chat;
 	
+	public void updateChat() {
+		this.chat.updateChat();
+	}
 	
 	private void initOperations(Controller controller) {
 		java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
