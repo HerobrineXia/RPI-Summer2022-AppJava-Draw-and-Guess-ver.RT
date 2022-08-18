@@ -40,7 +40,7 @@ public class Controller{
 		}catch (Exception e) {
 			log.warning(String.format("Unable to create logger file handler: %s", e.getMessage()));
             throw e;
-		} 
+		}
 		handler.setFormatter(new SimpleFormatter());
 		log.addHandler(handler);
 
@@ -53,12 +53,15 @@ public class Controller{
     public void onStartServer(String name, int port, String filePath){
         config.setName(name);
         config.setFilePath(filePath);
+        config.setPort(port);
         startServer(port);
         myName = name;
     }
 
     public void onClientStart(String name, String address, int port){
         config.setName(name);
+        config.setAddress(address);
+        config.setPort(port);
         startClient(address, port);
         myName = name;
     }
@@ -100,6 +103,14 @@ public class Controller{
 
     public String getFileConfig(){
         return config.getFilePath();
+    }
+
+    public String getPort(){
+        return Integer.toString(config.getPort());
+    }
+
+    public String getAddress(){
+        return config.getAddress();
     }
 
     public boolean isServer(){

@@ -3,8 +3,12 @@ package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Properties;
 import java.util.logging.Logger;
+
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.StringUtil;
 
 /**
 * Game config loader
@@ -16,6 +20,8 @@ public class Config {
     private Properties configFile;
     private String username;
     private String filePath;
+    private String address;
+    private int port;
     private Logger log;
 
     /**
@@ -51,6 +57,19 @@ public class Config {
             setFilePath(System.getProperty("user.dir"));
             update = false;
         }
+        if(port < 0 || port > 65565){
+            port = 8180;
+            update = true;
+        }
+        if(!StringUtil.validAddress(address)){
+            try{
+                address = InetAddress.getLocalHost().toString().split("/")[1];
+            }catch(UnknownHostException e){
+                log.severe("Cannot get localhost information...");
+                address = "";
+            }
+            update = true;
+        }
         return update;
     }
 
@@ -66,8 +85,10 @@ public class Config {
             configFile.load(file);
             file.close();
             // Config
-            username = configFile.getProperty("user.name");
             filePath = configFile.getProperty("file.path");
+            username = configFile.getProperty("network.username");
+            address = configFile.getProperty("network.address");
+            port = Integer.parseInt(configFile.getProperty("network.port"));
             // Validate
             log.info("Validating config...");
             if(validateData()){
@@ -89,8 +110,10 @@ public class Config {
         log.info("Saving config file...");
         try{
             // Game
-            configFile.setProperty("user.name", username);
             configFile.setProperty("file.path", filePath);
+            configFile.setProperty("network.username", username);
+            configFile.setProperty("network.address", address);
+            configFile.setProperty("network.port", Integer.toString(port));
             // Saving
             FileOutputStream file = new FileOutputStream("Config.cfg");
             configFile.store(file, "Config for Draw and Guess");            
@@ -123,5 +146,21 @@ public class Config {
 
     public String getFilePath(){
         return filePath;
+    }
+
+    public void setAddress(String address){
+        this.address = address;
+    }
+
+    public String getAddress(){
+        return address;
+    }
+
+    public void setPort(int port){
+        this.port = port;
+    }
+
+    public int getPort(){
+        return port;
     }
 }
