@@ -32,6 +32,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.text.NumberFormatter;
 
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control.Controller;
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.StringUtil;
 
 
 public class BeforeGameReadyFrame extends JDialog {
@@ -76,11 +77,7 @@ public class BeforeGameReadyFrame extends JDialog {
 			public void itemStateChanged(ItemEvent e) {                 
 				if (e.getStateChange()==1) {
 					ipAddressInfo.setEnabled(false);
-					try {
-						ipAddressInfo.setText(InetAddress.getLocalHost().toString().split("/")[1]); 
-					} catch (UnknownHostException e1) {
-						JOptionPane.showMessageDialog(BeforeGameReadyFrame.this, "Failed to find localhost info", "Oops...", JOptionPane.ERROR_MESSAGE);
-					}
+					ipAddressInfo.setText(StringUtil.getInetAddress());
 				}else {
 					ipAddressInfo.setEnabled(true);
 				}

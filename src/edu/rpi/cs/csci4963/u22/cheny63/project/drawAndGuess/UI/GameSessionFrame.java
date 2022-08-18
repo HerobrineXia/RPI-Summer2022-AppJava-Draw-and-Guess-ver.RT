@@ -39,6 +39,14 @@ public class GameSessionFrame extends JFrame{
 		this.chat.updateChat();
 	}
 	
+	public void activate() {
+		this.board.activate();
+	}
+	
+	public void deactivate() {
+		this.board.deactivate();
+	}
+	
 	private void initOperations(Controller controller) {
 		java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 		this.operations.setLayout(new BoxLayout(this.operations, BoxLayout.X_AXIS));
