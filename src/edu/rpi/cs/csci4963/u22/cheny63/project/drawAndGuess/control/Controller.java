@@ -241,13 +241,24 @@ public class Controller{
         if(isServer){
             if(model.getStatus() == GameStatus.PROCESSING){
                 int result = ((ServerModel) model).guessWord(id, message);
-                if(result == 1){
-                    server.sendMessage(protocol., id);
+                if(result == 0){
+                    sendMessageToAll(protocol.serverSentMessageEvent(id, message));
+                }else if(result == 1){
+                    server.sendMessage(protocol.messagePack("You have already guessed out the word!"), id);
+                }else if(result == 2){
+                    sendMessageToAll(protocol.userScorePack(((ServerModel)model).decrementPoint(), id));
+                    if(((ServerModel)model).roundEnd()){
+                        // sendMessageToAll(message);
+                    }
                 }
             }else{
                 sendMessageToAll(protocol.serverSentMessageEvent(id, message));
             }
         }
+    }
+
+    protected void onMessageReceive(String message){
+        addChat("System", message);
     }
 
     private void sendMessageToAll(String message){

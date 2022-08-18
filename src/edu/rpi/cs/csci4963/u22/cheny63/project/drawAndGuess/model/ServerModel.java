@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.Timer;
 import java.util.logging.Logger;
-import java.util.Map.Entry;
 public class ServerModel extends ClientModel{
 	// Data
 	private WordDictionary dictionary;
@@ -12,6 +11,7 @@ public class ServerModel extends ClientModel{
 	// Game Data
 	private String secretWord;
 	private Timer timer;
+	private int remainTime;
 	private int remainPoint;
 
 	// Log
@@ -61,14 +61,19 @@ public class ServerModel extends ClientModel{
 				((UserServer)user).newRound();
 			}
 			remainPoint = userList.size() - 1;
+			remainTime = 90;
 		}
+	}
+
+	public boolean roundEnd(){
+		return remainPoint == 0 || remainTime == 0;
 	}
 
 	public void endRound(){
 		if(gameStatus == GameStatus.PROCESSING){
 			UserServer user = getUser(currentDrawerId);
 			if(remainPoint != 0){
-				addScore(user, userList.size() - remainPoint);
+				// addScore(user, userList.size() - remainPoint);
 			}
 			++currentDrawerId;
 			if(currentDrawerId > userList.size()){
@@ -99,9 +104,12 @@ public class ServerModel extends ClientModel{
 		return -1;
 	}
 
+	public int decrementPoint(){
+		return remainPoint--;
+	}
+
 	private void userGuessRight(UserServer user){
-		addScore(user, remainPoint);
-		--remainPoint;
+		// addScore(user, remainPoint);
 		user.setGuessSuccess();
 		if(remainPoint == 0){
 			endRound();
