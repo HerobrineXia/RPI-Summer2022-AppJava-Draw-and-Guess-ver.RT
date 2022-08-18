@@ -53,7 +53,7 @@ public class Config {
             update = true;
         }
         File path = new File(filePath);
-        if(!path.exists() && path.isFile() && path.getName().endsWith(".csv")){
+        if(!path.exists() || !path.isFile() || !path.getName().endsWith(".csv")){
             setFilePath(System.getProperty("user.dir"));
             update = false;
         }
