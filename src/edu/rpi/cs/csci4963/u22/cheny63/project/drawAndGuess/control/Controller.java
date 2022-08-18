@@ -53,8 +53,8 @@ public class Controller{
         window = new DrawAndGuessGUI(this);
     }
 
-    public void on(){
-        window.returnMainMenu();
+    public String getDrawerName(){
+        return model.getPlayerName(model.getDrawerId());
     }
 
     public void onStartServer(String name, int port, String filePath){
