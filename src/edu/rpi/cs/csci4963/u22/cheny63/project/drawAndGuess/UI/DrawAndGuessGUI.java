@@ -45,6 +45,10 @@ public class DrawAndGuessGUI {
     	this.startFrame = new StartGameFrame(controller);
 	}
 	
+	public void updateChat() {
+		if (gameStartFrame != null) gameStartFrame.updateChat();
+	}
+	
 	public void interrupt(String msg, String title) {
 		startFrame.failConnection(msg, title);
 	}

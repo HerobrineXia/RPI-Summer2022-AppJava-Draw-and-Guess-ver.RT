@@ -20,8 +20,6 @@ import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control.Controller;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.ImageUtility;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.SystemCheck;
 
-
-
 public class GameSessionFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private Controller controller;
