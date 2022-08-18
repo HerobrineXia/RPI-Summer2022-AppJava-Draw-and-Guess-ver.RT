@@ -1,5 +1,7 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
@@ -59,6 +61,10 @@ public class DrawAndGuessGUI {
 	
 	public void interrupt(String msg, String title) {
 		startFrame.failConnection(msg, title);
+	}
+	
+	public void setEntryColor(Dimension position, Color targetColor) {
+		if (gameSessionFrame != null) gameSessionFrame.setEntryColor(position, targetColor);
 	}
 	
 	public void startGame() {

@@ -66,12 +66,18 @@ public class GameSessionFrame extends JFrame{
 			button.setEnabled(false);
 	}
 	
+	public void setEntryColor(Dimension position, Color targetColor) {
+		this.board.setEntryColor(position, targetColor);
+	}
+	
 	private void initCursorStrategy() {
 		java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 		Image image = ImageUtility.resizeIcon(toolkit.getImage("./res/gui/cursor/normal.png"), new Dimension(10, 10));
 		Cursor newCursor = toolkit.createCustomCursor(image , new Point(0, 0), "");
 		this.setCursor (newCursor);
 	}
+	
+	
 	
 	private void initOperations(Controller controller) {
 		java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
