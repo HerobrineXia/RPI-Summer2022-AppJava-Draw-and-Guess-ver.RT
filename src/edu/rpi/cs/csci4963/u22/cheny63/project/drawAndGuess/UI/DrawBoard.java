@@ -2,13 +2,18 @@ package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JFrame;
+
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.ImageUtility;
 
 public class DrawBoard extends OpaqueJPanel{
 	
@@ -19,6 +24,9 @@ public class DrawBoard extends OpaqueJPanel{
 	private int lastDragEventTriggerX = -1;
 	private int lastDragEventTriggerY = -1;
 	private boolean stroke = true;
+	private Color strokeColor = new Color(251, 251, 251);
+	private boolean isValid = false;
+	private java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 	/**
 	 * Construct a image from specific drawing board setting and color setting
 	 *
@@ -37,6 +45,8 @@ public class DrawBoard extends OpaqueJPanel{
 			for (int j = 0; j < drawingBoardStatus[0].length; j++)
 				this.currentdrawingBoardStatus[i][j] = (drawingBoardStatus[i][j] != null? drawingBoardStatus[i][j] : new Color(251, 251, 251));
 		
+		initCursorStretegy();
+		
 		this.addMouseMotionListener(new MouseMotionListener() {
 	        @Override
 	        public void mouseMoved(MouseEvent e) {
@@ -46,7 +56,7 @@ public class DrawBoard extends OpaqueJPanel{
 	        public void mouseDragged(MouseEvent e) {
 	        	if (lastDragEventTriggerY != -1)
 	        		connectTwoDots(e.getX(), e.getY(), lastDragEventTriggerX, lastDragEventTriggerY);
-	        	setEntryColor(findPosition(e.getX(), e.getY()), Color.BLUE);
+	        	setEntryColor(findPosition(e.getX(), e.getY()), strokeColor);
 	        	lastDragEventTriggerX = e.getX();
 	        	lastDragEventTriggerY = e.getY();
 	        }
@@ -59,16 +69,50 @@ public class DrawBoard extends OpaqueJPanel{
 		// System.out.println("connect: (" + x1+", " + y1+")" + " ("+ x2 +", " + x2 + ")" + " slope: " + slope);
 			
 		while (y2 != y1 &&!((x1-x2>1)||(x1-x2<-1)) ) {
-			setEntryColor(findPosition((int)x1, (int)y1), Color.PINK);
+			setEntryColor(findPosition((int)x1, (int)y1), strokeColor);
 			y1 += (y1 < y2? 1 : (y1 == y2? 0 : -1));
 		}
 		while(x1 != x2) {
-			setEntryColor(findPosition((int)x1, (int)y1), Color.RED);
+			setEntryColor(findPosition((int)x1, (int)y1), strokeColor);
 			x1 += (x1 < x2? 1 : (x1 == x2? 0 : -1));
 			y1 = x1*slope+b;
 			y2 = x2*slope+b;
 		}
 		
+	}
+	
+	public void activate() {
+		this.isValid = true;
+		initCursorStretegy();
+		
+	}
+
+	public void deactivate() {
+		this.isValid = false;
+		initCursorStretegy();
+	}
+	
+	private void initCursorStretegy() {
+		Image image;
+		if (this.isValid)
+			image = ImageUtility.resizeIcon(toolkit.getImage("./res/gui/cursor/normal.png"), new Dimension(10, 10));
+		else
+			image = ImageUtility.resizeIcon(toolkit.getImage("./res/gui/cursor/busy.png"), new Dimension(10, 10));
+		Cursor newCursor = toolkit.createCustomCursor(image , new Point(0, 0), "");
+		this.setCursor (newCursor);
+		
+	}
+	
+	public void setStroke(Color color) {
+		this.strokeColor = color;
+	}
+	
+	public void clear() {
+		for (int i = 0; i < currentdrawingBoardStatus.length; i++)
+			for (int j = 0; j < currentdrawingBoardStatus[0].length; j++)
+				this.currentdrawingBoardStatus[i][j] = new Color(251, 251, 251);
+		this.repaint();
+		this.revalidate();
 	}
 	
     public Dimension getPreferredSize(){
@@ -149,4 +193,6 @@ public class DrawBoard extends OpaqueJPanel{
 		testframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		testframe.setVisible(true);
 	}
+
+	
 }

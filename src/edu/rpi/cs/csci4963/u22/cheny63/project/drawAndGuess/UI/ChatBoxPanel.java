@@ -30,8 +30,10 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		this.sendMsg = new JButton("GO");
 		JEditorPane writerPanel = new JEditorPane();
 		this.historyPanel = new JEditorPane();
-		JScrollPane historyScroll = new JScrollPane(historyPanel);	
-		JScrollPane writerScroll = new JScrollPane(writerPanel);
+		JScrollPane historyScroll = new JScrollPane(historyPanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+													JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);	
+		JScrollPane writerScroll = new JScrollPane(writerPanel,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+															   JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		JPanel allContent = new JPanel();
 		JPanel writerContent = new JPanel();
 		
