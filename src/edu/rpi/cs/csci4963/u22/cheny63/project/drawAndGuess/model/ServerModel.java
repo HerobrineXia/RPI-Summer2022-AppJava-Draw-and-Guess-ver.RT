@@ -65,7 +65,16 @@ public class ServerModel extends ClientModel{
 	}
 
 	public boolean roundEnd(){
-		return remainPoint == 0 || remainTime == 0;
+		int guesser = userList.size() - 1;
+		boolean hasDrawer = false;
+		for(User user: userList){
+			if(((UserServer)user).getGuessSuccess()){
+				--guesser;
+			}else if(user.id == currentDrawerId){
+				hasDrawer = true;
+			}
+		}
+		return guesser == 0 || remainTime == 0 || !hasDrawer;
 	}
 
 	public void endRound(){
