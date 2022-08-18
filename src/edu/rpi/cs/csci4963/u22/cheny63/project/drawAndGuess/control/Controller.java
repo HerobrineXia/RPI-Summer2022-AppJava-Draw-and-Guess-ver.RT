@@ -284,14 +284,8 @@ public class Controller{
 
     private void runTimer(){
         int remainTime = model.reduceTime();
-        if(remainTime > 0){
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run(){
-                    runTimer();
-                }
-            }, 1000);
-        }else{
+        if(remainTime <= 0){
+            timer.cancel();
             if(isServer){
                 if(model.getStatus() == GameStatus.PROCESSING){
                     sendMessageToAll(protocol.eventRoundEnd());
