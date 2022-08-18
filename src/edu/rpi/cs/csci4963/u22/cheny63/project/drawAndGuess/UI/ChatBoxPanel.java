@@ -34,11 +34,14 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	private java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 	private Controller controller;
 	private Font goreRegular;
+	
 	// GUI Component
 	private JButton sendMsg;
 	private JEditorPane historyText;
 	private JPanel chatContent;
 	private JPanel titleContent;
+	private DrawBoard board;
+	
 	// statusInfo
 	private boolean isHost;
 	private boolean isStart = false;
@@ -86,6 +89,8 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
 	            	controller.onStartGameServer();
+	            	board.setPrompting(new String[] {controller.getSecret(), controller.getSecretHint()});
+	            	
 				}
 	        });
 			startGame.setHorizontalAlignment(SwingConstants.LEFT);
@@ -181,7 +186,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		return new Dimension(600, toolkit.getScreenSize().height);
 	}
 	
-	public ChatBoxPanel(Controller controller) throws FontFormatException, IOException {
+	public ChatBoxPanel(Controller controller, DrawBoard board) throws FontFormatException, IOException {
 		//Set font
 		this.goreRegular = Font.createFont(Font.TRUETYPE_FONT, new File("./res/gui/font/Gore Regular.otf"));
 		goreRegular  = goreRegular.deriveFont(Font.PLAIN, 27);

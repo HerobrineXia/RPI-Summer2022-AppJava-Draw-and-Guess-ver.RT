@@ -144,10 +144,10 @@ public class GameSessionFrame extends JFrame{
         this.chatRoom = new OpaqueJPanel();                     // store chat
         this.timer = new OpaqueJPanel();                        // store time
         OpaqueJPanel chessboardAndTools = new OpaqueJPanel();   // store drawboard operations
-		this.chat = new ChatBoxPanel(this.controller);
+		this.chat = new ChatBoxPanel(this.controller, this.board);
         initOperations(controller);
         VerticalTimerPanel timerContent = new VerticalTimerPanel();
-        this.board = new DrawBoard(drawContent, -1, new String[] {"Cat", "Animal"});
+        this.board = new DrawBoard(drawContent, -1, controller);
         allOperations.add(operations);
         allOperations.add(exit);
         

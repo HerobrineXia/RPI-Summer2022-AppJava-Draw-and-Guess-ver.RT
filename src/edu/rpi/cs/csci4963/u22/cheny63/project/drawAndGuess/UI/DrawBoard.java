@@ -19,6 +19,8 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import javax.swing.JFrame;
+
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control.Controller;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.ImageUtility;
 
 public class DrawBoard extends OpaqueJPanel{
@@ -47,8 +49,7 @@ public class DrawBoard extends OpaqueJPanel{
 	 * @throws IOException 
 	 * @throws FontFormatException 
 	 */
-	public DrawBoard(Color[][] drawingBoardStatus, double zoomNum, String[] prompting) throws FontFormatException, IOException {
-		this.prompting = Arrays.copyOf(prompting, prompting.length);
+	public DrawBoard(Color[][] drawingBoardStatus, double zoomNum, Controller controller) throws FontFormatException, IOException {
 		this.zoomNum = zoomNum != -1? zoomNum:Toolkit.getDefaultToolkit().getScreenSize().height*0.80/(drawingBoardStatus.length*drawEntryWidth);
 		this.currentdrawingBoardStatus = new Color[drawingBoardStatus.length][drawingBoardStatus[0].length];
 		this.goreRegular = Font.createFont(Font.TRUETYPE_FONT, new File("./res/gui/font/Gore Regular.otf"));
@@ -78,6 +79,12 @@ public class DrawBoard extends OpaqueJPanel{
 	    });
 	}
 	
+	public void setPrompting(String[] prompts) {
+		this.prompting = Arrays.copyOf(prompts, prompts.length);
+		this.repaint();
+		this.revalidate();
+	}
+	
 	private void connectTwoDots(double x2, double y2, double x1, double y1) {	
 		double slope = (x2 != x1? (y2 - y1) / (x2 - x1) : 0);
 		double b = (x2*y1-x1*y2)/(x2-x1);
@@ -98,11 +105,15 @@ public class DrawBoard extends OpaqueJPanel{
 	public void activate() {
 		this.isValid = true;
 		initCursorStretegy();
+		this.repaint();
+		this.revalidate();
 	}
 
 	public void deactivate() {
 		this.isValid = false;
 		initCursorStretegy();
+		this.repaint();
+		this.revalidate();
 	}
 	
 	private void initCursorStretegy() {
@@ -142,7 +153,9 @@ public class DrawBoard extends OpaqueJPanel{
 		if (yEntry < 0) yEntry = 0;
 		return new Dimension(xEntry, yEntry);
 	}
-	private void setEntryColor(Dimension position, Color targetColor) {
+	
+	
+	public void setEntryColor(Dimension position, Color targetColor) {
 		this.currentdrawingBoardStatus[position.height][position.width] = targetColor;
 		this.repaint();
 		this.revalidate();
@@ -196,28 +209,31 @@ public class DrawBoard extends OpaqueJPanel{
         FontMetrics metric = g.getFontMetrics(this.goreRegular);
         g.setFont(goreRegular);
         // generate prompt
-        if(this.prompting.length == 2) {
-            g.drawString(String.valueOf(this.prompting[0].length()) + " letters", 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - metric.getAscent() - 9));
-            g.drawString(this.prompting[1], 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - 9));
-        }else {
-        	g.drawString("Please draw: " + this.prompting[0], 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - 9));
+        if (this.prompting != null) {
+	    	 if(isValid) {
+	             g.drawString(String.valueOf(this.prompting[0].length()) + " letters", 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - metric.getAscent() - 9));
+	             g.drawString(this.prompting[1], 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - 9));
+	         }else {
+	         	g.drawString("Please draw: " + this.prompting[0], 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - 9));
+	         }
         }
+       
         
         
 	}
 	
 	
-	public static void main(String[] args) throws FontFormatException, IOException {
-		JFrame testframe = new JFrame();
-		// avoid image displace case,  not necessary
-		Color[][] arr = new Color[180][180];
-		testframe.add(new DrawBoard(arr, 0.05, new String[]{"Cat", "An animal"}));
-		testframe.setSize(620, 640);
-		testframe.setLocationRelativeTo(null); // set window centre
-		testframe.setAlwaysOnTop(true); // since it is important, let it top
-		testframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		testframe.setVisible(true);
-	}
+//	public static void main(String[] args) throws FontFormatException, IOException {
+//		JFrame testframe = new JFrame();
+//		// avoid image displace case,  not necessary
+//		Color[][] arr = new Color[180][180];
+//		testframe.add(new DrawBoard(arr, 0.05, new String[]{"Cat", "An animal"}));
+//		testframe.setSize(620, 640);
+//		testframe.setLocationRelativeTo(null); // set window centre
+//		testframe.setAlwaysOnTop(true); // since it is important, let it top
+//		testframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		testframe.setVisible(true);
+//	}
 
 	
 }
