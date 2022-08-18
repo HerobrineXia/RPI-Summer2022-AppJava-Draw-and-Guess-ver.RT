@@ -1,7 +1,6 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model;
 
 import java.io.IOException;
-import java.util.AbstractMap;
 import java.util.Timer;
 import java.util.logging.Logger;
 public class ServerModel extends ClientModel{
@@ -71,10 +70,6 @@ public class ServerModel extends ClientModel{
 
 	public void endRound(){
 		if(gameStatus == GameStatus.PROCESSING){
-			UserServer user = getUser(currentDrawerId);
-			if(remainPoint != 0){
-				// addScore(user, userList.size() - remainPoint);
-			}
 			++currentDrawerId;
 			if(currentDrawerId > userList.size()){
 				currentDrawerId = 0;
@@ -89,7 +84,7 @@ public class ServerModel extends ClientModel{
 				UserServer user = getUser(id);
 				if(!user.getGuessSuccess()){
 					if(equalSecret(word)){
-						userGuessRight(user);
+						user.setGuessSuccess();
 						return 2;
 					}else{
 						return 0;
@@ -104,16 +99,16 @@ public class ServerModel extends ClientModel{
 		return -1;
 	}
 
-	public int decrementPoint(){
-		return remainPoint--;
+	public int getDrawerScore(){
+		if(remainPoint == 0){
+			return 0;
+		}else{
+			return userList.size() - 1 - remainPoint;
+		}
 	}
 
-	private void userGuessRight(UserServer user){
-		// addScore(user, remainPoint);
-		user.setGuessSuccess();
-		if(remainPoint == 0){
-			endRound();
-		}
+	public int decrementPoint(){
+		return remainPoint--;
 	}
 
 	private UserServer getUser(int id){

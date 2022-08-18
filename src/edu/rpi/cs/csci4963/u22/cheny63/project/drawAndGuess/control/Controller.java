@@ -248,13 +248,29 @@ public class Controller{
                 }else if(result == 2){
                     sendMessageToAll(protocol.userScorePack(((ServerModel)model).decrementPoint(), id));
                     if(((ServerModel)model).roundEnd()){
-                        // sendMessageToAll(message);
+                        sendMessageToAll(protocol.userScorePack(((ServerModel)model).getDrawerScore(), model.getDrawerId()));
+                        sendMessageToAll(protocol.eventRoundEnd());
                     }
                 }
             }else{
                 sendMessageToAll(protocol.serverSentMessageEvent(id, message));
             }
         }
+    }
+
+    protected void onRoundEnd(){
+        addChat("Server", "Round End!");
+        if(isServer){
+            ((ServerModel)model).endRound();
+        }else{
+            model.setStatus(GameStatus.PROCESSING_WAIT);
+        }
+    }
+
+    protected void onUserScoreReceive(int id, int score){
+        model.addScore(id, score);
+        addChat("System", "%s has guessed out the right word and earn %d point!".formatted(model.getPlayerName(id),score));
+        
     }
 
     protected void onMessageReceive(String message){
@@ -270,7 +286,7 @@ public class Controller{
 
     private void addChat(String name, String message){
         model.addChat(name, message);
-        window.updateChat();
+        window.updateStats();
     }
 
     private void startServer(int port){

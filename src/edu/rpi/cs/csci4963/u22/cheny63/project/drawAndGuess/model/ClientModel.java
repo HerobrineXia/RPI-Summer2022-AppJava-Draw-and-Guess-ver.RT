@@ -47,6 +47,15 @@ public class ClientModel {
         chatHistory.add(message);
     }
 
+    public void addScore(int id, int score){
+        for(User user: userList){
+            if(user.id == id){
+                user.addScore(score);
+                return;
+            }
+        }
+    }
+
     public void setDrawerId(int id){
         currentDrawerId = id;
     }
