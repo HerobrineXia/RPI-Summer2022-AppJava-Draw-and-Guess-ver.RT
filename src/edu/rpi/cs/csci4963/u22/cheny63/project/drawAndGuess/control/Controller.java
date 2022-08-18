@@ -77,7 +77,9 @@ public class Controller{
     }
 
     protected void onConnectionWaitEnd(){
-        holdWindow.close();
+        if(holdWindow != null){
+            holdWindow.close();
+        }
     }
 
     protected void onConnectionFailed(String message, String title){
