@@ -11,6 +11,7 @@ import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI.HoldConnection;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.ClientModel;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.GameStatus;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.ServerModel;
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.StringUtil;
 
 public class Controller{
     // Game Object
@@ -148,6 +149,7 @@ public class Controller{
             }else{
                 myId = 0;
                 id = 0;
+                addChat("Room IP", StringUtil.getInetAddress());
             }
             sendMessageToAll(protocol.userJoinClientEvent(id, name));
         }

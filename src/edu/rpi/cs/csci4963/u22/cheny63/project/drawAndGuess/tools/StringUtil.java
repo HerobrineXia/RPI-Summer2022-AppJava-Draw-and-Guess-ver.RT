@@ -1,5 +1,7 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.regex.Pattern;
 
 /**
@@ -32,5 +34,15 @@ public class StringUtil {
             return min <= num && num <= max;
         }
         return false;
+    }
+
+    public static String getInetAddress(){
+        String address;
+        try{
+            address = InetAddress.getLocalHost().toString().split("/")[1];
+        }catch(UnknownHostException e){
+            address = "";
+        }
+        return address;
     }
 }

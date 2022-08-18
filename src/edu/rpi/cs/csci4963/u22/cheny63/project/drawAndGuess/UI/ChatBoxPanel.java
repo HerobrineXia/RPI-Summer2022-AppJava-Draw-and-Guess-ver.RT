@@ -12,8 +12,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 
+<<<<<<< HEAD
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+=======
+>>>>>>> c590a19e908b6020f68c89778bef9b5b037ea8a1
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
@@ -36,7 +39,6 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		LinkedList<String> history = this.controller.getChat();
 		this.historyText.setText("");
 		for (String line : history) {
-			System.out.println(line);
 			this.historyText.append(line + "\n");
 		}
 	}
