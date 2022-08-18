@@ -91,6 +91,10 @@ public class Protocol {
 		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s".formatted("EVENT",SEPARATOR,"MESSAGE_SERVER",SEPARATOR,id,SEPARATOR,message));
 		return response.toString();
 	}
+	public String eventStartGame() {
+		StringBuilder response = new StringBuilder("%s%s%s".formatted("EVENT",SEPARATOR,"NEW_GAME"));
+		return response.toString();
+	}
 
 	public String process(String command){
         StringBuilder response = new StringBuilder();
@@ -158,6 +162,9 @@ public class Protocol {
 		        	return response.toString();
 		        }
 				controller.onPlayerLeaveClient(id);
+			}
+			else if(secondary.equals("NEW_GAME")) {
+				
 			}
 			else if(secondary.equals("NEW_ROUND")) {
 				int painterId = Integer.parseInt(commands[2]);
