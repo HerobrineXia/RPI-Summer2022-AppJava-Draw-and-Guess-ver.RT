@@ -1,7 +1,10 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control;
 
 import java.net.Socket;
+import java.util.Base64;
 import java.util.LinkedList;
+
+import java.lang.Object;
 
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.PlayerStatus;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.User;
@@ -24,60 +27,17 @@ public class Protocol {
         return command.split(SEPARATOR);
     }
 	
-	public static String unicodeEscaped(char ch) {
-	      if (ch < 0x10) {
-	          return "\\u000" + Integer.toHexString(ch);
-	      } else if (ch < 0x100) {
-	          return "\\u00" + Integer.toHexString(ch);
-	      } else if (ch < 0x1000) {
-	          return "\\u0" + Integer.toHexString(ch);
-	      }
-	      return "\\u" + Integer.toHexString(ch);
-	  }
-	
-	public static String stringToUnicode(String message) {
-		StringBuilder response = new StringBuilder();
-		for(int i=0;i<message.length();i++) {
-			if(Character.isAlphabetic(message.charAt(i))) {
-				response.append(new StringBuilder(unicodeEscaped(message.charAt(i))));
-			}
-			else {
-				if(message.charAt(i) == ' ') {
-					response.append(' ');
-				}
-				else {
-					response.append("s");
-					response.append(message.charAt(i));
-				}		
-			}
-			//response.append(new StringBuilder(unicodeEscaped(message.charAt(i))));
-		}
-		return response.toString();
+	public String baseToString(String a) {
+		byte[] decodedBytes = Base64.getDecoder().decode(a);
+		String decodedString = new String(decodedBytes);
+		return decodedString;
 	}
 	
-	public static String unicodeToString(String message) {
-		String str = message;
-		str = str.replace("\\","");
-		String[] arr = str.split("u");
-		String text = "";
-		for(int i = 0; i < arr.length; i++){
-			String[] a = arr[i].split("s");
-			for(int j = 0; j < a.length; j++){
-				if(a[j].length()==4) {
-					int hexVal = Integer.parseInt(a[j].substring(0, 4), 16);
-					text += (char)hexVal;
-					text+= a[j].substring(4);
-				}
-				else {
-					text += a[j];
-				}
-			}
-		}
-		return text;
-	}
+
 
 	public String messagePack(int id, String message){
-		message = stringToUnicode(message);
+		message = Base64.getEncoder().encodeToString(message.getBytes());
+		
 		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s".formatted("DATA",SEPARATOR,"MESSAGE",SEPARATOR,id,SEPARATOR,message));
 		return response.toString();
 	}
@@ -85,7 +45,7 @@ public class Protocol {
 	public String userDataPack(LinkedList<User> users, int num){
 		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("DATA",SEPARATOR,"MODEL",SEPARATOR,num));
 		for(int i = 0; i<num;i++) {
-			response.append(new StringBuilder("%s%d%s%s%s%d".formatted(SEPARATOR,users.get(i).getScore(),SEPARATOR,stringToUnicode(users.get(i).getName()),SEPARATOR,users.get(i).getId())));
+			response.append(new StringBuilder("%s%d%s%s%s%d".formatted(SEPARATOR,users.get(i).getScore(),SEPARATOR,Base64.getEncoder().encodeToString(users.get(i).getName().getBytes()),SEPARATOR,users.get(i).getId())));
 		}
 		return response.toString();
 	}
@@ -94,8 +54,8 @@ public class Protocol {
 		return response.toString();
 	}
 	public String userJoinServerEvent(String address, String name) {
-		name = stringToUnicode(name);
-		address = stringToUnicode(address);
+		name = Base64.getEncoder().encodeToString(name.getBytes());
+		address = Base64.getEncoder().encodeToString(address.getBytes());
 		StringBuilder response = new StringBuilder("%s%s%s%s%s%s%s".formatted("EVENT",SEPARATOR,"JOIN_SERVER",SEPARATOR,name,SEPARATOR,address));
 		return response.toString();
 	}
@@ -104,7 +64,7 @@ public class Protocol {
 		return response.toString();
 	}
 	public String userJoinClientEvent(int id, String name) {
-		name = stringToUnicode(name);
+		name = Base64.getEncoder().encodeToString(name.getBytes());
 		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s".formatted("EVENT",SEPARATOR,"JOIN",SEPARATOR,id,SEPARATOR,name));
 		return response.toString();
 	}
@@ -118,12 +78,12 @@ public class Protocol {
 		return response.toString();
 	}
 	public String userSentMessageEvent(int id,String message) {
-		message = stringToUnicode(message);
+		message = Base64.getEncoder().encodeToString(message.getBytes());
 		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s".formatted("EVENT",SEPARATOR,"MESSAGE_CLIENT",SEPARATOR,id,SEPARATOR,message));
 		return response.toString();
 	}
 	public String serverSentMessageEvent(int id,String message) {
-		message = stringToUnicode(message);
+		message = Base64.getEncoder().encodeToString(message.getBytes());
 		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%s".formatted("EVENT",SEPARATOR,"MESSAGE_SERVER",SEPARATOR,id,SEPARATOR,message));
 		return response.toString();
 	}
@@ -146,8 +106,8 @@ public class Protocol {
 		        }
 				String name = commands[2];
 				String address = commands[3];
-				name = unicodeToString(name);
-				address = unicodeToString(address);
+				name = baseToString(name);
+				address = baseToString(address);
 				controller.onPlayerJoinServer(name, address);
 			}else if(secondary.equals("RETURN_ID")){
 				int id = Integer.parseInt(commands[2]);
@@ -164,7 +124,7 @@ public class Protocol {
 		        }
 				int id = Integer.parseInt(commands[2]);
 				String name = commands[3];
-				name = unicodeToString(name);
+				name = baseToString(name);
 				controller.onPlayerJoinClient(name, id);
 			}
 			else if(secondary.equals("MESSAGE_SERVER")) {
@@ -174,7 +134,7 @@ public class Protocol {
 		        }
 				int id = Integer.parseInt(commands[2]);
 				String message = commands[3];
-				message = unicodeToString(message);
+				message = baseToString(message);
 				controller.onPlayerReceiveMessageClient(id, message);
 			}
 			else if(secondary.equals("MESSAGE_CLIENT")) {
@@ -184,7 +144,7 @@ public class Protocol {
 		        }
 				int id = Integer.parseInt(commands[2]);
 				String message = commands[3];
-				message = unicodeToString(message);
+				message = baseToString(message);
 				controller.onPlayerReceiveMessageServer(id, message);
 			}
 			else if(secondary.equals( "LEFT")) {
@@ -224,7 +184,7 @@ public class Protocol {
 		        }
 				int id = Integer.parseInt(commands[2]);
 				String message = commands[3];
-				message = unicodeToString(message);
+				message = baseToString(message);
 				// controller
 			}
 			else if(secondary.equals("MODEL")) {
@@ -236,7 +196,7 @@ public class Protocol {
 				
 				for(int i = 3;i<Integer.parseInt(commands[2]);i+=3) {
 					String name = commands[i+1];
-					name = unicodeToString(name);
+					name = baseToString(name);
 					int id = Integer.parseInt(commands[i+2]);
 					int score =  Integer.parseInt(commands[i]);
 					users.addLast(new User(name, id, score));
