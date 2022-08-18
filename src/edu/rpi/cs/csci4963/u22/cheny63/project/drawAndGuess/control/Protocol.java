@@ -3,7 +3,7 @@ package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control;
 import java.net.Socket;
 import java.util.Base64;
 import java.util.LinkedList;
-
+import java.awt.Color;
 import java.lang.Object;
 
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.PlayerStatus;
@@ -103,6 +103,11 @@ public class Protocol {
 		secret = Base64.getEncoder().encodeToString(secret.getBytes());
 		hint = Base64.getEncoder().encodeToString(hint.getBytes());
 		StringBuilder response = new StringBuilder("%s%s%s%s%s%s%s".formatted("EVENT",SEPARATOR,"SECRET",SEPARATOR,secret,SEPARATOR,hint));
+		return response.toString();
+	}
+	public String dataDraw(int x,int y,String color) {
+		color = Base64.getEncoder().encodeToString(color.getBytes());
+		StringBuilder response = new StringBuilder("%s%s%s%s%d%s%d%s%s".formatted("DATA",SEPARATOR,"DRAW",SEPARATOR,x,SEPARATOR,y,SEPARATOR,color));
 		return response.toString();
 	}
 
@@ -239,7 +244,16 @@ public class Protocol {
 				}
 				controller.onPlayerReceiveDatapack(users, currentDrawerId, g);
 			}
-			else if(secondary.equals("DREW")) {
+			else if(secondary.equals("DRAW")) {
+				if(commands.length<5) {
+		        	response = new StringBuilder("Invalid Command: DATA DREW command length less than 5");
+		        	return response.toString();
+		        }
+				int x = Integer.parseInt(commands[2]);
+				int y = Integer.parseInt(commands[3]);
+				String color = commands[4];
+				color = baseToString(color);
+				Color c = Color.getColor(color);
 				
 			}
 			
