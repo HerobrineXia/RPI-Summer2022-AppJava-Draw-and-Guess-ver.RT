@@ -220,10 +220,14 @@ public class BeforeGameReadyFrame extends JDialog {
             	}
             		
             	if (isHost)
-					// TODO: Check if "inputFilePath" is the right argument to pass
-            		controller.onStartServer(BeforeGameReadyFrame.this.usernameField.getText(), 
-            			                 Integer.parseInt(BeforeGameReadyFrame.this.portAddressInfo.getText()), inputFilePath);
-            	else
+					try {
+						controller.onStartServer(BeforeGameReadyFrame.this.usernameField.getText(), 
+							                 Integer.parseInt(BeforeGameReadyFrame.this.portAddressInfo.getText()), inputFilePath);
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(BeforeGameReadyFrame.this, "Fail to read the dictionary.", "Oops...", JOptionPane.ERROR_MESSAGE);
+						e1.printStackTrace();
+					}
+				else
             		controller.onClientStart(BeforeGameReadyFrame.this.usernameField.getText(), 
             				BeforeGameReadyFrame.this.ipAddressInfo.getText(), 
             				Integer.parseInt(BeforeGameReadyFrame.this.portAddressInfo.getText()));
