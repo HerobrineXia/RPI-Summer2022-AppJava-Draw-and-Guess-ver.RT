@@ -99,6 +99,11 @@ public class Protocol {
 		StringBuilder response = new StringBuilder("%s%s%s".formatted("EVENT",SEPARATOR,"ROUND_END"));
 		return response.toString();
 	}
+	public String sendSecretWord(String secret) {
+		secret = Base64.getEncoder().encodeToString(secret.getBytes());
+		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("EVENT",SEPARATOR,"SECRET",SEPARATOR,secret));
+		return response.toString();
+	}
 
 	public String process(String command){
         StringBuilder response = new StringBuilder();
@@ -179,6 +184,14 @@ public class Protocol {
 				controller.onNewRound(drawerId);
 			}
 			else if(secondary.equals("ROUND_END")) {
+			}
+			else if(secondary.equals("SECRET")){
+				if(commands.length<3) {
+		        	response = new StringBuilder("Invalid Command: EVENT SECRET command length less than 4");
+		        	return response.toString();
+		        }
+				String secret = commands[2];
+				secret = baseToString(secret);
 			}
 			else {
 				//invalid
