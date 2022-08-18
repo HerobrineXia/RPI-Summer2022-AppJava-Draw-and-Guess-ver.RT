@@ -54,6 +54,10 @@ public class Controller{
         window = new DrawAndGuessGUI(this);
     }
 
+    public boolean isGameStart(){
+        return model.getStatus() != GameStatus.END && model.getStatus() != GameStatus.INIT;
+    }
+
     public String getDrawerName(){
         return model.getPlayerName(model.getDrawerId());
     }

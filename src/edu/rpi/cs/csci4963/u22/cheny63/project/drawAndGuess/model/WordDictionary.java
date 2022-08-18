@@ -34,10 +34,10 @@ public class WordDictionary{
         FileReader fd = new FileReader(filename);
         BufferedReader reader = new BufferedReader(fd);
         String line;
-        Boolean first = true;
+        boolean first = true;
         String Sep = ",";
 		while((line = reader.readLine()) != null) {
-			if(first) {
+			if(first){
 				if(line.contains(",")) {
 					Sep = ",";
 				}
@@ -50,6 +50,7 @@ public class WordDictionary{
 				else if(line.contains(" ")) {
 					Sep = " ";
 				}
+                first = false;
 			}
 			line = line.replace("\"", "");
 			line = line.replace("\'", "");
@@ -58,7 +59,7 @@ public class WordDictionary{
                 for (int i = 1; i < nodes.length; i++) {
                 	wordDictionary.put(nodes[i], nodes[0]);
                 }
-            } else {
+            }else{
             	wordDictionary.put(nodes[1], nodes[0]);
             }
 		}
