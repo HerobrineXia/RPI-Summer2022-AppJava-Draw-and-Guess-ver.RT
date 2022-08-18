@@ -99,9 +99,10 @@ public class Protocol {
 		StringBuilder response = new StringBuilder("%s%s%s".formatted("EVENT",SEPARATOR,"ROUND_END"));
 		return response.toString();
 	}
-	public String sendSecretWord(String secret) {
+	public String sendSecretWord(String secret,String hint) {
 		secret = Base64.getEncoder().encodeToString(secret.getBytes());
-		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("EVENT",SEPARATOR,"SECRET",SEPARATOR,secret));
+		hint = Base64.getEncoder().encodeToString(hint.getBytes());
+		StringBuilder response = new StringBuilder("%s%s%s%s%s".formatted("EVENT",SEPARATOR,"SECRET",SEPARATOR,secret,SEPARATOR,hint));
 		return response.toString();
 	}
 
@@ -178,7 +179,7 @@ public class Protocol {
 			else if(secondary.equals("NEW_ROUND")) {
 				int drawerId = Integer.parseInt(commands[2]);
 				if(commands.length<3) {
-		        	response = new StringBuilder("Invalid Command: EVENT NEW_ROUND command length less than 4");
+		        	response = new StringBuilder("Invalid Command: EVENT NEW_ROUND command length less than 3");
 		        	return response.toString();
 		        }
 				controller.onNewRound(drawerId);
@@ -187,12 +188,14 @@ public class Protocol {
 				controller.onRoundEnd();
 			}
 			else if(secondary.equals("SECRET")){
-				if(commands.length<3) {
+				if(commands.length<4) {
 		        	response = new StringBuilder("Invalid Command: EVENT SECRET command length less than 4");
 		        	return response.toString();
 		        }
 				String secret = commands[2];
+				String hint = commands[3];
 				secret = baseToString(secret);
+				hint = baseToString(hint);
 				controller.onSecretWordReceive(secret);
 			}
 			else {
