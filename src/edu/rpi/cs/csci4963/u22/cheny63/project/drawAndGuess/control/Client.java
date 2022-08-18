@@ -71,7 +71,6 @@ public class Client implements Runnable{
 		}catch(NoSuchElementException e){
 			message = null;
 		}
-		message = this.in.nextLine();
 		if(message != null){
 			log.info("Message \"%s\" received.\n".formatted(message));
 		}else{
