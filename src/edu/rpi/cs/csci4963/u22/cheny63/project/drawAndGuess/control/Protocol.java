@@ -24,7 +24,7 @@ public class Protocol {
         return command.split(SEPARATOR);
     }
 	
-	public String unicodeEscaped(char ch) {
+	public static String unicodeEscaped(char ch) {
 	      if (ch < 0x10) {
 	          return "\\u000" + Integer.toHexString(ch);
 	      } else if (ch < 0x100) {
@@ -35,7 +35,7 @@ public class Protocol {
 	      return "\\u" + Integer.toHexString(ch);
 	  }
 	
-	public String stringToUnicode(String message) {
+	public static String stringToUnicode(String message) {
 		StringBuilder response = new StringBuilder();
 		for(int i=0;i<message.length();i++) {
 			if(Character.isAlphabetic(message.charAt(i))) {
@@ -46,32 +46,30 @@ public class Protocol {
 					response.append(' ');
 				}
 				else {
+					response.append("s");
 					response.append(message.charAt(i));
 				}		
 			}
+			//response.append(new StringBuilder(unicodeEscaped(message.charAt(i))));
 		}
 		return response.toString();
 	}
 	
-	public String unicodeToString(String message) {
+	public static String unicodeToString(String message) {
 		String str = message;
 		str = str.replace("\\","");
 		String[] arr = str.split("u");
 		String text = "";
-		System.out.println(arr.length);
 		for(int i = 0; i < arr.length; i++){
-			if(arr[i].length()>4) {
-				int hexVal = Integer.parseInt(arr[i].substring(0, 4), 16);
-				text += (char)hexVal;
-				text+= arr[i].substring(4);
-			}
-			else {
-				if(arr[i].length()<4) {
-					text += arr[i];
+			String[] a = arr[i].split("s");
+			for(int j = 0; j < a.length; j++){
+				if(a[j].length()==4) {
+					int hexVal = Integer.parseInt(a[j].substring(0, 4), 16);
+					text += (char)hexVal;
+					text+= a[j].substring(4);
 				}
 				else {
-					int hexVal = Integer.parseInt(arr[i], 16);
-					text += (char)hexVal;
+					text += a[j];
 				}
 			}
 		}
