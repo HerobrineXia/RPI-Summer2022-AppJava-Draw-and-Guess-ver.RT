@@ -2,14 +2,13 @@ package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model;
 
 import java.io.IOException;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Logger;
 public class ServerModel extends ClientModel{
 	// Data
 	private WordDictionary dictionary;
 
 	// Game Data
-	private Timer timer;
-	private int remainTime;
 	private int remainPoint;
 
 	// Log
@@ -17,7 +16,6 @@ public class ServerModel extends ClientModel{
 
 	public ServerModel(Logger log) {
 		super(log);
-		timer = new Timer();
 		currentDrawerId = 0;
 	}
 
@@ -53,6 +51,7 @@ public class ServerModel extends ClientModel{
 
 	public void startRound(){
 		if(gameStatus == GameStatus.WAITING || gameStatus == GameStatus.PROCESSING_WAIT){
+			super.startRound();
 			secretWord = dictionary.getRandomWord();
 			secretWordHint = dictionary.getCategory(secretWord);
 			gameStatus = GameStatus.PROCESSING;
@@ -60,7 +59,6 @@ public class ServerModel extends ClientModel{
 				((UserServer)user).newRound();
 			}
 			remainPoint = userList.size() - 1;
-			remainTime = 90;
 		}
 	}
 

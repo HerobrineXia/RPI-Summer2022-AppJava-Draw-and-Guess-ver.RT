@@ -2,6 +2,8 @@ package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control;
 
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -23,6 +25,7 @@ public class Controller{
     private ClientModel model;
     private DrawAndGuessGUI window;
     private HoldConnection holdWindow;
+    private Timer timer;
     
     // Game Network
     private Thread network;
@@ -56,7 +59,7 @@ public class Controller{
     }
 
     public boolean isGameStart(){
-        return model.getStatus() != GameStatus.END && model.getStatus() != GameStatus.INIT;
+        return model.getStatus() != GameStatus.END && model.getStatus() != GameStatus.INIT && model.getStatus() != GameStatus.WAITING;
     }
 
     public String getDrawerName(){
@@ -71,6 +74,7 @@ public class Controller{
         ((ServerModel)model).readGraph(filePath);
         startServer(port);
         myName = name;
+        timer = new Timer();
     }
 
     public void onClientStart(String name, String address, int port){
@@ -261,6 +265,7 @@ public class Controller{
             ((ServerModel) model).startRound();
             sendMessageToAll(protocol.sendSecretWord(getSecret(), getSecretHint()));
         }else{
+            model.startRound();
             model.setDrawerId(drawerId);
             model.setStatus(GameStatus.PROCESSING);
         }
@@ -269,7 +274,32 @@ public class Controller{
         }else{
             window.deactivate();
         }
+        runTimer();
     }
+    
+    public int getRemainTime(){
+        return model.getRemainTime();
+    }
+
+    private void runTimer(){
+        int remainTime = ((ServerModel)model).reduceTime();
+        if(remainTime > 0){
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run(){
+                    runTimer();
+                }
+            }, 1000);
+        }else{
+            if(isServer){
+                if(model.getStatus() == GameStatus.PROCESSING){
+                    sendMessageToAll(protocol.eventRoundEnd());
+                }else if(model.getStatus() == GameStatus.PROCESSING_WAIT){
+                    sendMessageToAll(protocol.newRound(model.getDrawerId()));
+                }
+            }
+        }
+	}
 
     protected void onSecretWordReceive(String word, String category){
         if(myId == model.getDrawerId()){
@@ -313,6 +343,8 @@ public class Controller{
         }else{
             model.setStatus(GameStatus.PROCESSING_WAIT);
         }
+        runTimer();
+        model.startWait();
     }
 
     protected void onUserScoreReceive(int id, int score){

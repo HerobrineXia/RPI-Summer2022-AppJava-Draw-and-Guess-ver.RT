@@ -12,6 +12,7 @@ public class ClientModel {
     protected GameStatus gameStatus;
     protected String secretWord;
     protected String secretWordHint;
+    protected int remainTime;
     
     public ClientModel(Logger log){
         this.log = log;
@@ -35,6 +36,29 @@ public class ClientModel {
                 userList.remove(user);
                 break;
             }
+        }
+    }
+
+    public int getRemainTime(){
+        return remainTime;
+    }
+
+	public int reduceTime(){
+		if(remainTime > 0){
+			--remainTime;
+		}
+		return remainTime;
+	}
+
+    public void startWait(){
+        if(gameStatus == GameStatus.PROCESSING_WAIT){
+            remainTime = 10;
+        }
+    }
+
+    public void startRound(){
+        if(gameStatus == GameStatus.WAITING || gameStatus == GameStatus.PROCESSING_WAIT){
+            remainTime = 90;
         }
     }
 
