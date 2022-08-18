@@ -39,6 +39,8 @@ public class Config {
     public void defaultConfig(){
         username = "Player";
         filePath = System.getProperty("user.dir");
+        address = InetAddress.getLocalHost().toString().split("/")[1];
+        port = 8180;
     }
 
     /**

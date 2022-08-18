@@ -13,8 +13,6 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.logging.Logger;
 
-import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI.HoldConnection;
-
 /**
 * Game Network Client 
 * @author Kevin Xia

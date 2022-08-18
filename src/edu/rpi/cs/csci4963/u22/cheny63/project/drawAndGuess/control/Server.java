@@ -3,6 +3,7 @@ package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -127,7 +128,7 @@ public class Server implements Runnable{
         try{
             serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(1000);
-            log.info("Server started with ip %s:%d".formatted(serverSocket.getLocalSocketAddress(),port));
+            log.info("Server started with ip %s:%d".formatted(InetAddress.getLocalHost().toString().split("/")[1],port));
         }catch(IOException e){
             flag = false;
             log.warning("Failed to create server socket.");
