@@ -184,11 +184,11 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		writerContent.setLayout(new BorderLayout());
 		chatContent.setLayout(new BorderLayout());
 		writerContent.setBackground(new Color(236, 164, 145));
-		this.sendMsg.setPreferredSize(new Dimension((int)(125/this.scaleX), 100));
-		historyScroll.setPreferredSize(new Dimension((int)(625/this.scaleX), (int)(toolkit.getScreenSize().height*scale)));
-		historyText.setPreferredSize(new Dimension((int)(625/this.scaleX), (int)(625/this.scaleX)));
-		writerPanel.setPreferredSize(new Dimension((int)(625/this.scaleX), (int)(125/this.scaleX)));
-		writerContent.setPreferredSize(new Dimension((int)(750/this.scaleX), (int)(125/this.scaleX)));
+		this.sendMsg.setPreferredSize(new Dimension(100, 100));
+		historyScroll.setPreferredSize(new Dimension(500, (int)(toolkit.getScreenSize().height*scale)));
+		historyText.setPreferredSize(new Dimension(500, 500));
+		writerPanel.setPreferredSize(new Dimension(500, 100));
+		writerContent.setPreferredSize(new Dimension(600, 100));
 		
 		
 		writerContent.add(writerScroll, BorderLayout.WEST);
