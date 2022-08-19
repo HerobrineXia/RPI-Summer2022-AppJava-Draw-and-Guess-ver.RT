@@ -9,11 +9,8 @@ public class ServerModel extends ClientModel{
 	// Game Data
 	private int remainPoint;
 
-	// Log
-	private Logger log;
-
-	public ServerModel(Logger log) {
-		super(log);
+	public ServerModel() {
+		super();
 		currentDrawerId = 0;
 	}
 

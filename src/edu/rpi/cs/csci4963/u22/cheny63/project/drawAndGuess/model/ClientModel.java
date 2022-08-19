@@ -1,11 +1,9 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model;
 
 import java.util.LinkedList;
-import java.util.logging.Logger;
 
 public class ClientModel {
     protected LinkedList<String> chatHistory;
-    protected Logger log;
 
     protected LinkedList<User> userList;
     protected int currentDrawerId;
@@ -14,8 +12,7 @@ public class ClientModel {
     protected String secretWordHint;
     protected int remainTime;
     
-    public ClientModel(Logger log){
-        this.log = log;
+    public ClientModel(){
         chatHistory = new LinkedList<>();
         userList = new LinkedList<>();
         currentDrawerId = -1;

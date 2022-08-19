@@ -71,7 +71,7 @@ public class Controller{
         config.setFilePath(filePath);
         config.setPort(port);
         timer = new Timer();
-        model = new ServerModel(log);
+        model = new ServerModel();
         ((ServerModel)model).readGraph(filePath);
         startServer(port);
         myName = name;
@@ -82,7 +82,7 @@ public class Controller{
         config.setAddress(address);
         config.setPort(port);
         timer = new Timer();
-        model = new ClientModel(log);
+        model = new ClientModel();
         startClient(address, port);
         myName = name;
     }
