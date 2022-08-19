@@ -270,7 +270,7 @@ public class Controller{
                 sendMessageToAll(protocol.newRound(model.getDrawerId()));
                 return true;
             }else{
-                addChat("System", "You need to have at least two players to start the game!");
+                addChat("Server", "You need to have at least two players to start the game!");
             }
         }
         return false;
@@ -368,6 +368,12 @@ public class Controller{
 
     protected void onRoundEnd(){
         addChat("Server", "Round End!");
+        addChat("Server", "The secret word is %s!".formatted(model.getSecret()));
+        StringBuilder scoreboard = new StringBuilder();
+        for(User user: model.getUserList()){
+            scoreboard.append(user.getName()).append(": ").append(Integer.toString(user.getScore())).append("\n");
+        }
+        addChat("Server", "Current Score Board:\n%s".formatted(scoreboard.toString()));
         addChat("Server", "Next round will start in 10 seconds!");
         if(isServer){
             ((ServerModel)model).endRound();
