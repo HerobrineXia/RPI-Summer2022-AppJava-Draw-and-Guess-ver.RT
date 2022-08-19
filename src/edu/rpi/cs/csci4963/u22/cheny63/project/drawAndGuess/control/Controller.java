@@ -263,11 +263,17 @@ public class Controller{
         }
     }
 
-    public void onStartGameServer(){
+    public boolean onStartGameServer(){
         if(isServer){
-            sendMessageToAll(protocol.eventStartGame());
-            sendMessageToAll(protocol.newRound(model.getDrawerId()));
+            if(model.getUserList().size() > 1){
+                sendMessageToAll(protocol.eventStartGame());
+                sendMessageToAll(protocol.newRound(model.getDrawerId()));
+                return true;
+            }else{
+                addChat("Server", "You need to have at least two players to start the game!");
+            }
         }
+        return false;
     }
 
     public void onStartGameClient(){
@@ -291,8 +297,10 @@ public class Controller{
         }
         if(myId == drawerId){
             window.activate();
+            addChat("Server", "You have 90 seconds to draw!");
         }else{
             window.deactivate();
+            addChat("Server", "You have 90 seconds to guess!");
         }
         startTimer();
     }
@@ -360,6 +368,13 @@ public class Controller{
 
     protected void onRoundEnd(){
         addChat("Server", "Round End!");
+        addChat("Server", "The secret word is %s!".formatted(model.getSecret()));
+        StringBuilder scoreboard = new StringBuilder();
+        for(User user: model.getUserList()){
+            scoreboard.append(user.getName()).append(": ").append(Integer.toString(user.getScore())).append("\n");
+        }
+        addChat("Server", "Current Score Board:\n%s".formatted(scoreboard.toString()));
+        addChat("Server", "Next round will start in 10 seconds!");
         if(isServer){
             ((ServerModel)model).endRound();
         }else{

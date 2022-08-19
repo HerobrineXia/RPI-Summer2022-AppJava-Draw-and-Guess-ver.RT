@@ -1,7 +1,6 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 public class ServerModel extends ClientModel{
 	// Data
 	private WordDictionary dictionary;
@@ -73,7 +72,7 @@ public class ServerModel extends ClientModel{
 	public void endRound(){
 		if(gameStatus == GameStatus.PROCESSING){
 			++currentDrawerId;
-			if(currentDrawerId > userList.size()){
+			if(currentDrawerId >= userList.size()){
 				currentDrawerId = 0;
 			}
 			gameStatus = GameStatus.PROCESSING_WAIT;
