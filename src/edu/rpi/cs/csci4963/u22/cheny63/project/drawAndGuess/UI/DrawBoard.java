@@ -228,7 +228,7 @@ public class DrawBoard extends OpaqueJPanel{
         FontMetrics metric = g.getFontMetrics(this.goreRegular);
         g.setFont(goreRegular);
         // generate prompt
-        if (this.controller.isGameStart() && this.prompting != null) {
+        if (this.controller.isGameStart() && this.prompting[0] != null) {
 			if(!isValid) {
 			    g.drawString(String.valueOf(this.prompting[0].length()) + " letters", 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - metric.getAscent() - 9));
 			    g.drawString(this.prompting[1], 9, (int)(this.drawEntryWidth * this.zoomNum*(rowNum) - 9));

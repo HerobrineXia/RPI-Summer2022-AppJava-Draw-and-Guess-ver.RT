@@ -67,7 +67,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	}
 	
 	public void updateCurrentGuessing() {
-		guessCandidate.setText(!isStart ? "HOLD" : controller.getDrawerName());
+		guessCandidate.setText(controller.getDrawerName() == null ? "HOLD" : controller.getDrawerName());
 		this.repaint();
 		this.revalidate();
 	}
@@ -80,7 +80,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		this.guessCandidate = new JTextPane();
 		
 		titleContent.setLayout(new BorderLayout());
-		currentDrawing.setText("Currently drawing:");
+		currentDrawing.setText("Currently artist:");
 		currentDrawing.setEditable(false);
 		currentDrawing.setBackground(Color.WHITE);
 		titleContent.setBackground(Color.WHITE);
@@ -103,7 +103,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	            		isStart = true;
 		            	// System.out.println(controller.getDrawerName());
 		            	titleContent.remove(startGame);
-		            	guessCandidate.setText(!isStart ? "HOLD" : controller.getDrawerName());
+		            	guessCandidate.setText(controller.getDrawerName() == null ? "HOLD" : controller.getDrawerName());
 		            	titleContent.add(guessCandidate, BorderLayout.CENTER);
 	            	}
 				}
@@ -118,7 +118,8 @@ public class ChatBoxPanel extends OpaqueJPanel{
 			startGame.setFocusable(false);			
 			titleContent.add(startGame, BorderLayout.CENTER);
 		}else {
-			guessCandidate.setText(!isStart ? "HOLD" : controller.getDrawerName());
+			System.out.println("want to change the drawname: " + controller.getDrawerName());
+			guessCandidate.setText(controller.getDrawerName() == null ? "HOLD" : controller.getDrawerName());
 			titleContent.add(guessCandidate, BorderLayout.CENTER);
 		}
 	}
