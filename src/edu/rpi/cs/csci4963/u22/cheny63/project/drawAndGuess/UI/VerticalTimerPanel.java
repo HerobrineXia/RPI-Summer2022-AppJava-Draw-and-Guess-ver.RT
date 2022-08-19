@@ -67,7 +67,7 @@ public class VerticalTimerPanel extends JPanel {
     public void updateTime(int timeInterval) {
     	int min = timeInterval/60;
         int sec = timeInterval-(min*60);
-        timerInfo = String.format("%s:%s",String.valueOf(min), String.valueOf(sec).length() == 1? "0"+String.valueOf(sec).length():String.valueOf(sec).length() );
+        timerInfo = String.format("%s:%s",String.valueOf(min), String.valueOf(sec).length() == 1? "0"+String.valueOf(sec):String.valueOf(sec));
         this.repaint();
         this.revalidate();
     }
