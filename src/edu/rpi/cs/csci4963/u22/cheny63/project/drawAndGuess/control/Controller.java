@@ -373,7 +373,7 @@ public class Controller{
         for(User user: model.getUserList()){
             scoreboard.append(user.getName()).append(": ").append(Integer.toString(user.getScore())).append("\n");
         }
-        addChat("Server", "Current Score Board:\n%s".formatted(scoreboard.toString()));
+        addChat("Current Score Board", scoreboard.toString().strip());
         addChat("Server", "Next round will start in 10 seconds!");
         if(isServer){
             ((ServerModel)model).endRound();
