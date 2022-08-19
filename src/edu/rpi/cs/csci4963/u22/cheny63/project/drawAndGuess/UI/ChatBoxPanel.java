@@ -73,7 +73,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	}
 
 	private void initTitle() {
-		Font goreRegularTitleLarge  = goreRegular.deriveFont(Font.PLAIN, (int)(87.5/this.scaleX));
+		Font goreRegularTitleLarge  = goreRegular.deriveFont(Font.PLAIN, 70);
 		
 		titleContent = new JPanel();
 		JTextPane currentDrawing = new JTextPane();
@@ -84,7 +84,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		currentDrawing.setEditable(false);
 		currentDrawing.setBackground(Color.WHITE);
 		titleContent.setBackground(Color.WHITE);
-		Font goreRegularTitleSmall  = goreRegular.deriveFont(Font.PLAIN, (int)(27.5/this.scaleX*1.5));
+		Font goreRegularTitleSmall  = goreRegular.deriveFont(Font.PLAIN, 22);
 		currentDrawing.setFont(goreRegularTitleSmall);
 		currentDrawing.setAlignmentY(Component.LEFT_ALIGNMENT);
 		JButton startGame = new JButton("Click to Start");
@@ -109,7 +109,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 				}
 	        });
 			startGame.setHorizontalAlignment(SwingConstants.LEFT);
-			goreRegularTitleLarge  = goreRegular.deriveFont(Font.PLAIN, (int)(62.5/this.scaleX));
+			goreRegularTitleLarge  = goreRegular.deriveFont(Font.PLAIN, 50);
 			startGame.setForeground(new Color(192, 0, 0));
 			startGame.setLayout(null);
 			startGame.setFont(goreRegularTitleLarge);
@@ -205,7 +205,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	public ChatBoxPanel(Controller controller, GameSessionFrame parent) throws FontFormatException, IOException {
 		//Set font
 		this.goreRegular = Font.createFont(Font.TRUETYPE_FONT, new File("./res/gui/font/Gore Regular.otf"));
-		goreRegular  = goreRegular.deriveFont(Font.PLAIN, (int)(33.75/this.scaleX));
+		goreRegular  = goreRegular.deriveFont(Font.PLAIN, 27);
 		this.controller = controller;
 		this.isHost = this.controller.isServer();
 		

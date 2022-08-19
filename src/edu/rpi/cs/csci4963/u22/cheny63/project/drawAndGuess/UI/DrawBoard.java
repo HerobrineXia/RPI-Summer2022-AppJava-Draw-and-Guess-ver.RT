@@ -51,7 +51,7 @@ public class DrawBoard extends OpaqueJPanel{
 	 * @throws FontFormatException 
 	 */
 	public DrawBoard(Color[][] drawingBoardStatus, double zoomNum, Controller controller) throws FontFormatException, IOException {
-		this.zoomNum = zoomNum != -1? zoomNum:Toolkit.getDefaultToolkit().getScreenSize().height*0.80/(drawingBoardStatus.length*drawEntryWidth);
+		this.zoomNum = zoomNum != -1? zoomNum:Toolkit.getDefaultToolkit().getScreenSize().height*scale/(drawingBoardStatus.length*drawEntryWidth);
 		this.currentdrawingBoardStatus = new Color[drawingBoardStatus.length][drawingBoardStatus[0].length];
 		this.goreRegular = Font.createFont(Font.TRUETYPE_FONT, new File("./res/gui/font/Gore Regular.otf"));
 		this.goreRegular  = goreRegular.deriveFont(Font.PLAIN, 60);
@@ -166,7 +166,7 @@ public class DrawBoard extends OpaqueJPanel{
 	
 	public void setPrompt(String secretWord, String secretHint) {
 		this.prompting = new String[] {secretWord, secretHint};
-		System.out.println(prompting[0]);
+		// System.out.println(prompting[0]);
 		this.repaint();
 		this.revalidate();
 	}
