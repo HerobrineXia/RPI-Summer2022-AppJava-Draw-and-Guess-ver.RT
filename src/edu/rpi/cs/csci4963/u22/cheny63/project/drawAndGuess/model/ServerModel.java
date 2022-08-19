@@ -72,7 +72,7 @@ public class ServerModel extends ClientModel{
 	public void endRound(){
 		if(gameStatus == GameStatus.PROCESSING){
 			++currentDrawerId;
-			if(currentDrawerId > userList.size()){
+			if(currentDrawerId >= userList.size()){
 				currentDrawerId = 0;
 			}
 			gameStatus = GameStatus.PROCESSING_WAIT;
