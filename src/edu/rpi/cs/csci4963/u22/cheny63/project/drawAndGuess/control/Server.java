@@ -17,9 +17,7 @@ import java.util.logging.Logger;
 * @author Kevin Xia
 * @version 1.0
 */
-public class Server implements Runnable{
-    // TODO: On player left, detect if round ends
-    
+public class Server implements Runnable{    
     // Connection variable
     private HashMap<Integer, Socket> socketList;
     private ArrayList<Thread> threadList;
