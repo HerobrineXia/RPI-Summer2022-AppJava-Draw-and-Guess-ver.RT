@@ -1,55 +1,100 @@
 # Draw and Gues - Real Time ver.
-## Table of Contents
-
-<details open="open">
-  <summary>Click me to Open/Close the directory listing</summary>
-
-- [Table of Contents](#nav-1)
-- [Introductions](#nav-2)
-  - [Background](#nav-2-1)
-  - [Pipeline](#nav-2-2)
-  - [Dataset](#nav-2-3)
-- [Graphics](#nav-3)
-- [Features](#nav-4)
-- [Contributors](#nav-5)
-- [Special Thanks](#nav-6)
-- [License](#nav-7)
-
-</details>
-
-<span id="nav-1"></span>
-
-## Introductions
-
-<span id="nav-2"></span>
-
-### Background
-"Draw & Guess” is a very popular online guessing game nowadays. In a game, the system will provide players with multiple keywords to draw and create. The player then needs to use the mouse or touchpad to draw the specific word given by the system, and send it to the next player to guess after the drawing is done. At the same time, the previous player will also complete the drawing and hand it over to you for guessing. At the end, this error of information transmission often forms a humorous and funny misunderstanding, thus achieving the entertainment of the game. However, in this respect, the existing rules of the game require the user to answer questions in multiplayer mode asynchronously (i.e., you have to finish the painting before you can answer the question), which slows down the pace of the game and makes it boring because of the repetitive work (one needs to paint multiple paintings to complete a round). 
-
-Therefore, we integrated the early Internet chat room function into the game based on JavaFX and network programming ideas, so that during one person’s drawing, other players would be set in the chat room to watch the drawing process and provide potential answers in real time in the chat room. When any one of the players guesses correctly, the round is over.
 
 
-### Pipeline
+## Environment
+
+Code and scripts are tested under the following settings.
+
+### Linux
+
+#### Distribution
+
+Virtualbox (Oracle VM VirtualBox VM Runner v6.1.34) used.
+
+```bash
+$ uname -a
+Linux yunqili-VirtualBox 5.13.0-48-generic #54~20.04.1-Ubuntu SMP Thu Jun 2 23:37:17 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+```
+
+#### JDK
+
+```bash
+$ javac -version
+javac 1.8.0_312
+$ java --version
+openjdk version "1.8.0_312"
+OpenJDK Runtime Environment (build 1.8.0_312-8u312-b07-0ubuntu1~20.04-b07)
+OpenJDK 64-Bit Server VM (build 25.312-b07, mixed mode)
+```
 
 
-### Dataset
+### Windows
 
 
-## Graphics
+#### Distribution
+```cmd
+Version Windows 10 Home Chinese\
+Version number 21H2\
+Install Date ‎2021/‎1/‎5\
+OS Build 19044.1741\
+Experience Windows Feature Experience Pack 120.2212.4180.0\
+Device name LAPTOP-FI44MN4P\
+Processor Intel(R) Core(TM) i7-10875H CPU @ 2.30GHz 2.30 GHz\
+On-board RAM 16.0 GB (15.8 GB available)\
+Device ID D6C5240F-FEBE-4998-9C3C-164DD59C6359\
+Product ID 00342-35835-21595-AAOEM\
+System type 64-bit operating system, x64-based processor\
+Pen and Touch No pen or touch input available for this monitor
+```
+#### JDK
 
-## Contributors
-<details>
-  <summary>Click me to Open/Close the contributors listing</summary>
-  
-- [Yuetian Chen](https://github.com/stry233) - Rensselaer Polytechnic Institute (email: cheny63@rpi.edu)
-- [Kevin Xia](https://github.com/HerobrineXia) - Rensselaer Polytechnic Institute
-- [Yunqi(Jeff) Li](https://github.com/yunqili0809) - Rensselaer Polytechnic Institute
-</details>
-<span id="nav-4"></span>
+```cmd
+C:\Users\ASUS>javac --version
+javac 18.0.1.1
 
-## Special Thanks
-This research was undertaken as part of the Application Prog Using Java - CSCI 4963.
-<span id="nav-5"></span>
+C:\Users\ASUS>java --version
+java 18.0.1.1 2022-04-22
+Java(TM) SE Runtime Environment (build 18.0.1.1+2-6)
+Java HotSpot(TM) 64-Bit Server VM (build 18.0.1.1+2-6, mixed mode, sharing)
+```
 
-## License
-[License MIT](LICENSE)
+## Usage
+
+The following command are under project root directory
+
+### Linux
+
+#### Compile
+
+```bash
+sh scripts/compile.sh
+```
+
+#### RunDrawAndGuess
+
+```bash
+sh scripts/run.sh
+```
+
+### Windows
+
+Open the cmd and nevigate to the project root directory
+
+#### Compile
+
+```cmd
+.\scripts\compile.cmd
+```
+
+#### RunDrawAndGuess
+
+```cmd
+.\scripts\runGUI.cmd
+```
+
+
+## Others
+
+### `tests/`
+
+Where examples/tests files stored. Read `manual.pdf` and `tests.pdf` for more info
