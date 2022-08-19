@@ -1,5 +1,6 @@
 # Draw and Guess - Real Time ver.
 
+![UI1](https://user-images.githubusercontent.com/31975605/185590628-5df8d6b9-1595-443d-8793-611b6e509646.png)
 
 ## Environment
 
