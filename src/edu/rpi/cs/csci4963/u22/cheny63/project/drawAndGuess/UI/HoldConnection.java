@@ -1,7 +1,6 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -14,7 +13,6 @@ import javax.swing.JPanel;
  * @version <b>1.0</b> rev. 0
  */
 public class HoldConnection{
-	private static final long serialVersionUID = 1L;
 	JFrame mainFrameWaiter;
 	/**
 	 * Constructor: generate a simple notification frame serving as the transition

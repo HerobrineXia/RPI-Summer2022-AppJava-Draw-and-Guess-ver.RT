@@ -1,14 +1,12 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class GameSessionPanel extends JPanel{
@@ -36,15 +34,14 @@ public class GameSessionPanel extends JPanel{
 	    this.revalidate();
 	}
 
-	public static void main(String[] args) throws FontFormatException, IOException {
-		JFrame testframe = new JFrame();
-		// avoid image displace case,  not necessary
-		Color[][] arr = new Color[180][180];
-		testframe.add(new GameSessionPanel());
-		testframe.setSize(620, 640);
-		testframe.setLocationRelativeTo(null); // set window centre
-		testframe.setAlwaysOnTop(true); // since it is important, let it top
-		testframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		testframe.setVisible(true);
-	}
+//	public static void main(String[] args) throws FontFormatException, IOException {
+//		JFrame testframe = new JFrame();
+//		// avoid image displace case,  not necessary
+//		testframe.add(new GameSessionPanel());
+//		testframe.setSize(620, 640);
+//		testframe.setLocationRelativeTo(null); // set window centre
+//		testframe.setAlwaysOnTop(true); // since it is important, let it top
+//		testframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		testframe.setVisible(true);
+//	}
 }

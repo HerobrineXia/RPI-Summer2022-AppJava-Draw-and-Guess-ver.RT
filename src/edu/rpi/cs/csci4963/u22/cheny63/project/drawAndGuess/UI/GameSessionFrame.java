@@ -12,12 +12,9 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -33,13 +30,9 @@ public class GameSessionFrame extends JFrame{
 	// chessboard info
 	private DrawBoard board;
 	private Color[][] drawContent = new Color[80][80];
-	// statusInfo
-	private boolean isHost;
-	private boolean isStart = false;
 	
 	// panels
 	private OpaqueJPanel operations;   // store drawboard operations
-	private OpaqueJPanel boardPanel;   // store drawboard all component
 	private OpaqueJPanel chatRoom;     // store chat
 	protected VerticalTimerPanel timer;        // store time
 	private java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
@@ -51,6 +44,15 @@ public class GameSessionFrame extends JFrame{
 	
 	public void updateStats() {
 		this.chat.updateChat();
+	}
+	
+	public void timerStart(int timeInterval) {
+		this.timer.setDuration(timeInterval);
+		this.timer.start();		
+	}
+	
+	public void timerStop() {
+		this.timer.pause();	
 	}
 	
 	public void setPrompt(String secretWord, String secretHint) {
@@ -204,7 +206,6 @@ public class GameSessionFrame extends JFrame{
 	public GameSessionFrame(Controller controller) {
 		super("Start a game - Draw and Guess");
 		this.controller = controller;
-		this.isHost = this.controller.isServer();
 		try {
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			generateGUI(controller);

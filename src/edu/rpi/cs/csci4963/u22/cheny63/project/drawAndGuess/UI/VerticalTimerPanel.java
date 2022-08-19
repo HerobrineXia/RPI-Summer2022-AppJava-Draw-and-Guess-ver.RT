@@ -14,20 +14,18 @@ import java.io.IOException;
 import javax.swing.*;
 
 public class VerticalTimerPanel extends JPanel {
+	private static final long serialVersionUID = 1L;
 	private Font goreRegular;
-	private FontMetrics metrics;
-	private java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 	
 	// Timer component
 	private Timer timer;
     private long startTime = -1;
-    private long duration = 90;
+    private long duration;
     public boolean end;
     private String timerInfo;
     
     public VerticalTimerPanel() throws FontFormatException, IOException {
 		goreRegular = Font.createFont(Font.TRUETYPE_FONT, new File("./res/gui/font/Gore Regular.otf"));
-		metrics = getFontMetrics(goreRegular); 
 		this.setBackground(new Color(32, 130, 147));
 		this.duration = duration * 1000; // convert to milsec
         this.setLayout(new GridBagLayout());
@@ -79,8 +77,8 @@ public class VerticalTimerPanel extends JPanel {
         final double xForShapeCreation = (stringBoundsForPosition.getWidth()) / 2d;
         final double yForShapeCreation = (stringBoundsForPosition.getHeight()) / 2d;
         
-        System.out.println(xForShapeCreation);
-        System.out.println(g2.getFontMetrics(this.goreRegular).getAscent());
+        // System.out.println(xForShapeCreation);
+        // System.out.println(g2.getFontMetrics(this.goreRegular).getAscent());
         
         // Rotate 90 degree to make a vertical text
         g2.rotate(Math.toRadians(-90));
@@ -88,19 +86,6 @@ public class VerticalTimerPanel extends JPanel {
         						(int)(yForShapeCreation*2 + 20));
         this.repaint();
         this.revalidate();
-    }
-    
-    public static void main(String[] args) throws FontFormatException, IOException {
-        JFrame frame = new JFrame();
-        frame.setBackground(Color.black);
-        frame.setTitle("Draw Vertical Text Demo");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        VerticalTimerPanel test = new VerticalTimerPanel();
-        frame.add(test);
-        frame.pack();
-        test.start();
-        frame.setSize(420, 350);
-        frame.setVisible(true);
     }
     
     /**
@@ -145,5 +130,23 @@ public class VerticalTimerPanel extends JPanel {
         this.timerInfo = "HOLD";
         this.repaint();
         this.revalidate();
+    }
+
+	public void setDuration(int timeInterval) {
+		this.duration = timeInterval*1000;		
+	}
+	
+    public static void main(String[] args) throws FontFormatException, IOException {
+        JFrame frame = new JFrame();
+        frame.setBackground(Color.black);
+        frame.setTitle("Draw Vertical Text Demo");
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        VerticalTimerPanel test = new VerticalTimerPanel();
+        test.setDuration(90);
+        frame.add(test);
+        frame.pack();
+        test.start();
+        frame.setSize(420, 350);
+        frame.setVisible(true);
     }
 }

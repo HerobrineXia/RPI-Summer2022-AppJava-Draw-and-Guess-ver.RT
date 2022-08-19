@@ -19,10 +19,8 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 
@@ -40,8 +38,6 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	private JEditorPane historyText;
 	private JPanel chatContent;
 	private JPanel titleContent;
-	private DrawBoard board;
-	private GameSessionFrame parent;
 	
 	// statusInfo
 	private boolean isHost;
@@ -87,7 +83,6 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	            	isStart = true;
 	            	// titleContent.removeAll();
 	            	initTitle();
-	            	parent.timer.start();
 				}
 	        });
 			startGame.setHorizontalAlignment(SwingConstants.LEFT);

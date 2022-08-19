@@ -1,7 +1,6 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.io.File;
@@ -45,6 +44,13 @@ public class DrawAndGuessGUI {
 		
     	// window
     	this.startFrame = new StartGameFrame(controller);
+	}
+	
+	public void timerStart(int timeInterval) {
+		if (gameSessionFrame != null) gameSessionFrame.timerStart(timeInterval);
+	}
+	public void timerStop() {
+		if (gameSessionFrame != null) gameSessionFrame.timerStop();
 	}
 	
 	public void activate() {
