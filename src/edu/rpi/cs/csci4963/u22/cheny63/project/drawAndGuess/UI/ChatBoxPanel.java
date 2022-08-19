@@ -101,7 +101,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	            public void actionPerformed(ActionEvent e) {
 	            	if (controller.onStartGameServer()) {
 	            		isStart = true;
-		            	System.out.println(controller.getDrawerName());
+		            	// System.out.println(controller.getDrawerName());
 		            	titleContent.remove(startGame);
 		            	guessCandidate.setText(!isStart ? "HOLD" : controller.getDrawerName());
 		            	titleContent.add(guessCandidate, BorderLayout.CENTER);

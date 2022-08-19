@@ -9,6 +9,8 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.StringUtil;
+
 public class VerticalTimerPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Font goreRegular;
@@ -63,8 +65,9 @@ public class VerticalTimerPanel extends JPanel {
      * @param timeInterval the selected 
      */
     public void updateTime(int timeInterval) {
-    	SimpleDateFormat df = new SimpleDateFormat("m:ss");
-        timerInfo = df.format(timeInterval);
+    	int min = timeInterval/60;
+        int sec = timeInterval-(min*60);
+        timerInfo = String.format("%s:%s",String.valueOf(min), String.valueOf(sec));
         this.repaint();
         this.revalidate();
     }

@@ -164,13 +164,14 @@ public class DrawBoard extends OpaqueJPanel{
 	
 	public void setPrompt(String secretWord, String secretHint) {
 		this.prompting = new String[] {secretWord, secretHint};
+		System.out.println(prompting[0]);
 		this.repaint();
 		this.revalidate();
 	}
 	
 	
 	public void setEntryColor(int x, int y, Color targetColor, boolean syncToOther) {
-		System.out.println("x:" +x + "y:" +y);
+		// System.out.println("x:" +x + "y:" +y);
 		this.currentdrawingBoardStatus[x][y] = targetColor;
 		if (syncToOther) controller.onBoardDraw(x, y, targetColor);
 		this.repaint();
