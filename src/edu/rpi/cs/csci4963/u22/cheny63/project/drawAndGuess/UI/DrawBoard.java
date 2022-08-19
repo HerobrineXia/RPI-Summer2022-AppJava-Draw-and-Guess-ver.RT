@@ -109,6 +109,7 @@ public class DrawBoard extends OpaqueJPanel{
 	
 	public void activate() {
 		this.isValid = true;
+		this.setPrompt(this.controller.getSecret(), this.controller.getSecretHint());
 		initCursorStretegy();
 		this.repaint();
 		this.revalidate();
@@ -116,6 +117,7 @@ public class DrawBoard extends OpaqueJPanel{
 
 	public void deactivate() {
 		this.isValid = false;
+		this.setPrompt(this.controller.getSecret(), this.controller.getSecretHint());
 		initCursorStretegy();
 		this.repaint();
 		this.revalidate();
