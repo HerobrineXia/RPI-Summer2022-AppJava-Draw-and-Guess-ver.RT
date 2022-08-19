@@ -146,8 +146,8 @@ public class DrawBoard extends OpaqueJPanel{
 	}
 	
     public Dimension getPreferredSize(){
-        return new Dimension((int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.8), 
-        		             (int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.8));
+        return new Dimension((int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.67), 
+        		             (int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.67));
     }
     
 	private Dimension findPosition(int x, int y) {

@@ -40,7 +40,7 @@ public class GameSessionFrame extends JFrame{
 	private DrawBoardButton exit;
 	
 	// special param
-	private double scale = SystemCheck.isWindows() ? 0.06 : 0.03;
+	private double scale = SystemCheck.isWindows() ? 0.06 : 0.06;
 	
 	public void updateStats() {
 		this.chat.updateChat();
@@ -175,11 +175,11 @@ public class GameSessionFrame extends JFrame{
      	gridBagCons.gridy = 0;
      	gridBagCons.anchor = GridBagConstraints.WEST;
      	chessboardAndTools.add(allOperations, gridBagCons);
-     	chessboardAndTools.setPreferredSize(new Dimension((int)(toolkit.getScreenSize().width * 0.5), 
-     			                                          (int)(toolkit.getScreenSize().width * 0.5)));
+     	chessboardAndTools.setPreferredSize(new Dimension((int)(toolkit.getScreenSize().width * 0.6), 
+     			                                          (int)(toolkit.getScreenSize().width * 0.6)));
      	// this.timer.setBounds(0, 0, 50, 1000);
      	// this.timer.add(chessboardAndTools);
-     	allContent.add(new VerticalTimerPanel(), BorderLayout.WEST);
+     	allContent.add(this.timer, BorderLayout.WEST);
      	allContent.add(chessboardAndTools, BorderLayout.CENTER);
      	allContent.add(this.chatRoom, BorderLayout.EAST);
      	
