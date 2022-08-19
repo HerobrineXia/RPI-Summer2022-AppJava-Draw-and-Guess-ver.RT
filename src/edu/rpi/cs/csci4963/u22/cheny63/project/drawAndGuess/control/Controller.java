@@ -308,7 +308,7 @@ public class Controller{
 
     private void runTimer(){
         int remainTime = model.reduceTime();
-        timer.update(remainTime);
+        window.timerUpdate(remainTime);
         if(remainTime <= 0){
             if(isServer){
                 if(model.getStatus() == GameStatus.PROCESSING){
@@ -376,7 +376,6 @@ public class Controller{
         }else{
             addChat("System", "Drawer %s has earned %d point!".formatted(model.getPlayerName(id),score));
         }
-        
     }
 
     protected void onMessageReceive(String message){
