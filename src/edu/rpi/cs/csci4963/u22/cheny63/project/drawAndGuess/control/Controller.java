@@ -222,7 +222,7 @@ public class Controller{
             }else{
                 myId = 0;
                 id = 0;
-                addChat("Room IP", StringUtil.getInetAddress());
+                addChat("Room IP", StringUtil.getInetAddress() + ":" + getPort());
             }
             sendMessageToAll(protocol.userJoinClientEvent(id, name));
         }
