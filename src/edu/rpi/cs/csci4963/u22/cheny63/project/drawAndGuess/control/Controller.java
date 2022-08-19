@@ -263,11 +263,17 @@ public class Controller{
         }
     }
 
-    public void onStartGameServer(){
+    public boolean onStartGameServer(){
         if(isServer){
-            sendMessageToAll(protocol.eventStartGame());
-            sendMessageToAll(protocol.newRound(model.getDrawerId()));
+            if(model.getUserList().size() > 1){
+                sendMessageToAll(protocol.eventStartGame());
+                sendMessageToAll(protocol.newRound(model.getDrawerId()));
+                return true;
+            }else{
+                addChat("System", "You need to have at least two players to start the game!");
+            }
         }
+        return false;
     }
 
     public void onStartGameClient(){
