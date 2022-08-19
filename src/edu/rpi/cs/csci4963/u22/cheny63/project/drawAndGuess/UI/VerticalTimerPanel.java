@@ -1,11 +1,7 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.font.GlyphVector;
 import java.text.SimpleDateFormat;
-import javax.swing.JFrame;
-import javax.swing.Timer;
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.File;
@@ -18,8 +14,6 @@ public class VerticalTimerPanel extends JPanel {
 	private Font goreRegular;
 	
 	// Timer component
-    private long startTime = -1;
-    private long duration;
     public boolean end;
     private String timerInfo;
     
