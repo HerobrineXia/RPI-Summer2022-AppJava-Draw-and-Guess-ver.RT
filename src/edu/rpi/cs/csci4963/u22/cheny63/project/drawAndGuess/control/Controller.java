@@ -297,8 +297,10 @@ public class Controller{
         }
         if(myId == drawerId){
             window.activate();
+            addChat("Server", "You have 90 seconds to draw!");
         }else{
             window.deactivate();
+            addChat("Server", "You have 90 seconds to guess!");
         }
         startTimer();
     }
@@ -366,6 +368,7 @@ public class Controller{
 
     protected void onRoundEnd(){
         addChat("Server", "Round End!");
+        addChat("Server", "Next round will start in 10 seconds!");
         if(isServer){
             ((ServerModel)model).endRound();
         }else{
