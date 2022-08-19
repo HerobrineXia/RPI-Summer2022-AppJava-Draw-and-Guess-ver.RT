@@ -6,16 +6,29 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
-
+/**
+ * 
+ * @author Jeff Li
+ *
+ */
 public class WordDictionary{
     private HashMap<String, String> wordDictionary;
     private LinkedList<String> remainWord;
-
+    
+    /**
+     * Constructor of the dictionary
+     * @param filename the input file
+     * @throws IOException
+     */
     public WordDictionary(String filename) throws IOException{
         readWord(filename);
         resetWordList();
     }
-
+    
+    /**
+     * will get a random word from the remaining word and delete it from the list
+     * @return secret word
+     */
     public String getRandomWord(){
         int index = Math.abs(new Random().nextInt()) % remainWord.size();
         String word = remainWord.remove(index);
@@ -24,15 +37,28 @@ public class WordDictionary{
         }
         return word;
     }
-
+    
+    /**
+     * get the category of the word
+     * @param word secret
+     * @return category
+     */
     public String getCategory(String word){
         return wordDictionary.get(word);
     }
-
+    
+    /**
+     * reset the remaining word to full
+     */
     public void resetWordList(){
         remainWord = new LinkedList<>(wordDictionary.keySet());
     }
-
+    
+    /**
+     * read the .csv file and save the data to the dictionary
+     * @param filename user input file 
+     * @throws IOException if cannot read the file
+     */
     private void readWord(String filename) throws IOException{
         wordDictionary = new HashMap<String,String>();
         FileReader fd = new FileReader(filename);
