@@ -46,11 +46,8 @@ public class DrawAndGuessGUI {
     	this.startFrame = new StartGameFrame(controller);
 	}
 	
-	public void timerStart(int timeInterval) {
+	public void timerUpdate(int timeInterval) {
 		if (gameSessionFrame != null) gameSessionFrame.timerStart(timeInterval);
-	}
-	public void timerStop() {
-		if (gameSessionFrame != null) gameSessionFrame.timerStop();
 	}
 	
 	public void activate() {

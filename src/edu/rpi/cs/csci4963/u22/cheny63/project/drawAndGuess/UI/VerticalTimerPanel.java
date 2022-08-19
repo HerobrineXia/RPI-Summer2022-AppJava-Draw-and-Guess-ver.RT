@@ -18,7 +18,6 @@ public class VerticalTimerPanel extends JPanel {
 	private Font goreRegular;
 	
 	// Timer component
-	private Timer timer;
     private long startTime = -1;
     private long duration;
     public boolean end;
@@ -27,27 +26,6 @@ public class VerticalTimerPanel extends JPanel {
     public VerticalTimerPanel() throws FontFormatException, IOException {
 		goreRegular = Font.createFont(Font.TRUETYPE_FONT, new File("./res/gui/font/Gore Regular.otf"));
 		this.setBackground(new Color(32, 130, 147));
-		this.duration = duration * 1000; // convert to milsec
-        this.setLayout(new GridBagLayout());
-        timer = new Timer(10, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (startTime < 0) {
-                    startTime = System.currentTimeMillis();
-                }
-                long now = System.currentTimeMillis();
-                long clockTime = now - startTime;
-                if (clockTime >= VerticalTimerPanel.this.duration) {
-                    clockTime = VerticalTimerPanel.this.duration;
-                    timer.stop();
-                }
-                SimpleDateFormat df = new SimpleDateFormat("m:ss");
-                timerInfo = df.format(VerticalTimerPanel.this.duration - clockTime);
-                VerticalTimerPanel.this.repaint();
-                VerticalTimerPanel.this.revalidate();
-            }
-        });
-        timer.setInitialDelay(0);
         this.timerInfo = "HOLD";
     }
 
@@ -77,8 +55,6 @@ public class VerticalTimerPanel extends JPanel {
         final double xForShapeCreation = (stringBoundsForPosition.getWidth()) / 2d;
         final double yForShapeCreation = (stringBoundsForPosition.getHeight()) / 2d;
         
-        // System.out.println(xForShapeCreation);
-        // System.out.println(g2.getFontMetrics(this.goreRegular).getAscent());
         
         // Rotate 90 degree to make a vertical text
         g2.rotate(Math.toRadians(-90));
@@ -89,64 +65,13 @@ public class VerticalTimerPanel extends JPanel {
     }
     
     /**
-     * Observer: check if timer stopped
-     * @return true if stopped
+     *  Helper function update time
+     * @param timeInterval the selected 
      */
-    public boolean isStop() {
-    	return !this.timer.isRunning();
-    }
-    
-    /**
-     * Observer: get the timer setting
-     * @return the timer element
-     */
-    public Timer getTimer() {
-    	return this.timer;
-    }
-    
-    /**
-     * Helper function: start the time
-     */
-    public void start() {
-    	if (!timer.isRunning()) {
-            startTime = -1;
-            timer.start();
-        }
-    }
-    
-    /**
-     * Helper function: reset timer
-     */
-    public void reset() {
-        startTime = -1;
-        timer.start();
-    }
-    
-    /**
-     * Helper function: pause the timer and set HOLD in timer
-     */
-    public void pause() {
-    	timer.stop();
-        this.timerInfo = "HOLD";
+    public void updateTime(int timeInterval) {
+    	SimpleDateFormat df = new SimpleDateFormat("m:ss");
+        timerInfo = df.format(timeInterval);
         this.repaint();
         this.revalidate();
-    }
-
-	public void setDuration(int timeInterval) {
-		this.duration = timeInterval*1000;		
-	}
-	
-    public static void main(String[] args) throws FontFormatException, IOException {
-        JFrame frame = new JFrame();
-        frame.setBackground(Color.black);
-        frame.setTitle("Draw Vertical Text Demo");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        VerticalTimerPanel test = new VerticalTimerPanel();
-        test.setDuration(90);
-        frame.add(test);
-        frame.pack();
-        test.start();
-        frame.setSize(420, 350);
-        frame.setVisible(true);
     }
 }

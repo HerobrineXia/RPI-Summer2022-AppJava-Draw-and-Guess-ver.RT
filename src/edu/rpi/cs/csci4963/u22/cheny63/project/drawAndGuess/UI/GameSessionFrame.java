@@ -32,8 +32,8 @@ public class GameSessionFrame extends JFrame{
 	private Color[][] drawContent = new Color[80][80];
 	
 	// panels
-	private OpaqueJPanel operations;   // store drawboard operations
-	private OpaqueJPanel chatRoom;     // store chat
+	private OpaqueJPanel operations;           // store drawboard operations
+	private OpaqueJPanel chatRoom;             // store chat
 	protected VerticalTimerPanel timer;        // store time
 	private java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 	private ChatBoxPanel chat;
@@ -47,12 +47,7 @@ public class GameSessionFrame extends JFrame{
 	}
 	
 	public void timerStart(int timeInterval) {
-		this.timer.setDuration(timeInterval);
-		this.timer.start();		
-	}
-	
-	public void timerStop() {
-		this.timer.pause();	
+		this.timer.updateTime(timeInterval);
 	}
 	
 	public void setPrompt(String secretWord, String secretHint) {
