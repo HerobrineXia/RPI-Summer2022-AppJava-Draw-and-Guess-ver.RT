@@ -38,7 +38,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	private JEditorPane historyText;
 	private JPanel chatContent;
 	private JPanel titleContent;
-	
+	private JTextPane guessCandidate;
 	// statusInfo
 	private boolean isHost;
 	private boolean isStart = false;
@@ -52,10 +52,17 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	private String parsingText(LinkedList<String> history) {
 		String res  = "";
 		for (int i = 0; i < history.size(); i++) {
-			res += history.get(i) + "\n";
-			if (i % 2 == 1) res += "\n";
+			res += history.get(i);
+			if (i % 2 == 1) res += "\n\n";
+			else  res += ":\n";
 		}
 		return res;
+	}
+	
+	public void updateCurrentGuessing() {
+		guessCandidate.setText(!isStart ? "HOLD" : controller.getDrawerName());
+		this.repaint();
+		this.revalidate();
 	}
 
 	private void initTitle() {
@@ -63,7 +70,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		
 		titleContent = new JPanel();
 		JTextPane currentDrawing = new JTextPane();
-		JTextPane guessCandidate = new JTextPane();
+		this.guessCandidate = new JTextPane();
 		
 		titleContent.setLayout(new BorderLayout());
 		currentDrawing.setText("Currently drawing:");
@@ -75,14 +82,22 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		currentDrawing.setAlignmentY(Component.LEFT_ALIGNMENT);
 		JButton startGame = new JButton("Click to Start");
 		titleContent.add(currentDrawing, BorderLayout.NORTH);
+		guessCandidate.setForeground(Color.BLACK);
+		guessCandidate.setEditable(false);
+		guessCandidate.setFont(goreRegularTitleLarge);
+		guessCandidate.setBackground(Color.WHITE);
+		guessCandidate.setAlignmentY(Component.LEFT_ALIGNMENT);
+		titleContent.setPreferredSize(new Dimension(500, 130));
 		if (isHost && !isStart) {
 			startGame.addActionListener(new java.awt.event.ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
 	            	controller.onStartGameServer();
 	            	isStart = true;
-	            	// titleContent.removeAll();
-	            	initTitle();
+	            	System.out.println(controller.getDrawerName());
+	            	titleContent.remove(startGame);
+	            	guessCandidate.setText(!isStart ? "HOLD" : controller.getDrawerName());
+	            	titleContent.add(guessCandidate, BorderLayout.CENTER);
 				}
 	        });
 			startGame.setHorizontalAlignment(SwingConstants.LEFT);
@@ -95,13 +110,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 			startGame.setFocusable(false);			
 			titleContent.add(startGame, BorderLayout.CENTER);
 		}else {
-			titleContent.removeAll();
 			guessCandidate.setText(!isStart ? "HOLD" : controller.getDrawerName());
-			guessCandidate.setForeground(Color.BLACK);
-			guessCandidate.setEditable(false);
-			guessCandidate.setFont(goreRegularTitleLarge);
-			guessCandidate.setBackground(Color.WHITE);
-			guessCandidate.setAlignmentY(Component.LEFT_ALIGNMENT);
 			titleContent.add(guessCandidate, BorderLayout.CENTER);
 		}
 	}
@@ -173,6 +182,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		writerPanel.setPreferredSize(new Dimension(500, 100));
 		writerContent.setPreferredSize(new Dimension(600, 100));
 		
+		
 		writerContent.add(writerScroll, BorderLayout.WEST);
 		writerContent.add(sendMsg, BorderLayout.EAST);
 		chatContent.add(historyScroll, BorderLayout.NORTH);
@@ -203,6 +213,8 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		this.add(allContent);
 		this.updateChat();
 	}
+
+	
 
 //	public static void main(String[] args) throws FontFormatException, IOException {
 //		JFrame testframe = new JFrame();
