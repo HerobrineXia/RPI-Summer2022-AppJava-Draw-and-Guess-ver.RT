@@ -322,6 +322,7 @@ public class Controller{
         if(needTimer){
             int remainTime = model.reduceTime();
             window.timerUpdate(remainTime);
+            needTimer = false;
             if(remainTime <= 0){
                 if(isServer){
                     if(model.getStatus() == GameStatus.PROCESSING){
@@ -330,7 +331,6 @@ public class Controller{
                         sendMessageToAll(protocol.newRound(model.getDrawerId()));
                     }
                 }
-                needTimer = false;
             }
         }
 	}
