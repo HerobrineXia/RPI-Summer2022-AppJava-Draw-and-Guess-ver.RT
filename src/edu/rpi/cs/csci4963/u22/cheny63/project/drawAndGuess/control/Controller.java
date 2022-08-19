@@ -295,11 +295,6 @@ public class Controller{
             window.deactivate();
         }
         startTimer();
-        window.timerStart();
-    }
-    
-    public int getRemainTime(){
-        return model.getRemainTime();
     }
 
     private void startTimer(){
@@ -313,7 +308,7 @@ public class Controller{
 
     private void runTimer(){
         int remainTime = model.reduceTime();
-        System.out.println(remainTime);
+        timer.update(remainTime);
         if(remainTime <= 0){
             if(isServer){
                 if(model.getStatus() == GameStatus.PROCESSING){
