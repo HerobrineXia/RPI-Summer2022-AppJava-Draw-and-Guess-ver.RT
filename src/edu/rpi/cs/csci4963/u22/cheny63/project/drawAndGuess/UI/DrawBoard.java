@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control.Controller;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.ImageUtility;
+import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.SystemCheck;
 
 public class DrawBoard extends OpaqueJPanel{
 	
@@ -36,6 +37,7 @@ public class DrawBoard extends OpaqueJPanel{
 	private Font goreRegular;
 	private String[] prompting;
 	private Controller controller;
+	private double scale = SystemCheck.isWindows()? 0.8: 0.67;
 	/**
 	 * Construct a image from specific drawing board setting and color setting
 	 *
@@ -146,8 +148,8 @@ public class DrawBoard extends OpaqueJPanel{
 	}
 	
     public Dimension getPreferredSize(){
-        return new Dimension((int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.67), 
-        		             (int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.67));
+        return new Dimension((int)(Toolkit.getDefaultToolkit().getScreenSize().height*scale), 
+        		             (int)(Toolkit.getDefaultToolkit().getScreenSize().height*scale));
     }
     
 	private Dimension findPosition(int x, int y) {
