@@ -62,7 +62,7 @@ public class ServerModel extends ClientModel{
 		}
 	}
 
-	public boolean roundEnd(){
+	public boolean isRoundEnd(){
 		int guesser = userList.size() - 1;
 		boolean hasDrawer = false;
 		for(User user: userList){
