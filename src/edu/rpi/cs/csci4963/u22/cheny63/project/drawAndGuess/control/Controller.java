@@ -295,6 +295,7 @@ public class Controller{
             window.deactivate();
         }
         startTimer();
+        window.timerStart();
     }
     
     public int getRemainTime(){
@@ -371,6 +372,7 @@ public class Controller{
         }
         model.startWait();
         startTimer();
+        window.timerStart();
     }
 
     protected void onUserScoreReceive(int id, int score){
