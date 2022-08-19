@@ -1,4 +1,4 @@
-# Draw and Gues - Real Time ver.
+# Draw and Guess - Real Time ver.
 
 
 ## Environment
@@ -19,12 +19,12 @@ Linux yunqili-VirtualBox 5.13.0-48-generic #54~20.04.1-Ubuntu SMP Thu Jun 2 23:3
 #### JDK
 
 ```bash
-$ javac -version
-javac 1.8.0_312
+$ javac --version
+javac 15.0.1
 $ java --version
-openjdk version "1.8.0_312"
-OpenJDK Runtime Environment (build 1.8.0_312-8u312-b07-0ubuntu1~20.04-b07)
-OpenJDK 64-Bit Server VM (build 25.312-b07, mixed mode)
+openjdk 15.0.1 2020-10-20
+OpenJDK Runtime Environment (build 15.0.1+0-adhoc..jdk15u-jdk-15.0.1-ga)
+OpenJDK 64-Bit Server VM (build 15.0.1+0-adhoc..jdk15u-jdk-15.0.1-ga, mixed mode, sharing)
 ```
 
 
@@ -60,36 +60,36 @@ Java HotSpot(TM) 64-Bit Server VM (build 18.0.1.1+2-6, mixed mode, sharing)
 
 ## Usage
 
-The following command are under project root directory
+The following command are under project scripts directory
 
 ### Linux
 
-#### Compile
-
-```bash
-sh scripts/compile.sh
-```
 
 #### RunDrawAndGuess
 
 ```bash
-sh scripts/run.sh
+sh ./run.sh
+```
+#### Compile Javadoc
+
+```bash
+sh ./javadoc.sh
 ```
 
 ### Windows
 
-Open the cmd and nevigate to the project root directory
-
-#### Compile
-
-```cmd
-.\scripts\compile.cmd
-```
+Open the cmd and nevigate to the project scripts directory
 
 #### RunDrawAndGuess
 
 ```cmd
-.\scripts\runGUI.cmd
+.\run.cmd
+```
+
+#### Compile Javadoc
+
+```cmd
+.\javadoc.cmd
 ```
 
 
