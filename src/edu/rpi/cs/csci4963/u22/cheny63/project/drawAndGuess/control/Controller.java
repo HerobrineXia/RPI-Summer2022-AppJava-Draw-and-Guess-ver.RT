@@ -322,8 +322,8 @@ public class Controller{
         if(needTimer){
             int remainTime = model.reduceTime();
             window.timerUpdate(remainTime);
-            needTimer = false;
             if(remainTime <= 0){
+                needTimer = false;
                 if(isServer){
                     if(model.getStatus() == GameStatus.PROCESSING){
                         sendMessageToAll(protocol.eventRoundEnd());
