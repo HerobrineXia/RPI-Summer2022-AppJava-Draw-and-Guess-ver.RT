@@ -84,7 +84,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		currentDrawing.setEditable(false);
 		currentDrawing.setBackground(Color.WHITE);
 		titleContent.setBackground(Color.WHITE);
-		Font goreRegularTitleSmall  = goreRegular.deriveFont(Font.PLAIN, (int)(27.5/this.scaleX));
+		Font goreRegularTitleSmall  = goreRegular.deriveFont(Font.PLAIN, (int)(27.5/this.scaleX*1.5));
 		currentDrawing.setFont(goreRegularTitleSmall);
 		currentDrawing.setAlignmentY(Component.LEFT_ALIGNMENT);
 		JButton startGame = new JButton("Click to Start");
@@ -184,7 +184,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		writerContent.setLayout(new BorderLayout());
 		chatContent.setLayout(new BorderLayout());
 		writerContent.setBackground(new Color(236, 164, 145));
-		this.sendMsg.setPreferredSize(new Dimension(100, 100));
+		this.sendMsg.setPreferredSize(new Dimension((int)(125/this.scaleX), 100));
 		historyScroll.setPreferredSize(new Dimension((int)(625/this.scaleX), (int)(toolkit.getScreenSize().height*scale)));
 		historyText.setPreferredSize(new Dimension((int)(625/this.scaleX), (int)(625/this.scaleX)));
 		writerPanel.setPreferredSize(new Dimension((int)(625/this.scaleX), (int)(125/this.scaleX)));
