@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
@@ -42,6 +43,7 @@ public class Controller{
     public Controller() throws Exception{
         // Create logger
         log = Logger.getLogger("DrawAndGuess");
+        log.setLevel(Level.SEVERE);
         StreamHandler handler;
 		try {
 			handler = new FileHandler();
