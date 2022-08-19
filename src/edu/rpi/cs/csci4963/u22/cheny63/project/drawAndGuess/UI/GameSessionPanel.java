@@ -8,13 +8,14 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class GameSessionPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private Instant start = Instant.now();
 	
-	public GameSessionPanel(Dimension screenSize) throws FontFormatException, IOException {
+	public GameSessionPanel() throws FontFormatException, IOException {
 		super();
 		this.setBackground(new Color(32, 130, 147));
 	}
@@ -35,4 +36,15 @@ public class GameSessionPanel extends JPanel{
 	    this.revalidate();
 	}
 
+	public static void main(String[] args) throws FontFormatException, IOException {
+		JFrame testframe = new JFrame();
+		// avoid image displace case,  not necessary
+		Color[][] arr = new Color[180][180];
+		testframe.add(new GameSessionPanel());
+		testframe.setSize(620, 640);
+		testframe.setLocationRelativeTo(null); // set window centre
+		testframe.setAlwaysOnTop(true); // since it is important, let it top
+		testframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		testframe.setVisible(true);
+	}
 }

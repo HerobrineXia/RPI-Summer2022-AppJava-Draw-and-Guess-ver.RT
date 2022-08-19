@@ -41,7 +41,7 @@ public class GameSessionFrame extends JFrame{
 	private OpaqueJPanel operations;   // store drawboard operations
 	private OpaqueJPanel boardPanel;   // store drawboard all component
 	private OpaqueJPanel chatRoom;     // store chat
-	private VerticalTimerPanel timer;        // store time
+	protected VerticalTimerPanel timer;        // store time
 	private java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 	private ChatBoxPanel chat;
 	private DrawBoardButton exit;
@@ -157,7 +157,7 @@ public class GameSessionFrame extends JFrame{
         this.chatRoom = new OpaqueJPanel();                     // store chat
         this.timer = new VerticalTimerPanel();                        // store time
         OpaqueJPanel chessboardAndTools = new OpaqueJPanel();   // store drawboard operations
-		this.chat = new ChatBoxPanel(this.controller, this.board);
+		this.chat = new ChatBoxPanel(this.controller, this);
         initOperations(controller);
         this.board = new DrawBoard(drawContent, -1, controller);
         allOperations.add(operations);
@@ -165,7 +165,7 @@ public class GameSessionFrame extends JFrame{
         
         // start arrange
      	this.setBackground(new Color(32, 130, 147));
-     	GameSessionPanel allContent = new GameSessionPanel(Toolkit.getDefaultToolkit().getScreenSize());
+     	GameSessionPanel allContent = new GameSessionPanel();
      	allContent.setLayout(new BorderLayout());
      	chessboardAndTools.setLayout(new GridBagLayout());
      	GridBagConstraints gridBagCons = new GridBagConstraints();

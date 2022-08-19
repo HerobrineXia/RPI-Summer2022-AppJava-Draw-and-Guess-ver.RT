@@ -41,6 +41,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	private JPanel chatContent;
 	private JPanel titleContent;
 	private DrawBoard board;
+	private GameSessionFrame parent;
 	
 	// statusInfo
 	private boolean isHost;
@@ -86,6 +87,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	            	isStart = true;
 	            	// titleContent.removeAll();
 	            	initTitle();
+	            	parent.timer.start();
 				}
 	        });
 			startGame.setHorizontalAlignment(SwingConstants.LEFT);
@@ -187,7 +189,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		return new Dimension(600, toolkit.getScreenSize().height);
 	}
 	
-	public ChatBoxPanel(Controller controller, DrawBoard board) throws FontFormatException, IOException {
+	public ChatBoxPanel(Controller controller, GameSessionFrame parent) throws FontFormatException, IOException {
 		//Set font
 		this.goreRegular = Font.createFont(Font.TRUETYPE_FONT, new File("./res/gui/font/Gore Regular.otf"));
 		goreRegular  = goreRegular.deriveFont(Font.PLAIN, 27);
