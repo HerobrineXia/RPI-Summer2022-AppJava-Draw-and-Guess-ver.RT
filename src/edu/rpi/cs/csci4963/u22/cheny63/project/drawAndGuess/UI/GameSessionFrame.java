@@ -56,12 +56,14 @@ public class GameSessionFrame extends JFrame{
 	}
 	
 	public void activate() {
+		this.board.setPrompt(this.controller.getSecret(), this.controller.getSecretHint());
 		this.board.activate();
 		for (Component button: operations.getComponents())
 			button.setEnabled(true);
 	}
 	
 	public void deactivate() {
+		this.board.setPrompt(this.controller.getSecret(), this.controller.getSecretHint());
 		this.board.deactivate();
 		for (Component button: operations.getComponents())
 			button.setEnabled(false);
