@@ -9,6 +9,8 @@ import java.awt.FontFormatException;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -37,7 +39,11 @@ public class DrawBoard extends OpaqueJPanel{
 	private Font goreRegular;
 	private String[] prompting;
 	private Controller controller;
-	private double scale = SystemCheck.isWindows()? 0.8: 0.67;
+	
+	// scale component
+    GraphicsConfiguration scaleSys = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+    double scaleX;
+	
 	/**
 	 * Construct a image from specific drawing board setting and color setting
 	 *
@@ -56,6 +62,7 @@ public class DrawBoard extends OpaqueJPanel{
 		this.goreRegular = Font.createFont(Font.TRUETYPE_FONT, new File("./res/gui/font/Gore Regular.otf"));
 		this.goreRegular  = goreRegular.deriveFont(Font.PLAIN, 60);
 		this.controller = controller;
+		
 		this.setBackground(new Color(251, 251, 251));
 		for (int i = 0; i < drawingBoardStatus.length; i++)
 			for (int j = 0; j < drawingBoardStatus[0].length; j++)
@@ -148,8 +155,8 @@ public class DrawBoard extends OpaqueJPanel{
 	}
 	
     public Dimension getPreferredSize(){
-        return new Dimension((int)(Toolkit.getDefaultToolkit().getScreenSize().height*scale), 
-        		             (int)(Toolkit.getDefaultToolkit().getScreenSize().height*scale));
+        return new Dimension((int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.8), 
+        		             (int)(Toolkit.getDefaultToolkit().getScreenSize().height*0.8));
     }
     
 	private Dimension findPosition(int x, int y) {

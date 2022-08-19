@@ -6,6 +6,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -39,6 +41,11 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	private JPanel chatContent;
 	private JPanel titleContent;
 	private JTextPane guessCandidate;
+	
+	// scale component
+    GraphicsConfiguration scaleSys = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+    double scaleX = scaleSys.getDefaultTransform().getScaleX();
+    
 	// statusInfo
 	private boolean isHost;
 	private boolean isStart = false;
@@ -66,7 +73,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	}
 
 	private void initTitle() {
-		Font goreRegularTitleLarge  = goreRegular.deriveFont(Font.PLAIN, 70);
+		Font goreRegularTitleLarge  = goreRegular.deriveFont(Font.PLAIN, (int)(87.5/this.scaleX));
 		
 		titleContent = new JPanel();
 		JTextPane currentDrawing = new JTextPane();
@@ -77,7 +84,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		currentDrawing.setEditable(false);
 		currentDrawing.setBackground(Color.WHITE);
 		titleContent.setBackground(Color.WHITE);
-		Font goreRegularTitleSmall  = goreRegular.deriveFont(Font.PLAIN, 22);
+		Font goreRegularTitleSmall  = goreRegular.deriveFont(Font.PLAIN, (int)(27.5/this.scaleX));
 		currentDrawing.setFont(goreRegularTitleSmall);
 		currentDrawing.setAlignmentY(Component.LEFT_ALIGNMENT);
 		JButton startGame = new JButton("Click to Start");
@@ -92,16 +99,17 @@ public class ChatBoxPanel extends OpaqueJPanel{
 			startGame.addActionListener(new java.awt.event.ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	            	controller.onStartGameServer();
-	            	isStart = true;
-	            	System.out.println(controller.getDrawerName());
-	            	titleContent.remove(startGame);
-	            	guessCandidate.setText(!isStart ? "HOLD" : controller.getDrawerName());
-	            	titleContent.add(guessCandidate, BorderLayout.CENTER);
+	            	if (controller.onStartGameServer()) {
+	            		isStart = true;
+		            	System.out.println(controller.getDrawerName());
+		            	titleContent.remove(startGame);
+		            	guessCandidate.setText(!isStart ? "HOLD" : controller.getDrawerName());
+		            	titleContent.add(guessCandidate, BorderLayout.CENTER);
+	            	}
 				}
 	        });
 			startGame.setHorizontalAlignment(SwingConstants.LEFT);
-			goreRegularTitleLarge  = goreRegular.deriveFont(Font.PLAIN, 50);
+			goreRegularTitleLarge  = goreRegular.deriveFont(Font.PLAIN, (int)(62.5/this.scaleX));
 			startGame.setForeground(new Color(192, 0, 0));
 			startGame.setLayout(null);
 			startGame.setFont(goreRegularTitleLarge);
@@ -177,10 +185,10 @@ public class ChatBoxPanel extends OpaqueJPanel{
 		chatContent.setLayout(new BorderLayout());
 		writerContent.setBackground(new Color(236, 164, 145));
 		this.sendMsg.setPreferredSize(new Dimension(100, 100));
-		historyScroll.setPreferredSize(new Dimension(500, (int)(toolkit.getScreenSize().height*scale)));
-		historyText.setPreferredSize(new Dimension(500, 500));
-		writerPanel.setPreferredSize(new Dimension(500, 100));
-		writerContent.setPreferredSize(new Dimension(600, 100));
+		historyScroll.setPreferredSize(new Dimension((int)(625/this.scaleX), (int)(toolkit.getScreenSize().height*scale)));
+		historyText.setPreferredSize(new Dimension((int)(625/this.scaleX), (int)(625/this.scaleX)));
+		writerPanel.setPreferredSize(new Dimension((int)(625/this.scaleX), (int)(125/this.scaleX)));
+		writerContent.setPreferredSize(new Dimension((int)(750/this.scaleX), (int)(125/this.scaleX)));
 		
 		
 		writerContent.add(writerScroll, BorderLayout.WEST);
@@ -197,7 +205,7 @@ public class ChatBoxPanel extends OpaqueJPanel{
 	public ChatBoxPanel(Controller controller, GameSessionFrame parent) throws FontFormatException, IOException {
 		//Set font
 		this.goreRegular = Font.createFont(Font.TRUETYPE_FONT, new File("./res/gui/font/Gore Regular.otf"));
-		goreRegular  = goreRegular.deriveFont(Font.PLAIN, 27);
+		goreRegular  = goreRegular.deriveFont(Font.PLAIN, (int)(33.75/this.scaleX));
 		this.controller = controller;
 		this.isHost = this.controller.isServer();
 		

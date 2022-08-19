@@ -13,11 +13,17 @@ public class VerticalTimerPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Font goreRegular;
 	
+	// scale component
+    GraphicsConfiguration scaleSys = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+    double scaleX = scaleSys.getDefaultTransform().getScaleX();
+    
 	// Timer component
     public boolean end;
     private String timerInfo;
+    private int fontSize;
     
     public VerticalTimerPanel() throws FontFormatException, IOException {
+    	fontSize = (int) (260 / this.scaleX);
 		goreRegular = Font.createFont(Font.TRUETYPE_FONT, new File("./res/gui/font/Gore Regular.otf"));
 		this.setBackground(new Color(32, 130, 147));
         this.timerInfo = "HOLD";
@@ -25,13 +31,13 @@ public class VerticalTimerPanel extends JPanel {
 
     @Override
     public Dimension getPreferredSize() {
-    	return new Dimension(220, 70);
+    	return new Dimension((int)(220 / this.scaleX), (int)(70 / this.scaleX));
     }
     @Override
     public void paintComponent(Graphics g) {
     	super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        goreRegular  = goreRegular.deriveFont(Font.PLAIN, 250);
+        goreRegular  = goreRegular.deriveFont(Font.PLAIN, fontSize);
         
         // Define rendering hint, font name, font style and font size
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
