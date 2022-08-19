@@ -35,8 +35,7 @@ public class Controller{
     private boolean isServer;
     private int myId;
     private String myName;
-    private boolean timerStart;
-
+    private boolean needTimer;
 
     // Logger
     private Logger log;
@@ -59,7 +58,6 @@ public class Controller{
         config = new Config(log);
         protocol = new Protocol(this);
         window = new DrawAndGuessGUI(this);
-        timerStart = false;
     }
 
     public boolean isGameStart(){
@@ -286,6 +284,8 @@ public class Controller{
         }else{
             model.startGame();
         }
+        needTimer = false;
+        startTimer();
     }
 
     public void onNewRound(int drawerId){
@@ -306,40 +306,32 @@ public class Controller{
             window.deactivate();
             addChat("Server", "You have 90 seconds to guess!");
         }
-        startTimer();
+        needTimer = true;
     }
 
     private void startTimer(){
-        if(timerStart){
-            return;
-        }
-        timer.schedule(new TimerTask() {
+        timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run(){
                 runTimer();
             }
-        }, 1000);
-        synchronized(this){
-            timerStart = false;
-        }
+        }, 1000, 1000);
     }
 
     private void runTimer(){
-        synchronized(this){
-            timerStart = false;
-        }
-        int remainTime = model.reduceTime();
-        window.timerUpdate(remainTime);
-        if(remainTime <= 0){
-            if(isServer){
-                if(model.getStatus() == GameStatus.PROCESSING){
-                    sendMessageToAll(protocol.eventRoundEnd());
-                }else if(model.getStatus() == GameStatus.PROCESSING_WAIT){
-                    sendMessageToAll(protocol.newRound(model.getDrawerId()));
+        if(needTimer){
+            int remainTime = model.reduceTime();
+            window.timerUpdate(remainTime);
+            if(remainTime <= 0){
+                if(isServer){
+                    if(model.getStatus() == GameStatus.PROCESSING){
+                        sendMessageToAll(protocol.eventRoundEnd());
+                    }else if(model.getStatus() == GameStatus.PROCESSING_WAIT){
+                        sendMessageToAll(protocol.newRound(model.getDrawerId()));
+                    }
                 }
+                needTimer = false;
             }
-        }else{
-            startTimer();
         }
 	}
 
@@ -394,7 +386,7 @@ public class Controller{
             model.setStatus(GameStatus.PROCESSING_WAIT);
         }
         model.startWait();
-        startTimer();
+        needTimer = true;
     }
 
     protected void onUserScoreReceive(int id, int score){
