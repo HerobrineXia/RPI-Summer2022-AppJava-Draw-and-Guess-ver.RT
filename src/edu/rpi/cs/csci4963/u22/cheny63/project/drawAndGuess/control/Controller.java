@@ -239,7 +239,7 @@ public class Controller{
     protected void onPlayerLeaveServer(int id){
         if(isServer){
             sendMessageToAll(protocol.userLeftEvent(id));
-            if(((ServerModel)model).roundEnd()){
+            if(((ServerModel)model).isRoundEnd()){
                 sendMessageToAll(protocol.eventRoundEnd());
             }
         }
@@ -347,7 +347,7 @@ public class Controller{
                     server.sendMessage(protocol.messagePack("You have already guessed out the word!"), id);
                 }else if(result == 2){
                     sendMessageToAll(protocol.userScorePack(((ServerModel)model).decrementPoint(), id));
-                    if(((ServerModel)model).roundEnd()){
+                    if(((ServerModel)model).isRoundEnd()){
                         sendMessageToAll(protocol.userScorePack(((ServerModel)model).getDrawerScore(), model.getDrawerId()));
                         sendMessageToAll(protocol.eventRoundEnd());
                     }
@@ -367,7 +367,6 @@ public class Controller{
         }
         model.startWait();
         startTimer();
-        window.timerStart();
     }
 
     protected void onUserScoreReceive(int id, int score){
