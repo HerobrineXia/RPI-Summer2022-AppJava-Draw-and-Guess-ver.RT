@@ -1,14 +1,10 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control;
 
-import java.net.Socket;
 import java.util.Base64;
 import java.util.LinkedList;
 import java.awt.Color;
-import java.lang.Object;
 
-import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.PlayerStatus;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.User;
-import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.UserServer;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.GameStatus;
 
 
