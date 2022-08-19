@@ -35,6 +35,7 @@ public class Controller{
     private boolean isServer;
     private int myId;
     private String myName;
+    private boolean timerStart;
 
 
     // Logger
@@ -58,6 +59,7 @@ public class Controller{
         config = new Config(log);
         protocol = new Protocol(this);
         window = new DrawAndGuessGUI(this);
+        timerStart = false;
     }
 
     public boolean isGameStart(){
@@ -308,15 +310,24 @@ public class Controller{
     }
 
     private void startTimer(){
+        if(timerStart){
+            return;
+        }
         timer.schedule(new TimerTask() {
             @Override
             public void run(){
                 runTimer();
             }
         }, 1000);
+        synchronized(this){
+            timerStart = false;
+        }
     }
 
     private void runTimer(){
+        synchronized(this){
+            timerStart = false;
+        }
         int remainTime = model.reduceTime();
         window.timerUpdate(remainTime);
         if(remainTime <= 0){
