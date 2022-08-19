@@ -96,6 +96,6 @@ Open the cmd and nevigate to the project scripts directory
 
 ## Others
 
-### `tests/`
+### `res/`
 
-Where examples/tests files stored. Read `manual.pdf` and `tests.pdf` for more info
+Where GUI Icons, fonts stored at.
