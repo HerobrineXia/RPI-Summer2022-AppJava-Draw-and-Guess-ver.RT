@@ -1,5 +1,6 @@
 # Draw and Guess - Real Time ver.
 
+![UI1](https://user-images.githubusercontent.com/31975605/185590628-5df8d6b9-1595-443d-8793-611b6e509646.png)
 
 ## Environment
 
@@ -95,6 +96,6 @@ Open the cmd and nevigate to the project scripts directory
 
 ## Others
 
-### `tests/`
+### `res/`
 
-Where examples/tests files stored. Read `manual.pdf` and `tests.pdf` for more info
+Where GUI Icons, fonts stored at.

@@ -19,6 +19,9 @@ import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.ServerModel;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.User;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.StringUtil;
 
+/**
+ * 
+ */
 public class Controller{
     // Game Object
     private Config config;

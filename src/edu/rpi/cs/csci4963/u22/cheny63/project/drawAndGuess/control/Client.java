@@ -91,6 +91,9 @@ public class Client implements Runnable{
 		return !socket.isConnected();
 	}
 
+	/**
+	 * Close the connection socket manually without showing the disconnection dialog
+	 */
 	public void closeClient(){
 		manualShutdown = true;
 		if(socket != null){
@@ -118,6 +121,9 @@ public class Client implements Runnable{
 		log.info(String.format("Connection to server %s established at port %d.\n", address, port));
 	}
 
+	/**
+	 * Start the client and listen for the datapacks
+	 */
     @Override
     public void run(){
 		manualShutdown = false;

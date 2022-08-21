@@ -8,16 +8,30 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
+/**
+* Game Network Server Thread 
+* @author Kevin Xia
+* @version 1.0
+*/
 public class ServerThread implements Runnable {
+	// Connection variable
     private Socket socket;
     private InputStream inStream;
 	private Scanner in;
 	private Logger log;
-	private Controller controller;
 
 	// Reference
 	private Server server;
+	private Controller controller;
 
+	/**
+	 * Constructor of the server thread
+	 * @param socket the socket of this connection
+	 * @param log the logger
+	 * @param server the server reference
+	 * @param controller the controller reference
+	 * @throws IOException if cannot establish the input stream
+	 */
     public ServerThread(Socket socket, Logger log, Server server, Controller controller) throws IOException{
         this.socket = socket;
 		this.server = server;
@@ -41,7 +55,7 @@ public class ServerThread implements Runnable {
 	}
 
 	/**
-	 * Receive the message
+	 * Receive the message from the client
 	 * @return the message
 	 */
 	private String receive(){
@@ -59,22 +73,22 @@ public class ServerThread implements Runnable {
 		return message;
 	}
 
+	/**
+	* Start to listening for the message from the client 
+	*/
 	@Override
 	public void run(){
 		// Check if the connection is established
-		if(!isConnectionClosed()){
-			// Run the intialize method
-			// controller.afterConnect();
-		}
 		String message;
 		// Manage the I/O flow while the connection is not close
 		while(!Thread.currentThread().isInterrupted() && !isConnectionClosed()){
 			// Receive the message
             message = receive();
 			if(message != null){
-				// Receive the respond and remove the command from list
+				// Receive the respond
 				controller.processCommand(message);
 			}else{
+				// Receiving null message means the connection is lost. Remove the socket and clean up.
 				log.info("Connection from %s lost, closing socket...".formatted(socket.getRemoteSocketAddress().toString()));
 				server.removeSocket(socket);
                 try{

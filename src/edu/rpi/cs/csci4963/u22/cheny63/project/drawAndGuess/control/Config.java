@@ -120,7 +120,7 @@ public class Config {
     }
 
     /**
-     * Set the usename
+     * Set the usename of the player
      * @param name the username
      */
     public void setName(String name){
@@ -128,33 +128,57 @@ public class Config {
     }
 
     /**
-     * Get the username
+     * Get the username set in the config
      * @return the username
      */
     public String getName(){
         return username;
     }
 
+    /**
+     * Record the dictionary file path selected 
+     * @param filePath the word dictionary file path 
+     */
     public void setFilePath(String filePath){
         this.filePath = filePath;
     }
 
+    /**
+     * Get the dictionary file path
+     * @return the file path to the dictionary file
+     */
     public String getFilePath(){
         return filePath;
     }
 
+    /**
+     * Set the address for the server connected last time
+     * @param address the address of the previous server
+     */
     public void setAddress(String address){
         this.address = address;
     }
 
+    /**
+     * Get the address for the server connected last time
+     * @return the address of the previous connected server
+     */
     public String getAddress(){
         return address;
     }
 
+    /**
+     * Set the port for the server connected last time
+     * @param port the port of the previous server
+     */
     public void setPort(int port){
         this.port = port;
     }
 
+    /**
+     * Get the port for the server connected last time
+     * @return the port of the previous server
+     */
     public int getPort(){
         return port;
     }

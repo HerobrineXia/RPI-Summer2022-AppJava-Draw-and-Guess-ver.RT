@@ -36,6 +36,11 @@ public class StringUtil {
         return false;
     }
 
+    /**
+     * Get the inet address of the client
+     * @return the ip address in string form,
+     *         it may be an empty string if the method failed.
+     */
     public static String getInetAddress(){
         String address;
         try{
