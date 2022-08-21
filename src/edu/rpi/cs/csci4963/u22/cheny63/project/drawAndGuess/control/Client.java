@@ -28,8 +28,10 @@ public class Client implements Runnable{
 	private OutputStream outStream;
 	private Scanner in;
 	private PrintWriter out;
-	private Controller controller;
 	private boolean manualShutdown;
+
+	// Reference
+	private Controller controller;
 
 	// Logger
 	private Logger log;	
@@ -39,6 +41,7 @@ public class Client implements Runnable{
 	 * @param address the address
 	 * @param port the port
 	 * @param log the logger
+	 * @param controller the controller
 	 */
     public Client(String address, int port, Logger log, Controller controller){
 		this.address = address;
@@ -47,6 +50,10 @@ public class Client implements Runnable{
 		this.controller = controller;
     }
 
+	/**
+	 * Get the address of the client
+	 * @return the address in string
+	 */
 	public String getAddress(){
 		return socket.getLocalSocketAddress().toString();
 	}
