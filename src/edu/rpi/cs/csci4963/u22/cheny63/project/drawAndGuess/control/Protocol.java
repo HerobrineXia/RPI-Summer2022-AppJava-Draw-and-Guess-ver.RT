@@ -7,21 +7,17 @@ import java.awt.Color;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.User;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.model.GameStatus;
 
-
-
-// format %s#%s#... category,item,...
-
 /**
- * 
+ * Game Protocol
  * @author Jeff Li
- * 
+ * @version 1.0
  */
 public class Protocol {
 	private Controller controller;
 	public static final String SEPARATOR = "#";
 	
 	/**
-	 * this is the constructor of the protocol which ask for a controller
+	 * The constructor of the protocol which ask for a controller
 	 * @param controller 
 	 */
 	public Protocol(Controller controller){
@@ -29,7 +25,7 @@ public class Protocol {
 	}
 	
 	/**
-	 * this is the method to spilt with the SEPARATOR
+	 * This is the method to spilt with the SEPARATOR
 	 * @param command the commands that are send from the host
 	 * @return the splitted array string
 	 */
@@ -49,7 +45,7 @@ public class Protocol {
 	}
 	
 	/**
-	 * the controller will call this and get the message data pack
+	 * The controller will call this and get the message data pack
 	 * @param message the message that user giving
 	 * @return the packed data
 	 */
@@ -61,7 +57,7 @@ public class Protocol {
 	}
 	
 	/**
-	 * the controller will call this and get the user data pack
+	 * The controller will call this and get the user data pack
 	 * @param users all the user we have in the game
 	 * @param currentDrawerId the id of the current painter
 	 * @param g current game status
@@ -78,7 +74,7 @@ public class Protocol {
 	}
 	
 	/**
-	 * the controller will call this and get the user left data pack
+	 * The controller will call this and get the user left data pack
 	 * @param id the leaving user id
 	 * @return the packed data
 	 */
@@ -88,7 +84,7 @@ public class Protocol {
 	}
 	
 	/**
-	 * the controller will call this and get the userJoinServe data pack
+	 * The controller will call this and get the userJoinServe data pack
 	 * @param address the IP of the new user
 	 * @param name username
 	 * @return the packed data
@@ -101,7 +97,7 @@ public class Protocol {
 	}
 	
 	/**
-	 * the controller will call this and get the serverReturnId data pack
+	 * The controller will call this and get the serverReturnId data pack
 	 * @param id the user id
 	 * @return the packed data
 	 */
@@ -111,7 +107,7 @@ public class Protocol {
 	}
 	
 	/**
-	 * the controller will call this and get the user join client data pack
+	 * The controller will call this and get the user join client data pack
 	 * @param id the new user id
 	 * @param name new user's username
 	 * @return the packed data
@@ -123,7 +119,7 @@ public class Protocol {
 	}
 	
 	/**
-	 * the controller will call this and get the new round data pack
+	 * The controller will call this and get the new round data pack
 	 * @param id the new painter id
 	 * @return the packed data
 	 */
@@ -133,7 +129,7 @@ public class Protocol {
 	}
 	
 	/**
-	 * the controller will call this and get the user score data pack
+	 * The controller will call this and get the user score data pack
 	 * @param score the score of the user getting
 	 * @param id the id of the user
 	 * @return the packed data
@@ -144,7 +140,7 @@ public class Protocol {
 	}
 	
 	/**
-	 * the controller will call this and get the userSentMessage data pack
+	 * The controller will call this and get the userSentMessage data pack
 	 * @param id the sender id
 	 * @param message the string that the user send
 	 * @return the packed data
@@ -156,7 +152,7 @@ public class Protocol {
 	}
 	
 	/**
-	 * the controller will call this and get the serverSentMessage data pack
+	 * The controller will call this and get the serverSentMessage data pack
 	 * @param id user id
 	 * @param message the string that the user send
 	 * @return the packed data
@@ -168,7 +164,7 @@ public class Protocol {
 	}
 	
 	/**
-	 * the controller will call this and get the start game data pack
+	 * The controller will call this and get the start game data pack
 	 * @return the packed data
 	 */
 	public String eventStartGame() {
@@ -177,7 +173,7 @@ public class Protocol {
 	}
 	
 	/**
-	 * the controller will call this and get the round end data pack
+	 * The controller will call this and get the round end data pack
 	 * @return the packed data
 	 */
 	public String eventRoundEnd() {
@@ -186,7 +182,7 @@ public class Protocol {
 	}
 	
 	/**
-	 * the controller will call this and get the secret word data pack
+	 * The controller will call this and get the secret word data pack
 	 * @param secret the secret word
 	 * @param hint the category of the word
 	 * @return the  packed data
@@ -199,7 +195,7 @@ public class Protocol {
 	}
 	
 	/**
-	 * the controller will call this and get the draw server data pack
+	 * The controller will call this and get the draw server data pack
 	 * @param x row
 	 * @param y col
 	 * @param color color of the pen
@@ -216,7 +212,7 @@ public class Protocol {
 	}
 	
 	/**
-	 * the controller will call this and get the draw client data pack
+	 * The controller will call this and get the draw client data pack
 	 * @param x row
 	 * @param y col
 	 * @param color color of the pen
@@ -233,7 +229,7 @@ public class Protocol {
 	}
 	
 	/**
-	 * the controller will call this and get the clean board data pack
+	 * The controller will call this and get the clean board data pack
 	 * @param bool show it should clean the board
 	 * @return packed data
 	 */
@@ -242,12 +238,12 @@ public class Protocol {
 		return response.toString();
 	}
 	/**
-	 * the main function to process the receiving data pack
+	 * The main function to process the receiving data pack
+	 * The format is inform of "category#action#arg#..."
 	 * @param command the data pack
 	 * @return response
 	 */
 	public String process(String command){
-		// format category#action#arg#...
         StringBuilder response = new StringBuilder();
         String[] commands = parseCommand(command);
         if(commands.length<2) {
@@ -258,6 +254,7 @@ public class Protocol {
         String secondary = commands[1];
 
 		if(keyword.equals("EVENT")) {
+			// Datapack for user join the server that sent to the server
 			if(secondary.equals("JOIN_SERVER")) {
 				if(commands.length<4) {
 		        	response = new StringBuilder("Invalid Command: EVENT JOIN_SERVER command length less than 4");
@@ -268,6 +265,7 @@ public class Protocol {
 				name = baseToString(name);
 				address = baseToString(address);
 				controller.onPlayerJoinServer(name, address);
+			// Datapack for server return the user with its corresponding ID when user join the server
 			}else if(secondary.equals("RETURN_ID")){
 				int id = Integer.parseInt(commands[2]);
 				if(commands.length<3) {
@@ -276,6 +274,7 @@ public class Protocol {
 		        }
 				controller.onIdReturn(id);
 			}
+			// Datapack for user join the server that sent to the client 
 			else if(secondary.equals("JOIN")) {
 				if(commands.length<4) {
 		        	response = new StringBuilder("Invalid Command: EVENT JOIN command length less than 4");
@@ -286,6 +285,7 @@ public class Protocol {
 				name = baseToString(name);
 				controller.onPlayerJoinClient(name, id);
 			}
+			// Datapack for player message that send to the server
 			else if(secondary.equals("MESSAGE_SERVER")) {
 				if(commands.length<4) {
 		        	response = new StringBuilder("Invalid Command: EVENT MESSAGE_SERVER command length less than 4");
@@ -296,6 +296,7 @@ public class Protocol {
 				message = baseToString(message);
 				controller.onPlayerReceiveMessageClient(id, message);
 			}
+			// Datapack for player message that send to the client after server evaluates the value
 			else if(secondary.equals("MESSAGE_CLIENT")) {
 				if(commands.length<4) {
 		        	response = new StringBuilder("Invalid Command: EVENT MESSAGE_CLIENT command length less than 4");
@@ -306,6 +307,7 @@ public class Protocol {
 				message = baseToString(message);
 				controller.onPlayerReceiveMessageServer(id, message);
 			}
+			// Datapack for user left the server
 			else if(secondary.equals( "LEFT")) {
 				int id = Integer.parseInt(commands[2]);
 				if(commands.length<3) {
@@ -314,9 +316,11 @@ public class Protocol {
 		        }
 				controller.onPlayerLeaveClient(id);
 			}
+			// Datapack for starting the game
 			else if(secondary.equals("NEW_GAME")) {
 				controller.onStartGameClient();
 			}
+			// Datapack for starting the new round
 			else if(secondary.equals("NEW_ROUND")) {
 				int drawerId = Integer.parseInt(commands[2]);
 				if(commands.length<3) {
@@ -325,9 +329,11 @@ public class Protocol {
 		        }
 				controller.onNewRound(drawerId);
 			}
+			// Datapack for ending the round
 			else if(secondary.equals("ROUND_END")) {
 				controller.onRoundEnd();
 			}
+			// Datapack for sending the secret word to client
 			else if(secondary.equals("SECRET")){
 				if(commands.length<4) {
 		        	response = new StringBuilder("Invalid Command: EVENT SECRET command length less than 4");
@@ -339,6 +345,7 @@ public class Protocol {
 				hint = baseToString(hint);
 				controller.onSecretWordReceive(secret, hint);
 			}
+			// Datapack for cleaning the drawing board
 			else if(secondary.equals("CLEAN_BOARD")) {
 				if(commands.length<3) {
 		        	response = new StringBuilder("Invalid Command: EVENT CLEAN_BOARD command length less than 3");
@@ -353,6 +360,7 @@ public class Protocol {
 			}
 		}
 		else if( keyword.equals("DATA")) {
+			// Datapack for sending the score update
 			if(secondary.equals("SCORE")) {
 				if(commands.length<4) {
 		        	response = new StringBuilder("Invalid Command: DATA SCORE command length less than 4");
@@ -362,6 +370,7 @@ public class Protocol {
 				int score = Integer.parseInt(commands[3]);
 				controller.onUserScoreReceive(id, score);
 			}
+			// Datapack for sending the system message
 			else if(secondary.equals("MESSAGE")) {
 				if(commands.length<3) {
 		        	response = new StringBuilder("Invalid Command: DATA MESSAGE command length less than 4");
@@ -371,6 +380,7 @@ public class Protocol {
 				message = baseToString(message);
 				controller.onMessageReceive(message);
 			}
+			// Datapack for sending the model data when the player joins server
 			else if(secondary.equals("MODEL")) {
 				LinkedList<User> users = new LinkedList<User>();
 				if(commands.length<5) {
@@ -388,6 +398,7 @@ public class Protocol {
 				}
 				controller.onPlayerReceiveDatapack(users, currentDrawerId, g);
 			}
+			// Datapack for sending the drawing information to the server
 			else if(secondary.equals("DRAW_SERVER")) {
 				if(commands.length<9) {
 		        	response = new StringBuilder("Invalid Command: DRAW_SERVER command length less than 9");
@@ -403,6 +414,7 @@ public class Protocol {
 				Color c = new Color(r,g,b,a);
 				controller.onBoardReceiveServer(x, y, c, id);
 			}
+			// Datapack for sending the drawing information back to the client
 			else if(secondary.equals("DRAW_CLIENT")) {
 				if(commands.length<9) {
 		        	response = new StringBuilder("Invalid Command: DRAW_CLIENT command length less than 9");
