@@ -27,7 +27,14 @@ import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control.Controller;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.ImageUtility;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.SystemCheck;
 
-
+/** 
+ *  OVERVIEW: 
+ * 	<b>StartGameFrame</b> is an custom frame when user start the game
+ * serve as a welcome screen
+ *
+ * @author Yuetian Chen
+ * @version <b>1.0</b> rev. 0
+ */
 public class StartGameFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
 	// param for setting maximum size
@@ -40,6 +47,10 @@ public class StartGameFrame extends JFrame{
 	private StartGamePanel operations;
 	private BeforeGameReadyFrame configFrame;	
 	
+	/**
+	 * init all action related to this screen for further use
+	 * serves as an helper function
+	 */
 	private void initAction() {
 		this.actionExit = new AbstractAction("Exit") {
 			private static final long serialVersionUID = 1L;
@@ -64,6 +75,9 @@ public class StartGameFrame extends JFrame{
 			
 	}
 	
+	/**
+	 * helper function for customize cursor color change when enter this frame and interacting
+	 */
 	private void initCursorStrategy() {
 		java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 		Image image = ImageUtility.resizeIcon(toolkit.getImage("./res/gui/cursor/normal.png"), new Dimension(10, 10));
@@ -71,6 +85,10 @@ public class StartGameFrame extends JFrame{
 		this.setCursor (newCursor);
 	}
 	
+	/**
+	 * helper function to change the current staet to the operations button
+	 * @param enabled true if set all buttons to be enabled
+	 */
 	public void setAllOperationEnable(boolean enabled) {
 		for (Component component : this.operations.getComponents()) {
 		    if (component instanceof PixelatedButton)
@@ -78,21 +96,29 @@ public class StartGameFrame extends JFrame{
 		}	
 	}
 	
+	/**
+	 * helper function when there is some thing wrong with the connection and need to tell users
+	 * @param msg the error message
+	 * @param title the title of the notification window
+	 */
 	public void failConnection(String msg, String title) {
 		JOptionPane.showMessageDialog(configFrame, msg, title, JOptionPane.ERROR_MESSAGE);
 		this.setAllOperationEnable(true);
 		if (this.configFrame != null) this.configFrame.dispose();
 	}
 	
+	/**
+	 * helper function for allowing a game session to start and enter the drawing room
+	 */
 	public void startGame() {
 		this.dispose();
 		this.configFrame.dispose();
 	}
 	
 	/**
-	 * main GUI generation function
-	 * @throws IOException 
-	 * @throws FontFormatException 
+	 * main GUI generation function for the current GUI generation
+	 * @throws FontFormatException when system is unable to find the correct format of font 
+	 * @throws IOException when system is unable to find font
 	 */
 	private void generateGUI() throws FontFormatException, IOException {
 		// set full screen
@@ -139,6 +165,7 @@ public class StartGameFrame extends JFrame{
 	/**
 	 * constructor: will generate a init setting panel
 	 *  for users to select modes
+	 * @param controller the controller to be assigned in further operation
 	 */
 	public StartGameFrame(Controller controller) {
 		super("Start a game - Draw and Guess");

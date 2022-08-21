@@ -33,7 +33,13 @@ import javax.swing.text.NumberFormatter;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control.Controller;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.StringUtil;
 
-
+/**
+ * BeforeGameReadyFrame for setting all information for the window when clicking "start the game"
+ * all variable will be send to the next screen also using this dialog
+ * 
+ * @author Yuetian Chen
+ * @version <b>1.0</b> rev. 0
+ */
 public class BeforeGameReadyFrame extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private boolean isHost;
@@ -122,6 +128,7 @@ public class BeforeGameReadyFrame extends JDialog {
 	
 	/**
 	 * action function: used when file input action is triggered
+	 * @param controller the controller to be assigned in further operation
 	 */
 	private void getInputFile(Controller controller) {
 		if (dictionaryFilechooser == null) { // open file chooser
@@ -153,7 +160,10 @@ public class BeforeGameReadyFrame extends JDialog {
         }
     }
 	
-	
+	/**
+	 * Helper function for constructor when init the basic game setting panel
+	 * @param controller the controller to be assigned in further operation
+	 */
 	private void initGameSetting(Controller controller) {
 		this.gameInfo.setLayout(new BoxLayout(this.gameInfo, BoxLayout.Y_AXIS));
 		this.gameInfo.setBorder(BorderFactory.createCompoundBorder( // set border
@@ -191,6 +201,7 @@ public class BeforeGameReadyFrame extends JDialog {
 	        }
 	    });
 		
+		// construct the window
 		selectFile.setEnabled(isHost);
 		dictionaryPanel.add(dictionaryPathLabel);
 		dictionaryPanel.add(dictLocatioinField);
@@ -201,6 +212,12 @@ public class BeforeGameReadyFrame extends JDialog {
 		this.gameInfo.add(dictionaryPanel);
 	}
 	
+	/**
+	 * Constructor for building the before game ready frame, set all variable and UI ready here
+	 * @param parent the start game frame for transimitting all info from there
+	 * @param controller the controller to be assigned in further operation
+	 * @param isHost true if current window is for host
+	 */
 	public BeforeGameReadyFrame(StartGameFrame parent, Controller controller, boolean isHost) {
 		super(parent, String.format("Input some necessary info as a %s...", (isHost? "host" : "client")));		
 		parent.setAllOperationEnable(false);
@@ -212,7 +229,7 @@ public class BeforeGameReadyFrame extends JDialog {
 		JPanel buttonContent = new JPanel();
 		// allContent.setLayout (new BoxLayout (allContent, BoxLayout.Y_AXIS));    
 		JButton confirm = new JButton("Confirm");
-		confirm.addActionListener(new ActionListener() {
+		confirm.addActionListener(new ActionListener() { // action for confirming the setting
             public void actionPerformed(ActionEvent e) {
             	if (isHost && (inputFilePath == null || inputFilePath == "")) {
             		JOptionPane.showMessageDialog(BeforeGameReadyFrame.this, "You need to select a dictionary file", 

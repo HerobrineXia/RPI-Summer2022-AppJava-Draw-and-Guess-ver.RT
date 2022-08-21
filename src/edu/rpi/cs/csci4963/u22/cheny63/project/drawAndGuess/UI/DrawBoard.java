@@ -16,12 +16,19 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control.Controller;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.ImageUtility;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.SystemCheck;
 
+/** 
+ *  OVERVIEW: 
+ * 	<b>DrawBoard</b> is demonstrate a panel showing all drawing board component with
+ * variable ready
+ *
+ * @author Yuetian Chen
+ * @version <b>1.0</b> rev. 0
+ */
 public class DrawBoard extends OpaqueJPanel{
 	
 	private static final long serialVersionUID = 1L;
@@ -38,17 +45,14 @@ public class DrawBoard extends OpaqueJPanel{
 	private String[] prompting;
 	private Controller controller;
 	private double scale = SystemCheck.isWindows()? 0.8: 0.67;
+	
 	/**
-	 * Construct a image from specific drawing board setting and color setting
-	 *
-	 * @param drawing boardStatus       the 2d array containing drawing board, 1 for alive. 0 for died
-	 * @param mainThemeColor         the color for whole window color, including live color and histogram bar color
-	 * @param drawing boardBorderColor  the color for edge of drawing board 
-	 * @param zoomNum                the scale for drawing board size and window prefered size change, noted that 
-	 *                               if it is set as -1, then constructor will automatically generate one based
-	 *                               on drawing board size
-	 * @throws IOException 
-	 * @throws FontFormatException 
+	 * Drawboard represents UI with all drawboard event and element ready
+	 * @param drawingBoardStatus the drawboard data, an 2d array that represents color at each entry
+	 * @param zoomNum the parameter for scaling, should be [0, 1]
+	 * @param controller the controller struct for storing all data at controller level
+	 * @throws FontFormatException when system is unable to find the correct format of font 
+	 * @throws IOException when system is unable to find font
 	 */
 	public DrawBoard(Color[][] drawingBoardStatus, double zoomNum, Controller controller) throws FontFormatException, IOException {
 		this.zoomNum = zoomNum != -1? zoomNum:Toolkit.getDefaultToolkit().getScreenSize().height*scale/(drawingBoardStatus.length*drawEntryWidth);
@@ -80,14 +84,15 @@ public class DrawBoard extends OpaqueJPanel{
 	        	}
 	        }
 	    });
-	}
+	}	
 	
-	public void setPrompting(String[] prompts) {
-		this.prompting = Arrays.copyOf(prompts, prompts.length);
-		this.repaint();
-		this.revalidate();
-	}
-	
+	/**
+	 *  Helper function for connecting 2 dots draw in draw board with euclidian distance
+	 * @param x2 the x param for the last point data
+  	 * @param y2 the y param for the last point data
+	 * @param x1 the x param for the first point data
+	 * @param y1 the y param for the first point data
+	 */
 	private void connectTwoDots(double x2, double y2, double x1, double y1) {	
 		double slope = (x2 != x1? (y2 - y1) / (x2 - x1) : 0);
 		double b = (x2*y1-x1*y2)/(x2-x1);
@@ -107,6 +112,9 @@ public class DrawBoard extends OpaqueJPanel{
 		}
 	}
 	
+	/**
+	 * helper function for activating the drawing function of the drawboard
+	 */
 	public void activate() {
 		this.isValid = true;
 		this.setPrompt(this.controller.getSecret(), this.controller.getSecretHint());
@@ -115,6 +123,9 @@ public class DrawBoard extends OpaqueJPanel{
 		this.revalidate();
 	}
 
+	/**
+	 * helper function for deactivating the drawing function of the drawboard
+	 */
 	public void deactivate() {
 		this.isValid = false;
 		this.setPrompt(this.controller.getSecret(), this.controller.getSecretHint());
@@ -123,6 +134,9 @@ public class DrawBoard extends OpaqueJPanel{
 		this.revalidate();
 	}
 	
+	/**
+	 * helper function used in constructor to init the cursor strategy and behavior
+	 */
 	private void initCursorStretegy() {
 		Image image;
 		if (this.isValid)
@@ -134,10 +148,19 @@ public class DrawBoard extends OpaqueJPanel{
 		
 	}
 	
+	/**
+	 * mutator for chaing the current drawing color of the drawboard
+	 * @param color
+	 */
 	public void setStroke(Color color) {
 		this.strokeColor = color;
 	}
 	
+	/**
+	 * helper function for clearing the board
+	 * @param syncToOther set as true if this operation 
+	 * should sync to the other peer via current controller
+	 */
 	public void clear(boolean syncToOther) {
 		if (syncToOther) controller.onBoardClear();
 		for (int i = 0; i < currentdrawingBoardStatus.length; i++)
@@ -149,11 +172,21 @@ public class DrawBoard extends OpaqueJPanel{
 		this.revalidate();
 	}
 	
+	/**
+	 * Helper function: set the initial prefer size of current panel, override
+	 */
+	@Override
     public Dimension getPreferredSize(){
         return new Dimension((int)(Toolkit.getDefaultToolkit().getScreenSize().height*scale), 
         		             (int)(Toolkit.getDefaultToolkit().getScreenSize().height*scale));
     }
     
+	/**
+	 * Helper function: find the corresponding entry using the cursor position related to the screen
+	 * @param x the current cursor x position
+	 * @param y the current cursor y position
+	 * @return A dimension object showing that the exact entry of the drawboard entry
+	 */
 	private Dimension findPosition(int x, int y) {
 		int xEntry = (int)(x/(this.drawEntryWidth*this.zoomNum));
 		int yEntry = (int)(y/(this.drawEntryWidth*this.zoomNum));
@@ -164,14 +197,26 @@ public class DrawBoard extends OpaqueJPanel{
 		return new Dimension(xEntry, yEntry);
 	}
 	
+	/**
+	 * helper function: set the prompting at left corner of the drawboard
+	 * @param secretWord the first real answer of the word
+	 * @param secretHint the second category of the word
+	 */
 	public void setPrompt(String secretWord, String secretHint) {
 		this.prompting = new String[] {secretWord, secretHint};
 		// System.out.println(prompting[0]);
 		this.repaint();
 		this.revalidate();
-	}
+	}	
 	
-	
+	/**
+	 * helper function for set the specific entry color of the drawboard
+	 * @param x the x position of the entry
+	 * @param y the y position of the entry
+	 * @param targetColor the color to be assigned at (x, y)
+	 * @param syncToOther set as true if this operation 
+	 * should sync to the other peer via current controller
+	 */
 	public void setEntryColor(int x, int y, Color targetColor, boolean syncToOther) {
 		// System.out.println("x:" +x + "y:" +y);
 		this.currentdrawingBoardStatus[x][y] = targetColor;

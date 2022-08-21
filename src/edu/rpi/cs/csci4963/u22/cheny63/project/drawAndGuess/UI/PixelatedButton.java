@@ -9,11 +9,27 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+/** 
+ *  OVERVIEW: 
+ * 	<b>PixelatedButton</b> is an custon button class used for pixel button GUI design
+ *
+ * @author Yuetian Chen
+ * @version <b>1.0</b> rev. 0
+ */
 public class PixelatedButton extends JButton{
 	private static final long serialVersionUID = 1L;
 	private Font goreRegular = Font.createFont(Font.TRUETYPE_FONT, new File("./res/gui/font/Gore Regular.otf"));
 	private String buttonText;
 	
+	/**
+	 *  Constructor for this button by setting everything ready and assign
+	 *  the basic behavior to this button
+	 * @param text the text content to the button
+	 * @param actionClicked the action assigned to this button
+	 * @param parent a StartGamePanel storing all info passed from above
+	 * @throws FontFormatException when system is unable to find the correct format of font 
+	 * @throws IOException when system is unable to find font
+	 */
     public PixelatedButton(String text, Action actionClicked, StartGamePanel parent) throws FontFormatException, IOException {
     	// set font
     	this.goreRegular  = goreRegular.deriveFont(Font.PLAIN, 70);
@@ -50,7 +66,7 @@ public class PixelatedButton extends JButton{
         this.setHorizontalTextPosition(SwingConstants.CENTER);
         this.setVerticalTextPosition(SwingConstants.BOTTOM);
 
-        this.getModel().addChangeListener(new ChangeListener() {
+        this.getModel().addChangeListener(new ChangeListener() { // set custom behavior
             @Override
             public void stateChanged(ChangeEvent e) {
                 ButtonModel model = (ButtonModel) e.getSource();

@@ -9,12 +9,24 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import javax.swing.JPanel;
 
+/** 
+ *  OVERVIEW: 
+ * 	<b>GameSessionPanel</b> is an helper class for StartGameFrame
+ *  used to render custom pattern as the background 
+ *
+ * @author Yuetian Chen
+ * @version <b>1.0</b> rev. 0
+ */
 public class StartGamePanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private Dimension curWindowSize;
 	protected double cursorTrackerY = 0;
 	protected double cursorTrackerX = 0;
 	
+	/**
+	 * Constructor for building the GameSessionPanel by setting a custom color
+	 * @param screenSize the dimension of the urrent screen size
+	 */
 	public StartGamePanel(Dimension screenSize) {
 		super();
 		this.setBackground(new Color(32, 130, 147));
@@ -34,6 +46,11 @@ public class StartGamePanel extends JPanel{
 		
 	}
 	
+	/**
+	 * overrided paintComponent func, use to render
+	 * and change the button
+	 * @param g  the graphic going to be paint
+	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);

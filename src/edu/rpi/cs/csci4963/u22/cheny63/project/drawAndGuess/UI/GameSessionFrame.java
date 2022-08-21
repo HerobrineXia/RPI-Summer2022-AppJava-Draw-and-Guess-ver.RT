@@ -23,6 +23,14 @@ import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.control.Controller;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.ImageUtility;
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.SystemCheck;
 
+/** 
+ *  OVERVIEW: 
+ * 	<b>GameSessionFrame</b> is an frame showing the current game state when
+ *  a session is started
+ *
+ * @author Yuetian Chen
+ * @version <b>1.0</b> rev. 0
+ */
 public class GameSessionFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private Controller controller;
@@ -42,39 +50,69 @@ public class GameSessionFrame extends JFrame{
 	// special param
 	private double scale = SystemCheck.isWindows() ? 0.06 : 0.06;
 	
+	/**
+	 * helper function for updateing the current chat history info
+	 */
 	public void updateStats() {
 		this.chat.updateChat();
 	}
 	
+	/**
+	 * helper function: triggered when there is a time sync needed
+	 * @param timeInterval the current time to be synced
+	 */
 	public void timerStart(int timeInterval) {
 		this.timer.updateTime(timeInterval);
 	}
 	
+	/**
+	 * helper function: set the prompting at left corner of the drawboard
+	 * @param secretWord the first real answer of the word
+	 * @param secretHint the second category of the word
+	 */
 	public void setPrompt(String secretWord, String secretHint) {
 		this.board.setPrompt(secretWord, secretHint);
 		this.chat.updateCurrentGuessing();
 	}
 	
+	/**
+	 * helper function for activating the drawing function of the drawboard
+	 */
 	public void activate() {
 		this.board.activate();
 		for (Component button: operations.getComponents())
 			button.setEnabled(true);
 	}
 	
+	/**
+	 * helper function for deactivating the drawing function of the drawboard
+	 */
 	public void deactivate() {
 		this.board.deactivate();
 		for (Component button: operations.getComponents())
 			button.setEnabled(false);
 	}
 	
+	/**
+	 * helper function for clearing the chessboard operation is set from remote
+	 */
 	public void clear() {
 		this.board.clear(false);
 	}
 	
+	/**
+	 * helper function for set the specific entry color of the drawboard
+	 * @param x the x position of the entry
+	 * @param y the y position of the entry
+	 * @param targetColor the color to be assigned at (x, y)
+	 */
 	public void setEntryColor(int x, int y, Color targetColor) {
 		this.board.setEntryColor(x, y, targetColor, false);
 	}
 	
+	/**
+	 * helper function for customize cursor color change when enter this frame and interacting
+	 */
 	private void initCursorStrategy() {
 		java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 		Image image = ImageUtility.resizeIcon(toolkit.getImage("./res/gui/cursor/normal.png"), new Dimension(10, 10));
@@ -82,8 +120,11 @@ public class GameSessionFrame extends JFrame{
 		this.setCursor (newCursor);
 	}
 	
-	
-	
+	/**
+	 * helper function used for constructor to init all operations pattern and button in this frame for
+	 * the draw board	
+	 * @param controller the controller to be assigned in further operation
+	 */
 	private void initOperations(Controller controller) {
 		java.awt.Toolkit toolkit = java.awt.Toolkit.getDefaultToolkit();
 		this.operations.setLayout(new GridBagLayout());
@@ -143,6 +184,12 @@ public class GameSessionFrame extends JFrame{
 			button.setEnabled(false);		
 	}
 	
+	/**
+	 * helper function triggered by constructor for arranging all GUI in this frame
+	 * @param controller the controller to be assigned in further operation
+	 * @throws FontFormatException when system is unable to find the correct format of font 
+	 * @throws IOException when system is unable to find font
+	 */
 	private void generateGUI(Controller controller) throws FontFormatException, IOException {
 		// set full screen
 		GraphicsEnvironment graphics = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -199,6 +246,10 @@ public class GameSessionFrame extends JFrame{
 	    this.setVisible(true);
 	}
 
+	/**
+	 * Constructor for init the game session frame with every variable ready
+	 * @param controller the controller to be assigned in further operation
+	 */
 	public GameSessionFrame(Controller controller) {
 		super("Start a game - Draw and Guess");
 		this.controller = controller;

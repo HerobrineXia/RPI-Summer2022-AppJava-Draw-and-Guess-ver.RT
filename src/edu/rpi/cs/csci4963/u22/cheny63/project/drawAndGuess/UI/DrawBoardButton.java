@@ -15,22 +15,42 @@ import javax.swing.event.ChangeListener;
 
 import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.ImageUtility;
 
-
+/** 
+ *  OVERVIEW: 
+ * 	<b>ImageBrightener</b> is an helper class that make an image 
+ *  brighter or darker when selected
+ *
+ * @author Yuetian Chen
+ * @version <b>1.0</b> rev. 0
+ */
 class ImageBrightener extends JPanel{
 	private static final long serialVersionUID = 1L;
 	BufferedImage iamgeIcon;
     float brightPercent = 0.0f;
 
+    /**
+     * Constructor to set the corresponding image ready
+     * @param image the input pre-processed image
+     */
     public ImageBrightener(Image image){
         iamgeIcon = ImageUtility.toBufferedImage(image);
         this.setOpaque(true);
     }
     
+	/**
+	 * Helper function: set the initial prefer size of current panel, override
+	 */
+    @Override
     public Dimension getPreferredSize(){
         return new Dimension(iamgeIcon.getWidth(), iamgeIcon.getHeight());
     }
     
 
+	/**
+	 * overrided paintComponent func, use to render
+	 * and change the button
+	 * @param g  the graphic going to be paint
+	 */
     public void paintComponent(Graphics g){
         // super.paintComponent(g);
         g.drawImage(iamgeIcon, 0, 0, this);
@@ -45,48 +65,66 @@ class ImageBrightener extends JPanel{
         g.fillRect(0, 0, getWidth(), getHeight());
     }
     
+    /**
+     * get the width of the button, used for constructing in a JPanel
+     */
     @Override
     public int getWidth() {
     	return this.iamgeIcon.getWidth();
     }
     
+    /**
+     * get the height of the button, used for constructing in a JPanel
+     */
     @Override
     public int getHeight() {
     	return this.iamgeIcon.getHeight();
     }
     
+    /**
+     * helper function for making the image brighter in rendering
+     */
     public void brighter() {
     	this.brightPercent = 0.7f;
     	this.repaint();
     	this.revalidate();
     }
     
+    /**
+     * helper function for making the image restore its luminous setting in rendering
+     */
     public void restore() {
     	this.brightPercent = 0.f;
     	this.repaint();
     	this.revalidate();
     }
     
+    /**
+     * helper function for making the image darker in rendering
+     */
     public void darker() {
     	this.brightPercent = -1;
     	this.repaint();
     	this.revalidate();
     }
-
-//    public static void main(String[] args){
-//        final JFrame frame = new JFrame();
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.add(new ImageBrightener(new File("./res/gui/gameSession/pencil.png")));
-//        frame.pack();
-//        frame.setLocationRelativeTo(null);
-//        frame.setVisible(true);
-//    }
 }
 
+/** 
+ *  OVERVIEW: 
+ * 	<b>DrawBoardButton</b> is an custon button class used for drawboard GUI design
+ *
+ * @author Yuetian Chen
+ * @version <b>1.0</b> rev. 0
+ */
 public class DrawBoardButton extends JButton{
 	private static final long serialVersionUID = 1L;
 	private ImageBrightener buttonContent;
 	
+	/**
+	 * Constructor for the current button, set every variable ready
+	 * @param image the  input image as the main component of the button
+	 * @param needContentBrighter true if we need image in button brighter when selected
+	 */
 	public DrawBoardButton(ImageIcon image, boolean needContentBrighter) {
 		this.setBorderPainted(false);
 		try {
@@ -100,6 +138,7 @@ public class DrawBoardButton extends JButton{
 			JOptionPane.showMessageDialog(null, "Failed to load icon resource", "Oops...", JOptionPane.ERROR_MESSAGE);
 		}
 		
+		// custom of the button behavior
         this.getModel().addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {

@@ -9,15 +9,33 @@ import java.time.Instant;
 
 import javax.swing.JPanel;
 
+/** 
+ *  OVERVIEW: 
+ * 	<b>GameSessionPanel</b> is an helper class for GameSessionFrame
+ *  used to render custom pattern as the background 
+ *
+ * @author Yuetian Chen
+ * @version <b>1.0</b> rev. 0
+ */
 public class GameSessionPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private Instant start = Instant.now();
 	
+	/**
+	 * Constructor for building the GameSessionPanel by setting a custom color
+	 * @throws FontFormatException when system is unable to find the correct format of font 
+	 * @throws IOException when system is unable to find font
+	 */
 	public GameSessionPanel() throws FontFormatException, IOException {
 		super();
 		this.setBackground(new Color(32, 130, 147));
 	}
 	
+	/**
+	 * overrided paintComponent func, use to render
+	 * and change the panel
+	 * @param g  the graphic going to be paint
+	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);

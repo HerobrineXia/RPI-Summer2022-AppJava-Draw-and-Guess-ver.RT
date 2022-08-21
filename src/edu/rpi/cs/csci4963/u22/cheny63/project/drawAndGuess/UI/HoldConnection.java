@@ -33,6 +33,9 @@ public class HoldConnection{
 		mainFrameWaiter.setVisible(true);
 	}
 	
+	/**
+	 * Helper function for calling externally to close the current window
+	 */
 	public void close() {
 		if (this.mainFrameWaiter != null)
 			this.mainFrameWaiter.dispose();

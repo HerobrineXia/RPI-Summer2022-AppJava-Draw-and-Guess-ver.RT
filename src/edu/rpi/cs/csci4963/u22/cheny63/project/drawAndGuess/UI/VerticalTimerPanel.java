@@ -1,7 +1,6 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI;
 
 import java.awt.font.GlyphVector;
-import java.text.SimpleDateFormat;
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.File;
@@ -9,8 +8,14 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.StringUtil;
-
+/** 
+ *  OVERVIEW: 
+ * 	<b>VerticalTimerPanel</b> is an component in game start session
+ * by generating text that is vertical(used as the vertical presentation)
+ *
+ * @author Yuetian Chen
+ * @version <b>1.0</b> rev. 0
+ */
 public class VerticalTimerPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Font goreRegular;
@@ -19,16 +24,31 @@ public class VerticalTimerPanel extends JPanel {
     public boolean end;
     private String timerInfo;
     
+    /**
+     * Constructor of the current vertical time panel 
+     * setting the time information as the init state
+	 * @throws FontFormatException when system is unable to find the correct format of font 
+	 * @throws IOException when system is unable to find font
+     */
     public VerticalTimerPanel() throws FontFormatException, IOException {
 		goreRegular = Font.createFont(Font.TRUETYPE_FONT, new File("./res/gui/font/Gore Regular.otf"));
 		this.setBackground(new Color(32, 130, 147));
         this.timerInfo = "HOLD";
     }
 
+	/**
+	 * Helper function: set the initial prefer size of current panel, override
+	 */
     @Override
     public Dimension getPreferredSize() {
     	return new Dimension(220, 70);
     }
+    
+	/**
+	 * overrided paintComponent func, use to render
+	 * and change the button
+	 * @param g  the graphic going to be paint
+	 */
     @Override
     public void paintComponent(Graphics g) {
     	super.paintComponent(g);
