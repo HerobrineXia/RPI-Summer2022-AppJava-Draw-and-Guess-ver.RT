@@ -1,16 +1,12 @@
 package edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.UI;
 
 import java.awt.font.GlyphVector;
-import java.text.SimpleDateFormat;
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.File;
 import java.io.IOException;
 
 import javax.swing.*;
-
-import edu.rpi.cs.csci4963.u22.cheny63.project.drawAndGuess.tools.StringUtil;
-
 public class VerticalTimerPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Font goreRegular;
