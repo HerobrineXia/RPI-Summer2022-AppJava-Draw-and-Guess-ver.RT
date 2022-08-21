@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.*;
-<<<<<<< HEAD
 
 /** 
  *  OVERVIEW: 
@@ -17,8 +16,6 @@ import javax.swing.*;
  * @author Yuetian Chen
  * @version <b>1.0</b> rev. 0
  */
-=======
->>>>>>> b9e16d3490c342635bcd4bf34256f7739fcbe4d5
 public class VerticalTimerPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Font goreRegular;
