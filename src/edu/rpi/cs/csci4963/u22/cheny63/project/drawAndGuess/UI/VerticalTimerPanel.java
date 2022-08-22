@@ -61,11 +61,11 @@ public class VerticalTimerPanel extends JPanel {
         g2.setColor(Color.WHITE);
         
 
-        // ACTIVATE ANTIALIASING AND FRACTIONAL METRICS
+        // activate antialiasing and fractional metrics
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON);
 
-        // CREATE GLYPHVECTOR FROM TEXT, CREATE PRELIMINARY SHAPE FOR COORDINATE CALCULATION, CALC COORDINATES
+        // create glyphvector from text, create preliminary shape for coordinate calculation, calc coordinates
         final GlyphVector gv = this.goreRegular.createGlyphVector(g2.getFontRenderContext(), this.timerInfo);
         final Rectangle2D stringBoundsForPosition = gv.getOutline().getBounds2D();
         final double xForShapeCreation = (stringBoundsForPosition.getWidth()) / 2d;

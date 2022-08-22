@@ -7,6 +7,12 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 
+/**
+ * ImageUtility is the utility for generating a image scale when input as the image icon
+ * 
+ * @author Yuetian Chen
+ * @version <b>1.0</b> rev. 0
+ */
 public class ImageUtility {
 	
     /**
@@ -23,7 +29,7 @@ public class ImageUtility {
     }
     
     /**
-     * Helper function: change the size of input icon for redering
+     * Helper function: change the size of input icon for rendering
      * @param imageIcon the input icon
      * @param scale the scale ratio, should smaller than 1
      * @return ImageIcon, the scaled input imageIcon icon
