@@ -36,6 +36,7 @@ public class Server implements Runnable{
 	 * Constructor for the game net work
 	 * @param port the port
 	 * @param log the logger
+     * @param controller the controller reference
 	 */
     public Server(int port, Logger log, Controller controller){
         this.controller = controller;

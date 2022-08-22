@@ -18,7 +18,7 @@ public class Protocol {
 	
 	/**
 	 * The constructor of the protocol which ask for a controller
-	 * @param controller 
+	 * @param controller the controller reference
 	 */
 	public Protocol(Controller controller){
 		this.controller = controller;

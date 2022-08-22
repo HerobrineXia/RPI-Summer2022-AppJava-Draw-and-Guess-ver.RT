@@ -87,7 +87,8 @@ public class ServerModel extends ClientModel{
 	 * Check if the round needed to be end
 	 * If there is no point left, which all online users have guessed out the word.
 	 * Or the drawer left, which the round needed to be terminated.
-	 * @return
+	 * @return true if the round should end,
+	 * 			false otherwise
 	 */
 	public boolean isRoundEnd(){
 		int guesser = userList.size() - 1;
@@ -158,7 +159,7 @@ public class ServerModel extends ClientModel{
 
 	/**
 	 * Return the remain point and decrement the remain point
-	 * @return
+	 * @return the point before decrement
 	 */
 	public int decrementPoint(){
 		return remainPoint--;

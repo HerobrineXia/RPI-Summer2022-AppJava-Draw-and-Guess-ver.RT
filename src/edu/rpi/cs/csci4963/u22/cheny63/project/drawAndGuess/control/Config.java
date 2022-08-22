@@ -24,7 +24,7 @@ public class Config {
 
     /**
      * Constructor of game config
-     * 
+     * @param log the logger
      */
     public Config(Logger log){
         this.log = log;
