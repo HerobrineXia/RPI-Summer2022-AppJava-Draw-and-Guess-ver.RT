@@ -1,6 +1,7 @@
 /bin/
 /.metadata/
 /.settings/
+/docs/
 .project
 .classpath
 .DS_Store
