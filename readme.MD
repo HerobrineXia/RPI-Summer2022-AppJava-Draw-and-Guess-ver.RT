@@ -2,6 +2,10 @@
 
 ![UI1](https://user-images.githubusercontent.com/31975605/185590628-5df8d6b9-1595-443d-8793-611b6e509646.png)
 
+Draw and Guess ver. Real-Time is an online word-guessing game. In the game, we form groups of 2-8 players and the system will designate one player as the painter according to the order of connection and randomly search for a word in the dictionary. The player needs to use the mouse to draw the specific word given by the system. Meanwhile, other players will try to guess the word. At the end of the round, another player will become the painter and the system will also give a new secret word as a reciprocal for the player to score. 
+
+Yuetian Chen was responsible for the project planning, GUI design and GUI implementation. Kevin Xia worked on the network, model and controller. Jeff Li worked on the dictionary, protocol, user manual and test manual. Everyone in our group was involved in the testing work. All of the content was implemented in Java.
+
 ## Environment
 
 Code and scripts are tested under the following settings.
