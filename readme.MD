@@ -16,11 +16,6 @@ Code and scripts are tested under the following settings.
 
 Virtualbox (Oracle VM VirtualBox VM Runner v6.1.34) used.
 
-```bash
-$ uname -a
-Linux yunqili-VirtualBox 5.13.0-48-generic #54~20.04.1-Ubuntu SMP Thu Jun 2 23:37:17 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
-```
-
 #### JDK
 
 ```bash
@@ -40,16 +35,11 @@ OpenJDK 64-Bit Server VM (build 15.0.1+0-adhoc..jdk15u-jdk-15.0.1-ga, mixed mode
 ```cmd
 Version Windows 10 Home Chinese\
 Version number 21H2\
-Install Date ‎2021/‎1/‎5\
 OS Build 19044.1741\
 Experience Windows Feature Experience Pack 120.2212.4180.0\
 Device name LAPTOP-FI44MN4P\
 Processor Intel(R) Core(TM) i7-10875H CPU @ 2.30GHz 2.30 GHz\
 On-board RAM 16.0 GB (15.8 GB available)\
-Device ID D6C5240F-FEBE-4998-9C3C-164DD59C6359\
-Product ID 00342-35835-21595-AAOEM\
-System type 64-bit operating system, x64-based processor\
-Pen and Touch No pen or touch input available for this monitor
 ```
 #### JDK
 
