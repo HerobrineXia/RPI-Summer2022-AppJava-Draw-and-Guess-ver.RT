@@ -97,9 +97,40 @@ Open the cmd and nevigate to the project scripts directory
 .\javadoc.cmd
 ```
 
+## Project Structure
 
-## Others
-
-### `res/`
+### `./res`
 
 Where GUI Icons, fonts stored at.
+
+### `./manuals`
+
+It contains detailed descriptions of all application features, inputs and outputs,
+formats of files, possible error messages and their meaning, and any other
+information which might be of interest to an end user.
+
+### `./lib`
+External Library
+
+It contains all tools including FlatLaf for the look and feel.
+
+### `./Config.cfg`
+Default setting
+
+It is located at the root.
+
+Config.cfg stored the default config for the program. Please do not manually
+modify this file.
+
+
+## Contributors
+
+<details>
+  <summary>Click me to Open/Close the contributors listing</summary>
+  
+- [Yuetian Chen](https://github.com/stry233) - Rensselaer Polytechnic Institute, 110 8th Street, Troy, NY, United States, 12180 (email: cheny63@rpi.edu)
+- [Kewen Xia](https://github.com/HerobrineXia) - Rensselaer Polytechnic Institute, 110 8th Street, Troy, NY, United States, 12180
+- [Jeff Li](https://github.com/yunqili0809) - Rensselaer Polytechnic Institute, 110 8th Street, Troy, NY, United States, 12180
+
+</details>
+<span id="nav-4"></span>
