@@ -124,6 +124,11 @@ Config.cfg stored the default config for the program. Please do not manually
 modify this file.
 
 
+## Acknowledgement
+This project was carried out in July 2022 in the CSCI 4963 Application Programming Using Java course. The intent is to demonstrate an end-to-end network communication and protocol design guidelines using Java and a highly customized development process using Java Swing.
+
+This project is relatively sensitive to resolution and DPI. For the best experience, please experience the application in 1080p 100%-175% scale.
+
 ## Contributors
 
 <details>
