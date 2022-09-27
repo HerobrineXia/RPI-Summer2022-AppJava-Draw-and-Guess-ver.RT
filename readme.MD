@@ -30,9 +30,6 @@ Virtualbox (Oracle VM VirtualBox VM Runner v6.1.34) used.
 #### JDK
 
 ```bash
-$ javac --version
-javac 15.0.1
-$ java --version
 openjdk 15.0.1 2020-10-20
 OpenJDK Runtime Environment (build 15.0.1+0-adhoc..jdk15u-jdk-15.0.1-ga)
 OpenJDK 64-Bit Server VM (build 15.0.1+0-adhoc..jdk15u-jdk-15.0.1-ga, mixed mode, sharing)
@@ -47,18 +44,10 @@ OpenJDK 64-Bit Server VM (build 15.0.1+0-adhoc..jdk15u-jdk-15.0.1-ga, mixed mode
 Version Windows 10 Home Chinese\
 Version number 21H2\
 OS Build 19044.1741\
-Experience Windows Feature Experience Pack 120.2212.4180.0\
-Device name LAPTOP-FI44MN4P\
-Processor Intel(R) Core(TM) i7-10875H CPU @ 2.30GHz 2.30 GHz\
-On-board RAM 16.0 GB (15.8 GB available)\
 ```
 #### JDK
 
 ```cmd
-C:\Users\ASUS>javac --version
-javac 18.0.1.1
-
-C:\Users\ASUS>java --version
 java 18.0.1.1 2022-04-22
 Java(TM) SE Runtime Environment (build 18.0.1.1+2-6)
 Java HotSpot(TM) 64-Bit Server VM (build 18.0.1.1+2-6, mixed mode, sharing)
