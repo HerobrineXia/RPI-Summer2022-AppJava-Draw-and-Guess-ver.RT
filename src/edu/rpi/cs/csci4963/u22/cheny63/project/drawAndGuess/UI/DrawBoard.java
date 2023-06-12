@@ -149,8 +149,8 @@ public class DrawBoard extends OpaqueJPanel{
 	}
 	
 	/**
-	 * mutator for chaing the current drawing color of the drawboard
-	 * @param color
+	 * mutator for changing the current drawing color of the drawboard
+	 * @param color the target color to be set in the specific drawboard entry
 	 */
 	public void setStroke(Color color) {
 		this.strokeColor = color;
